@@ -30,32 +30,71 @@ const faqs = [
 
 export function FAQ() {
   return (
-    <section id="faq" className="container py-20 md:py-28">
-      <div className="text-center mb-16">
-        <h2 className="text-3xl md:text-4xl font-bold mb-4">
-          Frequently asked questions
-        </h2>
-        <p className="text-lg text-muted-foreground">
-          Everything you need to know
-        </p>
-      </div>
+    <section id="faq" className="py-20 bg-gray-50">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+            Frequently asked questions
+          </h2>
+          <p className="text-xl text-gray-600">Everything you need to know</p>
+        </div>
 
-      <div className="max-w-3xl mx-auto">
         <Accordion type="single" collapsible className="space-y-4">
-          {faqs.map((faq, index) => (
-            <AccordionItem
-              key={index}
-              value={`item-${index}`}
-              className="border rounded-lg px-6"
-            >
-              <AccordionTrigger className="text-left font-medium hover:no-underline">
-                {faq.question}
-              </AccordionTrigger>
-              <AccordionContent className="text-muted-foreground text-pretty">
-                {faq.answer}
-              </AccordionContent>
-            </AccordionItem>
-          ))}
+          <AccordionItem
+            value="item-1"
+            className="bg-white rounded-lg px-6 border-0 shadow-sm"
+          >
+            <AccordionTrigger className="text-left">
+              Do consumers pay online?
+            </AccordionTrigger>
+            <AccordionContent className="text-gray-600">
+              No. Bookings require no payment from consumers. They simply book
+              appointments through your booking page, and payment is handled
+              directly at your salon according to your preferred method.
+            </AccordionContent>
+          </AccordionItem>
+
+          <AccordionItem
+            value="item-2"
+            className="bg-white rounded-lg px-6 border-0 shadow-sm"
+          >
+            <AccordionTrigger className="text-left">
+              How do I get LINE notifications?
+            </AccordionTrigger>
+            <AccordionContent className="text-gray-600">
+              One-click connect in the app. Simply link your LINE Official
+              Account, and we'll automatically send booking confirmations,
+              reminders, and updates to both you and your clients.
+            </AccordionContent>
+          </AccordionItem>
+
+          <AccordionItem
+            value="item-3"
+            className="bg-white rounded-lg px-6 border-0 shadow-sm"
+          >
+            <AccordionTrigger className="text-left">
+              Can I switch accounts or manage a team?
+            </AccordionTrigger>
+            <AccordionContent className="text-gray-600">
+              Yes, with Team Accounts (Pro plan). You can add multiple staff
+              members, assign different permissions, and manage everything from
+              one central dashboard while each team member has their own login.
+            </AccordionContent>
+          </AccordionItem>
+
+          <AccordionItem
+            value="item-4"
+            className="bg-white rounded-lg px-6 border-0 shadow-sm"
+          >
+            <AccordionTrigger className="text-left">
+              Can I cancel anytime?
+            </AccordionTrigger>
+            <AccordionContent className="text-gray-600">
+              Yes, absolutely. You can cancel your subscription at any time with
+              no cancellation fees. Your account will remain active until the
+              end of your current billing period.
+            </AccordionContent>
+          </AccordionItem>
         </Accordion>
       </div>
     </section>
