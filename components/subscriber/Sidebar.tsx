@@ -1,33 +1,79 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
-import { FiGrid, FiBarChart2, FiLogOut } from "react-icons/fi"; // Example icons
+import { usePathname } from "next/navigation"; // Import to detect active route
+import { FiGrid, FiBarChart2, FiLogOut, FiX } from "react-icons/fi";
+import LogoutModal from "./modals/LogoutModal";
 
-const Sidebar = () => {
+// Define props for state management from the parent layout
+interface SidebarProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
   const [isLogoutModalOpen, setLogoutModalOpen] = useState(false);
+  const pathname = usePathname();
+
+  const navLinks = [
+    { href: "/subscriber", label: "My Plan", icon: FiGrid },
+    {
+      href: "/subscriber/affiliate",
+      label: "Affiliate Program",
+      icon: FiBarChart2,
+    },
+  ];
 
   return (
     <>
-      <aside className="w-64 bg-gray-800 p-6 flex flex-col justify-between">
+      {/* Overlay for mobile view - closes the sidebar when clicked */}
+      <div
+        className={`fixed inset-0 bg-black bg-opacity-50 z-30 transition-opacity lg:hidden ${
+          isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+        }`}
+        onClick={onClose}
+      ></div>
+
+      <aside
+        className={`fixed inset-y-0 left-0 bg-gray-800 flex flex-col justify-between p-6 z-40 w-64
+                   transform transition-transform duration-300 ease-in-out lg:relative lg:translate-x-0 lg:inset-0
+                   ${isOpen ? "translate-x-0" : "-translate-x-full"}`}
+      >
         <div>
-          <h1 className="text-xl font-bold mb-2">NailBooking</h1>
-          <p className="text-sm text-gray-400 mb-10">Subscriber Portal</p>
+          <div className="flex justify-between items-center mb-10">
+            <div>
+              <h1 className="text-xl font-bold">NailBooking</h1>
+              <p className="text-sm text-gray-400">Subscriber Portal</p>
+            </div>
+            {/* Close button for mobile */}
+            <button
+              onClick={onClose}
+              className="text-gray-400 hover:text-white lg:hidden"
+            >
+              <FiX size={24} />
+            </button>
+          </div>
 
           <nav className="space-y-4">
-            <a
-              href="#"
-              className="flex items-center gap-3 px-4 py-2 bg-gray-700 rounded-lg text-white"
-            >
-              <FiGrid />
-              <span>My Plan</span>
-            </a>
-            <a
-              href="#"
-              className="flex items-center gap-3 px-4 py-2 text-gray-400 hover:bg-gray-700 rounded-lg"
-            >
-              <FiBarChart2 />
-              <span>Affiliate Program</span>
-            </a>
+            {navLinks.map((link) => {
+              const isActive = pathname === link.href;
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={onClose} // Close sidebar on mobile navigation
+                  className={`flex items-center gap-3 px-4 py-2 rounded-lg transition-colors ${
+                    isActive
+                      ? "bg-gray-700 text-white"
+                      : "text-gray-400 hover:bg-gray-700 hover:text-white"
+                  }`}
+                >
+                  <link.icon />
+                  <span>{link.label}</span>
+                </Link>
+              );
+            })}
           </nav>
         </div>
 

@@ -1,5 +1,7 @@
 "use client";
 
+import { CircleArrowUp, LogOut } from "lucide-react";
+import Image from "next/image";
 import { useState } from "react";
 import { FiChevronDown, FiUser, FiLock, FiMail, FiPhone } from "react-icons/fi";
 
@@ -27,6 +29,13 @@ const UserProfileDropdown = ({ onOpenModal }: UserProfileDropdownProps) => {
           <p className="font-semibold">Sajib ahmed</p>
           <p className="text-xs text-gray-500">sajib@gmail.com</p>
         </div>
+        <Image
+          src={"/images/team_img2.jpg"}
+          alt="sajib"
+          width={370}
+          height={353}
+          className="w-9 h-9 border-1 rounded-full"
+        />
         <FiChevronDown
           className={`transition-transform ${isOpen ? "rotate-180" : ""}`}
         />
@@ -40,7 +49,7 @@ const UserProfileDropdown = ({ onOpenModal }: UserProfileDropdownProps) => {
                 onClick={() => handleSelect("profile")}
                 className="w-full text-left flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
               >
-                <FiUser /> Basic Info
+                <CircleArrowUp /> Upgrade package
               </button>
             </li>
             <li>
@@ -64,7 +73,7 @@ const UserProfileDropdown = ({ onOpenModal }: UserProfileDropdownProps) => {
                 onClick={() => handleSelect("number")}
                 className="w-full text-left flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
               >
-                <FiPhone /> Change Number
+                <LogOut /> Log out
               </button>
             </li>
           </ul>
