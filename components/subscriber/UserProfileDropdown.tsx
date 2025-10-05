@@ -27,6 +27,7 @@ const UserProfileDropdown = ({ onOpenModal }: UserProfileDropdownProps) => {
           <p className="font-semibold">Sajib ahmed</p>
           <p className="text-xs text-gray-500">sajib@gmail.com</p>
         </div>
+        
         <FiChevronDown
           className={`transition-transform ${isOpen ? "rotate-180" : ""}`}
         />

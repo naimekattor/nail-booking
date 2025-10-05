@@ -218,7 +218,7 @@ export default function CommissionRules() {
               <Button
                 onClick={() => setIsAddRuleOpen(true)}
                 size="sm"
-                className="bg-black text-white hover:bg-black/90"
+                className="bg-[#C06EF3] text-white hover:bg-[#8b32c2]"
               >
                 <Plus className="mr-2 h-4 w-4" />
                 Add a Rule
@@ -349,7 +349,7 @@ export default function CommissionRules() {
             </Button>
             <Button
               onClick={handleAddRule}
-              className="bg-black text-white hover:bg-black/90"
+              className="bg-[#C06EF3] text-white hover:bg-[#8220be]"
             >
               Create
             </Button>

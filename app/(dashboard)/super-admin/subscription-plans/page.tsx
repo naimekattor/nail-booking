@@ -17,6 +17,7 @@ import {
   Palette,
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import PackageModal from "@/components/super-admin/modals/package-modal";
 
 type Feature = {
   id: string;
@@ -116,7 +117,7 @@ export default function PackageManagement() {
   const [editingPlan, setEditingPlan] = useState<string | null>(null);
   const [editName, setEditName] = useState("");
   const [editPrice, setEditPrice] = useState("");
-
+  const [isPackageModalOpen, setIsPackageModalOpen] = useState(false);
   const toggleFeature = (planId: string, featureId: string) => {
     setPlans(
       plans.map((plan) => {
@@ -199,11 +200,12 @@ export default function PackageManagement() {
   };
 
   const saveChanges = () => {
-    toast({
-      title: "Changes Saved Successfully",
-      description: "Package configurations have been updated.",
-      duration: 3000,
-    });
+    setIsPackageModalOpen(true);
+    // toast({
+    //   title: "Changes Saved Successfully",
+    //   description: "Package configurations have been updated.",
+    //   duration: 3000,
+    // });
   };
 
   const startEditingPlan = (plan: Plan) => {
@@ -213,6 +215,7 @@ export default function PackageManagement() {
   };
 
   const savePlanDetails = () => {
+    setIsPackageModalOpen(true);
     if (editingPlan) {
       setPlans(
         plans.map((plan) => {
@@ -301,7 +304,7 @@ export default function PackageManagement() {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <div className="border-b border-border bg-card">
+      <div className=" bg-card">
         <div className="mx-auto max-w-[1600px] px-4 py-4 md:px-6 lg:px-8">
           <div className="flex items-center justify-end gap-2">
             <Button variant="outline" size="sm" onClick={resetChanges}>
@@ -353,30 +356,11 @@ export default function PackageManagement() {
               className="relative rounded-lg border border-border bg-card p-6 text-center"
             >
               {plan.id === "pro" && (
-                <Badge className="absolute right-4 top-4 bg-blue-500 hover:bg-blue-600">
+                <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#8096CE] hover:bg-[#315ed1]">
                   Most Popular
                 </Badge>
               )}
-              <Button
-                variant="ghost"
-                size="sm"
-                className="absolute right-4 top-4 text-muted-foreground hover:text-foreground"
-                onClick={() => startEditingPlan(plan)}
-              >
-                <svg
-                  className="h-4 w-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                  />
-                </svg>
-              </Button>
+
               <div className="mb-4 flex justify-center">
                 {plan.id === "free" ? (
                   <Shield className="h-12 w-12 text-muted-foreground" />
@@ -531,6 +515,11 @@ export default function PackageManagement() {
           </div>
         </div>
       </div>
+
+      <PackageModal
+        isOpen={isPackageModalOpen}
+        onClose={() => setIsPackageModalOpen(false)}
+      />
     </div>
   );
 }

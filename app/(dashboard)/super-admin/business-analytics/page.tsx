@@ -2,8 +2,11 @@
 
 import { TrendingUp, RefreshCw, Target } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import TargetModal from "@/components/super-admin/modals/TargetModal";
 
 export default function RevenueDashboard() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const months = [
     "Jan",
     "Feb",
@@ -41,11 +44,16 @@ export default function RevenueDashboard() {
             </p>
           </div>
           <div className="flex gap-2">
-            <Button variant="outline" size="sm">
-              <Target className="mr-2 h-4 w-4" />
+            <Button
+              variant="outline"
+              size="sm"
+              className="bg-[#F2319F] text-white"
+              onClick={() => setIsModalOpen(true)}
+            >
+              {/* <Target className="mr-2 h-4 w-4" /> */}
               Target setup
             </Button>
-            <Button variant="outline" size="icon" size="sm">
+            <Button variant="outline" size="sm">
               <RefreshCw className="h-4 w-4" />
             </Button>
           </div>
@@ -257,6 +265,7 @@ export default function RevenueDashboard() {
           </div>
         </div>
       </div>
+      <TargetModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </div>
   );
 }

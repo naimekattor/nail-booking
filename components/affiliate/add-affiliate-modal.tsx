@@ -49,23 +49,10 @@ export function AddAffiliateModal({ isOpen, onClose }: AddAffiliateModalProps) {
           </Button>
 
           <h2 className="mb-6 text-center text-xl font-semibold">
-            Add New Affiliate
+            Add an Affiliate Person
           </h2>
 
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="name">Name</Label>
-              <Input
-                id="name"
-                placeholder="Enter affiliate name"
-                value={formData.name}
-                onChange={(e) =>
-                  setFormData({ ...formData, name: e.target.value })
-                }
-                required
-              />
-            </div>
-
             <div className="space-y-2">
               <Label htmlFor="email">Email address</Label>
               <Input
@@ -80,29 +67,9 @@ export function AddAffiliateModal({ isOpen, onClose }: AddAffiliateModalProps) {
               />
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="rule">Affiliate Rule</Label>
-              <Select
-                value={formData.rule}
-                onValueChange={(value) =>
-                  setFormData({ ...formData, rule: value })
-                }
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Select rule" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="standard">Standard</SelectItem>
-                  <SelectItem value="vip">VIP partner</SelectItem>
-                  <SelectItem value="common">Common</SelectItem>
-                  <SelectItem value="medium">Medium</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
             <Button
               type="submit"
-              className="w-full bg-gradient-to-r from-primary to-pink-600 text-primary-foreground hover:opacity-90"
+              className="w-full bg-gradient-to-r from-[#F6339A] to-[#9810FA] text-primary-foreground hover:opacity-90"
             >
               Add Affiliate
             </Button>

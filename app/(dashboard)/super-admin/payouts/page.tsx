@@ -1,428 +1,410 @@
 "use client";
 
-import { useState } from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-} from "@/components/ui/dialog";
-import { Label } from "@/components/ui/label";
+import { useState, useMemo, useCallback } from "react";
 import {
   DollarSign,
   Clock,
   CheckCircle,
   TrendingUp,
-  MoreVertical,
   Search,
   Filter,
-  Download,
+  Upload,
+  MoreHorizontal,
+  Check,
+  XCircle, // Icon for Reject
+  Trash2, // Icon for Delete
 } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  DropdownMenuSeparator,
+} from "@/components/ui/dropdown-menu";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
 
-interface Withdrawal {
+// --- 1. Data Structure & Initial Data ---
+type WithdrawalStatus = "Pending" | "Approved" | "Paid" | "Reject";
+type Withdrawal = {
   id: string;
-  affiliate: string;
-  email: string;
-  grossAmount: string;
-  tax: string;
-  fees: string;
-  netAmount: string;
-  rate: string;
-  commission: string;
-  status: "pending" | "approved" | "paid" | "reject";
-}
+  affiliateName: string;
+  affiliateEmail: string;
+  grossAmount: number;
+  rate: number;
+  netAmount: number;
+  commission: number;
+  withdrawal: number;
+  status: WithdrawalStatus;
+};
 
-export default function WithdrawalsList() {
-  const { toast } = useToast();
-  const [searchQuery, setSearchQuery] = useState("");
-  const [isTaxFeeOpen, setIsTaxFeeOpen] = useState(false);
-  const [selectedWithdrawal, setSelectedWithdrawal] =
-    useState<Withdrawal | null>(null);
-  const [taxFeeData, setTaxFeeData] = useState({ tax: "", fee: "" });
+const initialWithdrawalsData: Withdrawal[] = [
+  {
+    id: "wd-001",
+    affiliateName: "John Marketing Pro",
+    affiliateEmail: "customer1@example.com",
+    grossAmount: 10000,
+    rate: 10,
+    netAmount: 9250,
+    commission: 925,
+    withdrawal: 100,
+    status: "Pending",
+  },
+  {
+    id: "wd-002",
+    affiliateName: "Sarah Digital Agency",
+    affiliateEmail: "customer2@example.com",
+    grossAmount: 15000,
+    rate: 15,
+    netAmount: 13875,
+    commission: 2081,
+    withdrawal: 200,
+    status: "Approved",
+  },
+  {
+    id: "wd-003",
+    affiliateName: "John Marketing Pro",
+    affiliateEmail: "customer3@example.com",
+    grossAmount: 25000,
+    rate: 10,
+    netAmount: 23125,
+    commission: 2313,
+    withdrawal: 400,
+    status: "Paid",
+  },
+  {
+    id: "wd-004",
+    affiliateName: "John Marketing Pro",
+    affiliateEmail: "customer3@example.com",
+    grossAmount: 25000,
+    rate: 10,
+    netAmount: 23125,
+    commission: 2313,
+    withdrawal: 500,
+    status: "Reject",
+  },
+];
 
-  const [withdrawals, setWithdrawals] = useState<Withdrawal[]>([
-    {
-      id: "1",
-      affiliate: "John Marketing Pro",
-      email: "customer7@example.com",
-      grossAmount: "NT$ 10,000",
-      tax: "Tax: 5%",
-      fees: "Fees: 2.75%",
-      netAmount: "NT$ 9,250",
-      rate: "10%",
-      commission: "NT$ 925",
-      status: "pending",
-    },
-    {
-      id: "2",
-      affiliate: "Sarah Digital Agency",
-      email: "customer2@example.com",
-      grossAmount: "NT$ 15,000",
-      tax: "Tax: 5%",
-      fees: "Fees: 2.75%",
-      netAmount: "NT$ 13,875",
-      rate: "15%",
-      commission: "NT$ 2,081",
-      status: "approved",
-    },
-    {
-      id: "3",
-      affiliate: "John Marketing Pro",
-      email: "customer@example.com",
-      grossAmount: "NT$ 25,000",
-      tax: "Tax: 5%",
-      fees: "Fees: 2.75%",
-      netAmount: "NT$ 23,125",
-      rate: "10%",
-      commission: "NT$ 2,313",
-      status: "paid",
-    },
-    {
-      id: "4",
-      affiliate: "John Marketing Pro",
-      email: "customer@example.com",
-      grossAmount: "NT$ 25,000",
-      tax: "Tax: 5%",
-      fees: "Fees: 2.5%",
-      netAmount: "NT$ 23,125",
-      rate: "10%",
-      commission: "NT$ 2,313",
-      status: "reject",
-    },
-  ]);
+// --- 2. Helper Components & Functions (Unchanged) ---
+const StatCard = ({ icon: Icon, title, value, color, bgColor }) => (
+  <div className="flex items-center gap-4 rounded-lg border bg-white p-4 shadow-sm">
+    <div
+      className={cn(
+        "flex h-10 w-10 items-center justify-center rounded-full",
+        bgColor
+      )}
+    >
+      <Icon className={cn("h-5 w-5", color)} />
+    </div>
+    <div>
+      <p className="text-sm text-gray-500">{title}</p>
+      <p className="text-xl font-semibold text-gray-800">{`NT$ ${value.toLocaleString()}`}</p>
+    </div>
+  </div>
+);
+const getStatusBadgeClasses = (status) => {
+  switch (status.toLowerCase()) {
+    case "pending":
+      return "bg-yellow-100 text-yellow-800";
+    case "approved":
+      return "bg-blue-100 text-blue-800";
+    case "paid":
+      return "bg-green-100 text-green-800";
+    case "reject":
+      return "bg-red-100 text-red-800";
+    default:
+      return "bg-gray-100 text-gray-800";
+  }
+};
 
-  const handleApprove = (id: string) => {
-    setWithdrawals(
-      withdrawals.map((w) =>
-        w.id === id ? { ...w, status: "approved" as const } : w
-      )
+// --- 3. Main Dashboard Component ---
+export default function WithdrawalsDashboard() {
+  const [withdrawals, setWithdrawals] = useState<Withdrawal[]>(
+    initialWithdrawalsData
+  );
+  const [searchTerm, setSearchTerm] = useState("");
+  const [statusFilter, setStatusFilter] = useState("All Type");
+  const [selectedRows, setSelectedRows] = useState<string[]>([]);
+
+  const filteredWithdrawals = useMemo(
+    () =>
+      withdrawals.filter(
+        (w) =>
+          (statusFilter === "All Type" || w.status === statusFilter) &&
+          (w.affiliateName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            w.affiliateEmail.toLowerCase().includes(searchTerm.toLowerCase()))
+      ),
+    [searchTerm, statusFilter, withdrawals]
+  );
+
+  // --- SINGLE & BULK ACTION HANDLERS ---
+  const handleAction = useCallback(
+    (ids: string[], action: "Approve" | "Paid" | "Reject" | "Delete") => {
+      if (action === "Delete") {
+        if (
+          !window.confirm(
+            `Are you sure you want to delete ${ids.length} item(s)? This action cannot be undone.`
+          )
+        ) {
+          return;
+        }
+        setWithdrawals((current) => current.filter((w) => !ids.includes(w.id)));
+      } else {
+        setWithdrawals((current) =>
+          current.map((w) =>
+            ids.includes(w.id)
+              ? { ...w, status: action as WithdrawalStatus }
+              : w
+          )
+        );
+      }
+      setSelectedRows([]); // Always clear selection after an action
+    },
+    []
+  );
+
+  // --- SELECTION LOGIC ---
+  const handleSelectAll = (checked: boolean) =>
+    setSelectedRows(checked ? filteredWithdrawals.map((w) => w.id) : []);
+  const handleSelectRow = (id: string, checked: boolean) =>
+    setSelectedRows((prev) =>
+      checked ? [...prev, id] : prev.filter((rowId) => rowId !== id)
     );
-    toast({
-      title: "Withdrawal Approved",
-      description: "The withdrawal request has been approved.",
-    });
-  };
-
-  const handleReject = (id: string) => {
-    setWithdrawals(
-      withdrawals.map((w) =>
-        w.id === id ? { ...w, status: "reject" as const } : w
-      )
-    );
-    toast({
-      title: "Withdrawal Rejected",
-      description: "The withdrawal request has been rejected.",
-    });
-  };
-
-  const handleSetTaxFee = (withdrawal: Withdrawal) => {
-    setSelectedWithdrawal(withdrawal);
-    setIsTaxFeeOpen(true);
-  };
-
-  const handleSaveTaxFee = () => {
-    if (!selectedWithdrawal) return;
-
-    toast({
-      title: "Tax & Fee Updated",
-      description: "Tax and fee settings have been updated.",
-    });
-    setIsTaxFeeOpen(false);
-    setTaxFeeData({ tax: "", fee: "" });
-  };
-
-  const handleDelete = (id: string) => {
-    setWithdrawals(withdrawals.filter((w) => w.id !== id));
-    toast({
-      title: "Withdrawal Deleted",
-      description: "The withdrawal request has been removed.",
-    });
-  };
-
-  const getStatusBadge = (status: string) => {
-    switch (status) {
-      case "pending":
-        return (
-          <Badge className="bg-yellow-500/10 text-yellow-500 hover:bg-yellow-500/20">
-            Pending
-          </Badge>
-        );
-      case "approved":
-        return (
-          <Badge className="bg-blue-500/10 text-blue-500 hover:bg-blue-500/20">
-            Approved
-          </Badge>
-        );
-      case "paid":
-        return (
-          <Badge className="bg-green-500/10 text-green-500 hover:bg-green-500/20">
-            Paid
-          </Badge>
-        );
-      case "reject":
-        return (
-          <Badge className="bg-red-500/10 text-red-500 hover:bg-red-500/20">
-            Reject
-          </Badge>
-        );
-      default:
-        return null;
-    }
-  };
+  const isAllSelected =
+    selectedRows.length === filteredWithdrawals.length &&
+    filteredWithdrawals.length > 0;
 
   return (
-    <div className="min-h-screen bg-background p-4 md:p-6 lg:p-8">
-      <div className="mx-auto max-w-[1600px] space-y-6">
-        {/* Stats Cards */}
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          <Card className="border-border bg-card">
-            <CardContent className="p-6">
-              <div className="flex items-center gap-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-blue-500/10">
-                  <DollarSign className="h-6 w-6 text-blue-500" />
-                </div>
-                <div>
-                  <p className="text-sm text-muted-foreground">
-                    Total Commissions
-                  </p>
-                  <p className="text-2xl font-bold">NT$ 5,319</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="border-border bg-card">
-            <CardContent className="p-6">
-              <div className="flex items-center gap-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-yellow-500/10">
-                  <Clock className="h-6 w-6 text-yellow-500" />
-                </div>
-                <div>
-                  <p className="text-sm text-muted-foreground">Pending</p>
-                  <p className="text-2xl font-bold">NT$ 925</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="border-border bg-card">
-            <CardContent className="p-6">
-              <div className="flex items-center gap-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-blue-500/10">
-                  <CheckCircle className="h-6 w-6 text-blue-500" />
-                </div>
-                <div>
-                  <p className="text-sm text-muted-foreground">Approved</p>
-                  <p className="text-2xl font-bold">NT$ 2,081</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="border-border bg-card">
-            <CardContent className="p-6">
-              <div className="flex items-center gap-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-green-500/10">
-                  <TrendingUp className="h-6 w-6 text-green-500" />
-                </div>
-                <div>
-                  <p className="text-sm text-muted-foreground">Paid</p>
-                  <p className="text-2xl font-bold">NT$ 2,313</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+    <div className="min-h-screen bg-gray-50 p-4 sm:p-6 lg:p-8">
+      <div className="mx-auto max-w-7xl">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <StatCard
+            icon={DollarSign}
+            title="Total Commissions"
+            value={5319}
+            color="text-blue-600"
+            bgColor="bg-blue-100"
+          />
+          <StatCard
+            icon={Clock}
+            title="Pending"
+            value={925}
+            color="text-yellow-600"
+            bgColor="bg-yellow-100"
+          />
+          <StatCard
+            icon={CheckCircle}
+            title="Approved"
+            value={2081}
+            color="text-sky-600"
+            bgColor="bg-sky-100"
+          />
+          <StatCard
+            icon={TrendingUp}
+            title="Paid"
+            value={2313}
+            color="text-green-600"
+            bgColor="bg-green-100"
+          />
         </div>
 
-        {/* Search and Filter */}
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div className="relative flex-1 max-w-md">
-            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+        <div className="mt-6 flex flex-col items-center justify-between gap-4 rounded-lg border bg-white p-4 shadow-sm md:flex-row">
+          <div className="relative w-full md:w-auto">
+            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
             <Input
               placeholder="Search commissions..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10"
+              className="w-full rounded-md bg-gray-50 pl-9 md:w-64"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
-          <div className="flex gap-2">
-            <Button variant="outline" size="sm">
-              <Filter className="mr-2 h-4 w-4" />
-              All Type
-            </Button>
-            <Button variant="outline" size="sm">
-              <Download className="mr-2 h-4 w-4" />
-              Export CSV
-            </Button>
-          </div>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="outline"
+                className="w-full justify-between md:w-40"
+              >
+                {statusFilter} <Filter className="h-4 w-4 text-gray-500" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              {["All Type", "Pending", "Approved", "Paid", "Reject"].map(
+                (status) => (
+                  <DropdownMenuItem
+                    key={status}
+                    onSelect={() => setStatusFilter(status)}
+                  >
+                    {status}
+                    {statusFilter === status && (
+                      <Check className="ml-auto h-4 w-4" />
+                    )}
+                  </DropdownMenuItem>
+                )
+              )}
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
 
-        {/* Withdrawals Table */}
-        <Card className="border-border bg-card">
-          <CardContent className="p-6">
-            <h2 className="mb-4 text-lg font-semibold">All withdrawals list</h2>
-
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className="border-b border-border">
-                    <th className="pb-3 text-left text-sm font-medium text-muted-foreground">
-                      Affiliate
-                    </th>
-                    <th className="pb-3 text-left text-sm font-medium text-muted-foreground">
-                      Gross Amount
-                    </th>
-                    <th className="pb-3 text-left text-sm font-medium text-muted-foreground">
-                      Tax & Fees
-                    </th>
-                    <th className="pb-3 text-left text-sm font-medium text-muted-foreground">
-                      Net Amount
-                    </th>
-                    <th className="pb-3 text-left text-sm font-medium text-muted-foreground">
-                      Rate
-                    </th>
-                    <th className="pb-3 text-left text-sm font-medium text-muted-foreground">
-                      Commission
-                    </th>
-                    <th className="pb-3 text-left text-sm font-medium text-muted-foreground">
-                      Status
-                    </th>
-                    <th className="pb-3 text-right text-sm font-medium text-muted-foreground">
-                      Actions
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {withdrawals.map((withdrawal) => (
-                    <tr
-                      key={withdrawal.id}
-                      className="border-b border-border/50 last:border-0"
-                    >
-                      <td className="py-4">
-                        <div>
-                          <p className="text-sm font-medium">
-                            {withdrawal.affiliate}
-                          </p>
-                          <p className="text-xs text-muted-foreground">
-                            {withdrawal.email}
-                          </p>
-                        </div>
-                      </td>
-                      <td className="py-4 text-sm">{withdrawal.grossAmount}</td>
-                      <td className="py-4">
-                        <div className="text-xs">
-                          <p className="text-red-500">{withdrawal.tax}</p>
-                          <p className="text-muted-foreground">
-                            {withdrawal.fees}
-                          </p>
-                        </div>
-                      </td>
-                      <td className="py-4 text-sm font-medium text-blue-500">
-                        {withdrawal.netAmount}
-                      </td>
-                      <td className="py-4 text-sm">{withdrawal.rate}</td>
-                      <td className="py-4 text-sm font-medium text-green-500">
-                        {withdrawal.commission}
-                      </td>
-                      <td className="py-4">
-                        {getStatusBadge(withdrawal.status)}
-                      </td>
-                      <td className="py-4 text-right">
-                        <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" size="sm">
-                              <MoreVertical className="h-4 w-4" />
-                            </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end">
+        <div className="mt-6 rounded-lg border bg-white shadow-sm">
+          <div className="flex flex-col items-start justify-between gap-4 p-4 md:flex-row md:items-center">
+            <div>
+              <h3 className="text-lg font-semibold text-gray-800">
+                All withdrawals list
+              </h3>
+              <p className="text-sm text-gray-500">
+                Selected ({selectedRows.length.toString().padStart(2, "0")})
+              </p>
+            </div>
+            {/* --- NEW: CONDITIONAL BULK ACTION BUTTONS --- */}
+            {selectedRows.length > 0 ? (
+              <div className="flex items-center gap-2">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => handleAction(selectedRows, "Reject")}
+                >
+                  <XCircle className="mr-2 h-4 w-4" /> Reject (
+                  {selectedRows.length})
+                </Button>
+                <Button
+                  size="sm"
+                  variant="destructive"
+                  onClick={() => handleAction(selectedRows, "Delete")}
+                >
+                  <Trash2 className="mr-2 h-4 w-4" /> Delete (
+                  {selectedRows.length})
+                </Button>
+              </div>
+            ) : (
+              <Button variant="outline">
+                <Upload className="mr-2 h-4 w-4" /> Export CSV
+              </Button>
+            )}
+          </div>
+          <div className="w-full overflow-x-auto">
+            <Table>
+              <TableHeader>
+                <TableRow className="border-t bg-gray-50">
+                  <TableHead className="w-12 px-4">
+                    <Checkbox
+                      checked={isAllSelected}
+                      onCheckedChange={handleSelectAll}
+                    />
+                  </TableHead>
+                  <TableHead>Affiliate</TableHead>
+                  <TableHead>Gross Amount</TableHead>
+                  <TableHead>Rate</TableHead>
+                  <TableHead>Net Amount</TableHead>
+                  <TableHead>Commission</TableHead>
+                  <TableHead>Withdrawal</TableHead>
+                  <TableHead>Request status</TableHead>
+                  <TableHead>Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {filteredWithdrawals.map((item) => (
+                  <TableRow
+                    key={item.id}
+                    data-state={selectedRows.includes(item.id) && "selected"}
+                  >
+                    <TableCell className="px-4">
+                      <Checkbox
+                        checked={selectedRows.includes(item.id)}
+                        onCheckedChange={(checked) =>
+                          handleSelectRow(item.id, !!checked)
+                        }
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <div className="font-medium">{item.affiliateName}</div>
+                      <div className="text-xs text-gray-500">
+                        {item.affiliateEmail}
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      NT$ {item.grossAmount.toLocaleString()}
+                    </TableCell>
+                    <TableCell>{item.rate}%</TableCell>
+                    <TableCell className="font-semibold text-blue-600">
+                      NT$ {item.netAmount.toLocaleString()}
+                    </TableCell>
+                    <TableCell className="font-semibold text-green-600">
+                      NT$ {item.commission.toLocaleString()}
+                    </TableCell>
+                    <TableCell className="font-semibold text-green-600">
+                      NT$ {item.withdrawal.toLocaleString()}
+                    </TableCell>
+                    <TableCell>
+                      <Badge
+                        className={cn(
+                          "border-none text-xs font-semibold",
+                          getStatusBadgeClasses(item.status)
+                        )}
+                      >
+                        {item.status}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" className="h-8 w-8 p-0">
+                            <MoreHorizontal className="h-4 w-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          {item.status === "Pending" && (
                             <DropdownMenuItem
-                              onClick={() => handleApprove(withdrawal.id)}
+                              onSelect={() =>
+                                handleAction([item.id], "Approve")
+                              }
                             >
                               Approve
                             </DropdownMenuItem>
+                          )}
+                          {item.status === "Approved" && (
                             <DropdownMenuItem
-                              onClick={() => handleReject(withdrawal.id)}
+                              onSelect={() => handleAction([item.id], "Paid")}
+                            >
+                              Mark as Paid
+                            </DropdownMenuItem>
+                          )}
+                          {(item.status === "Pending" ||
+                            item.status === "Approved") && (
+                            <DropdownMenuItem
+                              className="text-orange-600"
+                              onSelect={() => handleAction([item.id], "Reject")}
                             >
                               Reject
                             </DropdownMenuItem>
-                            <DropdownMenuItem
-                              onClick={() => handleSetTaxFee(withdrawal)}
-                            >
-                              Set Tax and fee
-                            </DropdownMenuItem>
-                            <DropdownMenuItem
-                              onClick={() => handleDelete(withdrawal.id)}
-                              className="text-red-500"
-                            >
-                              Delete
-                            </DropdownMenuItem>
-                          </DropdownMenuContent>
-                        </DropdownMenu>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Set Tax & Fee Modal */}
-      <Dialog open={isTaxFeeOpen} onOpenChange={setIsTaxFeeOpen}>
-        <DialogContent className="sm:max-w-[400px]">
-          <DialogHeader>
-            <DialogTitle>Set Tax and Fee</DialogTitle>
-          </DialogHeader>
-          <div className="space-y-4 py-4">
-            <div className="space-y-2">
-              <Label htmlFor="tax-rate">Tax Rate (%)</Label>
-              <Input
-                id="tax-rate"
-                placeholder="5"
-                value={taxFeeData.tax}
-                onChange={(e) =>
-                  setTaxFeeData({ ...taxFeeData, tax: e.target.value })
-                }
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="fee-rate">Fee Rate (%)</Label>
-              <Input
-                id="fee-rate"
-                placeholder="2.75"
-                value={taxFeeData.fee}
-                onChange={(e) =>
-                  setTaxFeeData({ ...taxFeeData, fee: e.target.value })
-                }
-              />
-            </div>
+                          )}
+                          <DropdownMenuSeparator />
+                          <DropdownMenuItem
+                            className="text-red-600"
+                            onSelect={() => handleAction([item.id], "Delete")}
+                          >
+                            Delete
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
           </div>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setIsTaxFeeOpen(false)}>
-              Cancel
-            </Button>
-            <Button
-              onClick={handleSaveTaxFee}
-              className="bg-black text-white hover:bg-black/90"
-            >
-              Save
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+        </div>
+      </div>
     </div>
   );
 }

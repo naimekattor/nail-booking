@@ -151,16 +151,16 @@ const CreationLogsPage: NextPage = () => {
       <Head>
         <title>Creation Logs</title>
       </Head>
-      <div className="bg-gray-50 min-h-screen p-8 font-sans">
+      <div className=" min-h-screen p-8 font-sans">
         <header className="mb-6">
-          <div className="flex border-b">
+          <div className="flex bg-accent shrink-0 w-fit rounded-full p-1">
             <Link
               href="/super-admin/billing-invoices"
               className="px-4 py-2 text-lg font-semibold text-gray-500 hover:text-gray-800"
             >
               Electronic Invoices
             </Link>
-            <h1 className="px-4 py-2 text-lg font-semibold text-gray-800 border-b-2 border-blue-600 cursor-pointer">
+            <h1 className="px-4 py-2 text-lg font-semibold text-gray-800 border-b-2 bg-white rounded-full cursor-pointer">
               Creation Logs
             </h1>
           </div>
@@ -168,19 +168,21 @@ const CreationLogsPage: NextPage = () => {
 
         <div className="bg-white rounded-lg shadow p-6">
           <div className="flex justify-between items-center mb-4">
-            <div className="relative w-1/3">
-              <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-              <input
-                type="text"
-                placeholder="Search logs..."
-                className="w-full pl-10 pr-4 py-2 border rounded-md bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-            <div className="flex items-center space-x-4">
+            <div className="flex gap-4 flex-1">
+              <div className="relative w-1/3">
+                <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                <input
+                  type="text"
+                  placeholder="Search invoices..."
+                  className="w-full pl-10 pr-4 py-2 border rounded-md bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
               <button className="flex items-center space-x-2 px-4 py-2 border rounded-md text-gray-600 hover:bg-gray-100">
                 {" "}
                 <FiFilter /> <span>Filter</span>{" "}
               </button>
+            </div>
+            <div className="flex items-center space-x-4">
               <button className="flex items-center space-x-2 px-4 py-2 border rounded-md text-gray-600 hover:bg-gray-100">
                 {" "}
                 <FiUpload /> <span>Export CSV</span>{" "}
@@ -226,7 +228,7 @@ const CreationLogsPage: NextPage = () => {
                     <td className="p-4">
                       <button
                         onClick={() => handleDeleteClick(log.id)}
-                        className="text-gray-500 hover:text-red-600"
+                        className="text-red-400 hover:text-red-600"
                       >
                         <FiTrash2 size={18} />
                       </button>

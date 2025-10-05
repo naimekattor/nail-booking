@@ -156,13 +156,9 @@ const initialAdmins: Administrator[] = [
   },
 ];
 
-//-/////////////////////////////////////////////////////////////////////////
-// MODAL COMPONENT
-//-/////////////////////////////////////////////////////////////////////////
-
 const CreateAdminModal: FC<{ onClose: () => void }> = ({ onClose }) => {
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-50 p-4">
+    <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-4">
       <div className="bg-white rounded-lg shadow-2xl p-8 max-w-lg w-full">
         <h2 className="text-3xl font-bold text-gray-800">
           Create New Platform admin
@@ -204,7 +200,7 @@ const CreateAdminModal: FC<{ onClose: () => void }> = ({ onClose }) => {
         </div>
 
         <div className="mt-8 flex flex-col sm:flex-row-reverse gap-4">
-          <button className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-6 py-3 bg-gray-900 text-base font-medium text-white hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900">
+          <button className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-6 py-3 bg-[#C06EF3] text-base font-medium text-white hover:bg-[#7b24b1] focus:outline-none ">
             Create Administrator
           </button>
           <button
@@ -219,10 +215,6 @@ const CreateAdminModal: FC<{ onClose: () => void }> = ({ onClose }) => {
     </div>
   );
 };
-
-//-/////////////////////////////////////////////////////////////////////////
-// PERMISSION COMPONENTS
-//-/////////////////////////////////////////////////////////////////////////
 
 const ToggleSwitch: FC<{ checked: boolean; onChange: () => void }> = ({
   checked,
@@ -294,10 +286,6 @@ const PermissionGroup: FC<{
   );
 };
 
-//-/////////////////////////////////////////////////////////////////////////
-// MAIN PAGE COMPONENT
-//-/////////////////////////////////////////////////////////////////////////
-
 const AdminPage: NextPage = () => {
   const [admins] = useState<Administrator[]>(initialAdmins);
   const [selectedAdmin, setSelectedAdmin] = useState<Administrator>(
@@ -340,7 +328,7 @@ const AdminPage: NextPage = () => {
         <CreateAdminModal onClose={() => setIsModalOpen(false)} />
       )}
 
-      <div className="bg-gray-50 min-h-screen">
+      <div className=" min-h-screen">
         <div className="p-4 sm:p-6 lg:p-8 max-w-screen-2xl mx-auto">
           {/* Header */}
           <div className="flex justify-between items-center mb-6">
@@ -349,7 +337,7 @@ const AdminPage: NextPage = () => {
             </h1>
             <button
               onClick={() => setIsModalOpen(true)}
-              className="flex items-center gap-2 px-4 py-2 bg-gray-900 text-white rounded-lg shadow hover:bg-gray-800 transition-colors"
+              className="flex items-center gap-2 px-4 py-2 bg-[#C06EF3] text-white rounded-lg shadow hover:bg-gray-800 transition-colors"
             >
               <FiPlus />
               Create New Administrator
@@ -492,7 +480,7 @@ const AdminPage: NextPage = () => {
                   />
                 </div>
               </div>
-              <button className="w-full mt-6 px-6 py-3 bg-gray-900 text-white font-semibold rounded-lg shadow hover:bg-gray-800 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900">
+              <button className="w-full mt-6 px-6 py-3 bg-[#C06EF3] text-white font-semibold rounded-lg shadow hover:bg-[#a333e9] transition-colors focus:outline-none ">
                 Save Permission Settings
               </button>
             </div>

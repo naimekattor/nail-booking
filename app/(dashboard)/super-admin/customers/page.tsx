@@ -169,8 +169,8 @@ export default function BusinessSelection() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All Types</SelectItem>
-                <SelectItem value="salon">Salon</SelectItem>
-                <SelectItem value="spa">Spa</SelectItem>
+                <SelectItem value="salon">Affliate</SelectItem>
+                <SelectItem value="spa">Non aflliate</SelectItem>
               </SelectContent>
             </Select>
             <Select defaultValue="all">
@@ -179,8 +179,8 @@ export default function BusinessSelection() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All Plans</SelectItem>
+                <SelectItem value="free">free</SelectItem>
                 <SelectItem value="pro">Pro</SelectItem>
-                <SelectItem value="basic">Basic</SelectItem>
               </SelectContent>
             </Select>
             <Select defaultValue="all">
@@ -190,7 +190,8 @@ export default function BusinessSelection() {
               <SelectContent>
                 <SelectItem value="all">All Status</SelectItem>
                 <SelectItem value="active">Active</SelectItem>
-                <SelectItem value="inactive">Inactive</SelectItem>
+                <SelectItem value="paused">Paused</SelectItem>
+                <SelectItem value="cancelled ">Cancelled </SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -213,7 +214,7 @@ export default function BusinessSelection() {
               >
                 <div className="mb-4 flex items-start justify-between">
                   <h4 className="font-semibold">{business.name}</h4>
-                  <Badge className="bg-success/10 text-success">
+                  <Badge className="bg-[#DCFCE7] text-[#016630]">
                     {business.status}
                   </Badge>
                 </div>

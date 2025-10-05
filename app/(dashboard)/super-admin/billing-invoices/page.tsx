@@ -20,7 +20,7 @@ const DeleteModal: React.FC<{
   onCancel: () => void;
 }> = ({ onConfirm, onCancel }) => {
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+    <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
       <div className="bg-white p-8 rounded-lg shadow-xl text-center">
         <h2 className="text-xl font-semibold mb-6">
           Do you want to Delete Now?
@@ -155,12 +155,12 @@ const InvoicesPage: NextPage = () => {
       <Head>
         <title>Electronic Invoices</title>
       </Head>
-      <div className="bg-gray-50 min-h-screen p-8 font-sans">
+      <div className="min-h-screen p-8 font-sans">
         <header className="mb-6">
-          <div className="flex border-b">
+          <div className="flex shrink-0 w-fit bg-accent rounded-full p-1">
             <Link
               href={"/super-admin/billing-invoices/"}
-              className="px-4 py-2 text-lg font-semibold text-gray-800 border-b-2 border-blue-600 cursor-pointer"
+              className="px-4 py-2 text-lg font-semibold text-gray-800 bg-white rounded-full cursor-pointer"
             >
               Electronic Invoices
             </Link>
@@ -175,19 +175,21 @@ const InvoicesPage: NextPage = () => {
 
         <div className="bg-white rounded-lg shadow p-6">
           <div className="flex justify-between items-center mb-4">
-            <div className="relative w-1/3">
-              <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-              <input
-                type="text"
-                placeholder="Search invoices..."
-                className="w-full pl-10 pr-4 py-2 border rounded-md bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-            <div className="flex items-center space-x-4">
+            <div className="flex gap-4 flex-1">
+              <div className="relative w-1/3">
+                <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                <input
+                  type="text"
+                  placeholder="Search invoices..."
+                  className="w-full pl-10 pr-4 py-2 border rounded-md bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
               <button className="flex items-center space-x-2 px-4 py-2 border rounded-md text-gray-600 hover:bg-gray-100">
                 {" "}
                 <FiFilter /> <span>Filter</span>{" "}
               </button>
+            </div>
+            <div className="flex items-center space-x-4">
               <button className="flex items-center space-x-2 px-4 py-2 border rounded-md text-gray-600 hover:bg-gray-100">
                 {" "}
                 <FiUpload /> <span>Export CSV</span>{" "}
@@ -270,7 +272,7 @@ const InvoicesPage: NextPage = () => {
                     <td className="p-4 align-top">
                       <button
                         onClick={() => handleDeleteClick(invoice.id)}
-                        className="text-gray-500 hover:text-red-600"
+                        className="text-red-400 hover:text-red-600"
                       >
                         <FiTrash2 size={18} />
                       </button>

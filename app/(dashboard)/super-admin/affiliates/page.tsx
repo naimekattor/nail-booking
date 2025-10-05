@@ -11,6 +11,8 @@ import {
   Receipt,
   TrendingUp,
   Percent,
+  ChevronDown,
+  Filter,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -18,7 +20,12 @@ import { Badge } from "@/components/ui/badge";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { AddAffiliateModal } from "@/components/affiliate/add-affiliate-modal";
@@ -284,7 +291,7 @@ export default function AffiliatesDashboard() {
           <h2 className="text-2xl font-semibold">Affiliates</h2>
           <Button
             size="sm"
-            className="gap-2 bg-gradient-to-r from-primary to-pink-600 text-primary-foreground hover:opacity-90"
+            className="gap-2 bg-[#F2319F] text-white hover:opacity-90"
             onClick={() => setIsAddModalOpen(true)}
           >
             <UserPlus className="h-4 w-4" />
@@ -293,46 +300,54 @@ export default function AffiliatesDashboard() {
         </div>
 
         {/* Search and Filter */}
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between sm:space-x-2">
           <div className="relative flex-1 sm:max-w-md">
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <Input
               placeholder="Search affiliates..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10"
+              className="pl-10 w-full"
             />
           </div>
-          <div className="flex gap-2">
-            <Button
-              variant={statusFilter === "All" ? "default" : "outline"}
-              size="sm"
-              onClick={() => setStatusFilter("All")}
-            >
-              All Status
-            </Button>
-            <Button
-              variant={statusFilter === "Active" ? "default" : "outline"}
-              size="sm"
-              onClick={() => setStatusFilter("Active")}
-            >
-              Active
-            </Button>
-            <Button
-              variant={statusFilter === "Pending" ? "default" : "outline"}
-              size="sm"
-              onClick={() => setStatusFilter("Pending")}
-            >
-              Pending
-            </Button>
-            <Button
-              variant={statusFilter === "Suspended" ? "default" : "outline"}
-              size="sm"
-              onClick={() => setStatusFilter("Suspended")}
-            >
-              Suspended
-            </Button>
-          </div>
+          <DropdownMenu>
+            {/* The button that users click to open the dropdown */}
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="outline"
+                size="sm"
+                className="flex items-center gap-2"
+              >
+                <Filter className="h-4 w-4 text-muted-foreground" />
+                <span>
+                  {statusFilter === "All" ? "All Status" : statusFilter}
+                </span>
+                <ChevronDown className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+
+            {/* The content of the dropdown menu */}
+            <DropdownMenuContent className="w-48">
+              <DropdownMenuLabel>Filter by Status</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+
+              {/* Radio group to manage single selection */}
+              <DropdownMenuGroup>
+                {["All", "Active", "Pending", "Suspended"].map((status) => (
+                  <DropdownMenuItem
+                    key={status}
+                    onClick={() => setStatusFilter(status)}
+                    className={`
+        cursor-pointer
+        ${statusFilter === status ? "bg-accent text-accent-foreground" : ""}
+      `}
+                  >
+                    {status === "All" ? "All Status" : status}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuGroup>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
 
         {/* Table */}

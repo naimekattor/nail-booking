@@ -220,9 +220,9 @@ export default function AuditLogs() {
                     <th className="pb-3 text-left text-sm font-medium text-muted-foreground">
                       Description
                     </th>
-                    <th className="pb-3 text-right text-sm font-medium text-muted-foreground">
+                    {/* <th className="pb-3 text-right text-sm font-medium text-muted-foreground">
                       Actions
-                    </th>
+                    </th> */}
                   </tr>
                 </thead>
                 <tbody>
@@ -260,7 +260,7 @@ export default function AuditLogs() {
                         </div>
                       </td>
                       <td className="py-4 text-sm">{log.description}</td>
-                      <td className="py-4 text-right">
+                      {/* <td className="py-4 text-right">
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
                             <Button variant="ghost" size="sm">
@@ -272,7 +272,7 @@ export default function AuditLogs() {
                             <DropdownMenuItem>Export Log</DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>
-                      </td>
+                      </td> */}
                     </tr>
                   ))}
                 </tbody>

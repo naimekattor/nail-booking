@@ -9,6 +9,8 @@ import {
   MoreVertical,
   Star,
   Users,
+  Delete,
+  Trash,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -20,6 +22,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Router } from "next/router";
+import { useRouter } from "next/navigation";
+import BusinessInfoModal from "@/components/super-admin/modals/BusinessInfoModal";
 
 interface Customer {
   id: string;
@@ -83,6 +88,8 @@ const initialCustomers: Customer[] = [
 export default function CustomerInsights() {
   const [customers] = useState<Customer[]>(initialCustomers);
   const [searchQuery, setSearchQuery] = useState("");
+  const router = useRouter();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const filteredCustomers = customers.filter(
     (customer) =>
@@ -95,7 +102,12 @@ export default function CustomerInsights() {
       <div className="mx-auto max-w-[1600px] space-y-6">
         {/* Header */}
         <div className="flex items-center gap-2">
-          <Button variant="ghost" size="icon" className="h-8 w-8">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-8 w-8"
+            onClick={() => router.back()}
+          >
             <ArrowLeft className="h-4 w-4" />
           </Button>
           <h1 className="text-2xl font-semibold">Customer Insights</h1>
@@ -154,10 +166,22 @@ export default function CustomerInsights() {
 
         {/* Search & Filter Section */}
         <div className="rounded-lg border border-border bg-card p-6">
-          <h3 className="text-lg font-semibold">Search & Filter Customers</h3>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Find specific customers within Classic Barbershop
-          </p>
+          <div className="flex md:justify-between justify-start items-center md:flex-row flex-col">
+            <div>
+              <h3 className="text-lg font-semibold">
+                Search & Filter Customers
+              </h3>
+              <p className="mt-1 text-sm text-muted-foreground">
+                Find specific customers within Classic Barbershop
+              </p>
+            </div>
+            <Button
+              onClick={() => setIsModalOpen(true)}
+              className="bg-[#F2319F] text-primary-foreground hover:opacity-90"
+            >
+              Company details
+            </Button>
+          </div>
 
           <div className="mt-4 flex flex-col gap-4 sm:flex-row">
             <div className="relative flex-1">
@@ -189,9 +213,6 @@ export default function CustomerInsights() {
                 <SelectItem value="platinum">Platinum</SelectItem>
               </SelectContent>
             </Select>
-            <Button className="bg-gradient-to-r from-primary to-pink-600 text-primary-foreground hover:opacity-90">
-              Company details
-            </Button>
           </div>
         </div>
 
@@ -234,8 +255,8 @@ export default function CustomerInsights() {
                           variant="secondary"
                           className={
                             badge === "new"
-                              ? "bg-primary/10 text-primary"
-                              : "bg-purple-500/10 text-purple-500"
+                              ? "bg-[#DBEAFE] text-[#193CB8]"
+                              : "bg-[#F3E8FF] text-[#6E11B0]"
                           }
                         >
                           {badge}
@@ -271,7 +292,7 @@ export default function CustomerInsights() {
                     </div>
                   </div>
                   <Button variant="ghost" size="icon">
-                    <MoreVertical className="h-4 w-4" />
+                    <Trash className="h-4 w-4 text-red-300" />
                   </Button>
                 </div>
               </div>
@@ -315,6 +336,10 @@ export default function CustomerInsights() {
           </div>
         </div>
       </div>
+      <BusinessInfoModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </div>
   );
 }

@@ -56,7 +56,7 @@ export function ApplyAffiliateRuleModal({
             <div className="space-y-2">
               <Label htmlFor="rule">Rules</Label>
               <Select value={rule} onValueChange={setRule}>
-                <SelectTrigger>
+                <SelectTrigger className="w-full">
                   <SelectValue placeholder="Select one" />
                 </SelectTrigger>
                 <SelectContent>
@@ -70,7 +70,7 @@ export function ApplyAffiliateRuleModal({
 
             <Button
               type="submit"
-              className="w-full bg-gradient-to-r from-primary to-pink-600 text-primary-foreground hover:opacity-90"
+              className="w-full bg-gradient-to-r from-[#F6339A] to-[#9810FA] text-primary-foreground hover:opacity-90"
             >
               Confirm
             </Button>
