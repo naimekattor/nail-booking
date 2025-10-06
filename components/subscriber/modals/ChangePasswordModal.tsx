@@ -8,7 +8,7 @@ interface ModalProps {
 
 const ChangePasswordModal = ({ onClose }: ModalProps) => {
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 p-4">
+    <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-4">
       <div className="bg-white rounded-lg shadow-2xl p-8 w-full max-w-md">
         <button
           onClick={onClose}

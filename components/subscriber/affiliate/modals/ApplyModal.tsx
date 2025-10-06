@@ -4,7 +4,7 @@ interface ApplyModalProps {
 
 const ApplyModal = ({ onClose }: ApplyModalProps) => {
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-50">
+    <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
       <div className="bg-white p-8 rounded-lg shadow-xl text-center">
         <h2 className="text-xl font-semibold text-gray-800 mb-6">
           Do you want to do Affiliate Marketing?

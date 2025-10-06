@@ -155,7 +155,7 @@ const InvoicesPage: NextPage = () => {
       <Head>
         <title>Electronic Invoices</title>
       </Head>
-      <div className="min-h-screen p-8 font-sans">
+      <div className="min-h-screen  font-sans">
         <header className="mb-6">
           <div className="flex shrink-0 w-fit bg-accent rounded-full p-1">
             <Link

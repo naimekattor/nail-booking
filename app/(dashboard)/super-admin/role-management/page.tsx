@@ -11,10 +11,8 @@ import {
 } from "react-icons/fi";
 import { FaBan } from "react-icons/fa";
 import { HiDotsHorizontal } from "react-icons/hi";
+import { CircleCheckBig, CircleX } from "lucide-react";
 
-//-/////////////////////////////////////////////////////////////////////////
-// TYPE DEFINITIONS
-//-/////////////////////////////////////////////////////////////////////////
 type AdminRole = "Super Admin" | "Platform Admin";
 type AdminStatus = "Active" | "Inactive";
 
@@ -34,10 +32,6 @@ interface Administrator {
   lastLogin: string;
   permissions: Record<string, boolean>;
 }
-
-//-/////////////////////////////////////////////////////////////////////////
-// MOCK DATA
-//-/////////////////////////////////////////////////////////////////////////
 
 const ALL_PERMISSIONS = {
   userManagement: [
@@ -329,7 +323,7 @@ const AdminPage: NextPage = () => {
       )}
 
       <div className=" min-h-screen">
-        <div className="p-4 sm:p-6 lg:p-8 max-w-screen-2xl mx-auto">
+        <div className="  mx-auto">
           {/* Header */}
           <div className="flex justify-between items-center mb-6">
             <h1 className="text-2xl font-bold text-gray-900">
@@ -347,7 +341,7 @@ const AdminPage: NextPage = () => {
           {/* Main Content */}
           <div className="flex flex-col lg:flex-row gap-6">
             {/* Left Column: Admin List */}
-            <div className="lg:w-2/5 bg-white p-6 rounded-lg shadow">
+            <div className=" bg-white p-4 rounded-lg shadow">
               <div className="flex flex-col sm:flex-row gap-4 mb-4">
                 <div className="relative flex-grow">
                   <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
@@ -391,7 +385,7 @@ const AdminPage: NextPage = () => {
                     </div>
                     <div className="col-span-1 md:col-span-2">
                       <span
-                        className={`px-3 py-1 text-xs font-semibold rounded-full ${
+                        className={`px-3 py-1 text-xs font-semibold rounded-full text-nowrap ${
                           admin.role === "Super Admin"
                             ? "bg-gray-900 text-white"
                             : "bg-gray-200 text-gray-700"
@@ -408,7 +402,12 @@ const AdminPage: NextPage = () => {
                             : "bg-gray-200 text-gray-700"
                         }`}
                       >
-                        <HiDotsHorizontal /> {admin.status}
+                        {admin.status === "Active" ? (
+                          <CircleCheckBig className="w-[10.5px] h-[10.5px]" />
+                        ) : (
+                          <CircleX className="w-[10.5px] h-[10.5px]" />
+                        )}
+                        {admin.status}
                       </span>
                     </div>
                     <div className="col-span-1 md:col-span-2 flex items-center justify-center gap-4">

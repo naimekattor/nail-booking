@@ -29,21 +29,23 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
     <>
       {/* Overlay for mobile view - closes the sidebar when clicked */}
       <div
-        className={`fixed inset-0 bg-black bg-opacity-50 z-30 transition-opacity lg:hidden ${
+        className={`fixed inset-0 bg-[#FAFAFA] bg-opacity-50 z-30 transition-opacity lg:hidden ${
           isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}
         onClick={onClose}
       ></div>
 
       <aside
-        className={`fixed inset-y-0 left-0 bg-gray-800 flex flex-col justify-between p-6 z-40 w-64
+        className={`fixed inset-y-0 left-0 bg-[#FAFAFA] flex flex-col justify-between p-6 z-40 w-64
                    transform transition-transform duration-300 ease-in-out lg:relative lg:translate-x-0 lg:inset-0
                    ${isOpen ? "translate-x-0" : "-translate-x-full"}`}
       >
         <div>
           <div className="flex justify-between items-center mb-10">
             <div>
-              <h1 className="text-xl font-bold">NailBooking</h1>
+              <h1 className="text-lg font-semibold">
+                NailBooking Subscriber Portal
+              </h1>
               <p className="text-sm text-gray-400">Subscriber Portal</p>
             </div>
             {/* Close button for mobile */}
@@ -64,9 +66,7 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
                   href={link.href}
                   onClick={onClose} // Close sidebar on mobile navigation
                   className={`flex items-center gap-3 px-4 py-2 rounded-lg transition-colors ${
-                    isActive
-                      ? "bg-gray-700 text-white"
-                      : "text-gray-400 hover:bg-gray-700 hover:text-white"
+                    isActive ? "bg-[#F5F5F5] text-foreground" : ""
                   }`}
                 >
                   <link.icon />
@@ -78,7 +78,7 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
         </div>
 
         <div className="space-y-4">
-          <div className="p-4 bg-gray-700 rounded-lg text-center">
+          <div className="p-4  rounded-lg text-center">
             <p className="text-xs text-yellow-400">Current Plan</p>
             <p className="font-semibold">Professional Member</p>
           </div>

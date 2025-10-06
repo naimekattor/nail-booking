@@ -6,7 +6,7 @@ interface ModalProps {
 
 const ProfileInfoModal = ({ onClose }: ModalProps) => {
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-start z-50 p-4 pt-20">
+    <div className="fixed inset-0 bg-black/50 flex justify-center items-start z-50 p-4 pt-20">
       <div className="bg-white rounded-lg shadow-2xl p-6 w-full max-w-lg">
         <h3 className="font-bold text-lg text-gray-800">
           Basic profile information's

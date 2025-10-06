@@ -5,6 +5,7 @@ import WithdrawalModal from "@/components/subscriber/affiliate/modals/Withdrawal
 import OverviewTab from "@/components/subscriber/affiliate/OverviewTab";
 import PayoutsTab from "@/components/subscriber/affiliate/PayoutsTab";
 import ReferralsTab from "@/components/subscriber/affiliate/ReferralsTab";
+import StatCard from "@/components/subscriber/affiliate/StatCard";
 import { useState } from "react";
 
 type AffiliateTab = "overview" | "referrals" | "payouts";
@@ -33,7 +34,32 @@ export default function AffiliatePage() {
   };
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8 bg-gray-50 min-h-full">
+    <div className=" min-h-full">
+      {/* Stats Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-4">
+        <StatCard
+          title="Total Clicks"
+          value="2,847"
+          detail="10% click-to-signup rate"
+        />
+        <StatCard
+          title="Total Conversions rate"
+          value="1.5%"
+          detail="+12 this month"
+          trend="up"
+        />
+        <StatCard
+          title="Total Referrals"
+          value="284"
+          detail="50% paid conversion rate"
+        />
+        <StatCard
+          title="Total Earnings"
+          value="TWD 89,470"
+          detail="+TWD 12,638 this month"
+          trend="up"
+        />
+      </div>
       <nav className="flex items-center space-x-2 bg-white p-1 rounded-lg shadow-sm max-w-max mb-6">
         {(["overview", "referrals", "payouts"] as AffiliateTab[]).map((tab) => (
           <button

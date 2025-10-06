@@ -68,7 +68,7 @@ const WithdrawalModal = ({ onClose }: WithdrawalModalProps) => {
   );
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-50 p-4">
+    <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-4">
       <div className="bg-white p-6 rounded-lg shadow-xl w-full max-w-lg">
         <h2 className="text-xl font-bold text-gray-800">Withdrawal request</h2>
         <p className="text-sm text-gray-500 mt-1 mb-6">

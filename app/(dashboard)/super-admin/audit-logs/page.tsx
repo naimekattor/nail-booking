@@ -132,7 +132,7 @@ export default function AuditLogs() {
   };
 
   return (
-    <div className="min-h-screen bg-background p-4 md:p-6 lg:p-8">
+    <div className="min-h-screen ">
       <div className="mx-auto max-w-[1600px] space-y-6">
         {/* Header */}
         <div className="flex items-center gap-2 text-sm text-muted-foreground">

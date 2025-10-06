@@ -151,7 +151,7 @@ const CreationLogsPage: NextPage = () => {
       <Head>
         <title>Creation Logs</title>
       </Head>
-      <div className=" min-h-screen p-8 font-sans">
+      <div className=" min-h-screen font-sans">
         <header className="mb-6">
           <div className="flex bg-accent shrink-0 w-fit rounded-full p-1">
             <Link

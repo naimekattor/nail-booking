@@ -302,10 +302,10 @@ export default function PackageManagement() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen ">
       {/* Header */}
       <div className=" bg-card">
-        <div className="mx-auto max-w-[1600px] px-4 py-4 md:px-6 lg:px-8">
+        <div className="mx-auto max-w-[1600px] px-6">
           <div className="flex items-center justify-end gap-2">
             <Button variant="outline" size="sm" onClick={resetChanges}>
               <svg
@@ -347,7 +347,7 @@ export default function PackageManagement() {
         </div>
       </div>
 
-      <div className="mx-auto max-w-[1600px] px-4 py-8 md:px-6 lg:px-8">
+      <div className="mx-auto  py-8 ">
         {/* Plans Header */}
         <div className="mb-8 grid gap-6 md:grid-cols-2">
           {plans.map((plan) => (

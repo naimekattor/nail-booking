@@ -186,8 +186,8 @@ export default function WithdrawalsDashboard() {
     filteredWithdrawals.length > 0;
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 sm:p-6 lg:p-8">
-      <div className="mx-auto max-w-7xl">
+    <div className="min-h-screen ">
+      <div className="mx-auto ">
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <StatCard
             icon={DollarSign}

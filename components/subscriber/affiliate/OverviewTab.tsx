@@ -29,32 +29,6 @@ const OverviewTab = ({ onApply, onWithdraw }: OverviewTabProps) => {
         </button>
       </div>
 
-      {/* Stats Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <StatCard
-          title="Total Clicks"
-          value="2,847"
-          detail="10% click-to-signup rate"
-        />
-        <StatCard
-          title="Total Conversions rate"
-          value="1.5%"
-          detail="+12 this month"
-          trend="up"
-        />
-        <StatCard
-          title="Total Referrals"
-          value="284"
-          detail="50% paid conversion rate"
-        />
-        <StatCard
-          title="Total Earnings"
-          value="TWD 89,470"
-          detail="+TWD 12,638 this month"
-          trend="up"
-        />
-      </div>
-
       {/* Commission Structure */}
       <div className="bg-white p-6 rounded-lg shadow-sm">
         <h2 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">

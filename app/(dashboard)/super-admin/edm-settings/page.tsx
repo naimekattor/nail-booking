@@ -86,7 +86,7 @@ export default function EmailAutomation() {
   };
 
   return (
-    <div className="min-h-screen bg-background p-4 md:p-6 lg:p-8">
+    <div className="min-h-screen ">
       <div className="mx-auto max-w-[1600px] space-y-6">
         {/* Top Section - Settings and Template Info */}
         <div className="grid gap-6 lg:grid-cols-2">

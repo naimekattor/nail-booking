@@ -35,10 +35,10 @@ export default function DashboardPage() {
 
   return (
     <div className="p-8">
-      <div className="mt-8">
+      {/* <div className="mt-8">
         <h2 className="text-2xl font-bold text-gray-800">My Plan</h2>
         <p className="text-gray-500">Professional Member ⭐</p>
-      </div>
+      </div> */}
 
       <div className="mt-6 border-b border-gray-200">
         <nav className="flex space-x-6">
