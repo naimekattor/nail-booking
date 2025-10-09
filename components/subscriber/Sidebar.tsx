@@ -14,6 +14,7 @@ interface SidebarProps {
 
 const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
   const [isLogoutModalOpen, setLogoutModalOpen] = useState(false);
+
   const pathname = usePathname();
 
   const navLinks = [
@@ -29,14 +30,14 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
     <>
       {/* Overlay for mobile view - closes the sidebar when clicked */}
       <div
-        className={`fixed inset-0 bg-[#FAFAFA] bg-opacity-50 z-30 transition-opacity lg:hidden ${
+        className={`fixed inset-0 bg-[#FAFAFA]  bg-opacity-50 z-30 transition-opacity lg:hidden ${
           isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}
         onClick={onClose}
       ></div>
 
       <aside
-        className={`fixed inset-y-0 left-0 bg-[#FAFAFA] flex flex-col justify-between p-6 z-40 w-64
+        className={`fixed inset-y-0 left-0 bg-[#FAFAFA] shadow-lg  flex flex-col justify-between p-6 z-40 w-64
                    transform transition-transform duration-300 ease-in-out lg:relative lg:translate-x-0 lg:inset-0
                    ${isOpen ? "translate-x-0" : "-translate-x-full"}`}
       >
@@ -66,7 +67,7 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
                   href={link.href}
                   onClick={onClose} // Close sidebar on mobile navigation
                   className={`flex items-center gap-3 px-4 py-2 rounded-lg transition-colors ${
-                    isActive ? "bg-[#F5F5F5] text-foreground" : ""
+                    isActive ? "bg-[#C06EF3] text-background" : ""
                   }`}
                 >
                   <link.icon />
@@ -79,12 +80,13 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
 
         <div className="space-y-4">
           <div className="p-4  rounded-lg text-center">
-            <p className="text-xs text-yellow-400">Current Plan</p>
+            <p className="text-xs ">Current Plan</p>
             <p className="font-semibold">Professional Member</p>
+            <p className=" text-[#717182] text-sm">User Id : 12345678</p>
           </div>
           <button
             onClick={() => setLogoutModalOpen(true)}
-            className="w-full flex items-center justify-center gap-3 px-4 py-2 text-gray-400 hover:bg-gray-700 rounded-lg"
+            className="w-full flex items-center justify-center gap-3 px-4 py-2 text-[#E7000B]  cursor-pointer rounded-lg"
           >
             <FiLogOut />
             <span>Sign Out</span>

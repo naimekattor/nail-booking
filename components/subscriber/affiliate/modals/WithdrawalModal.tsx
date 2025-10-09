@@ -110,7 +110,7 @@ const WithdrawalModal = ({ onClose }: WithdrawalModalProps) => {
           >
             Cancel
           </button>
-          <button className="px-6 py-2 bg-gray-800 text-white rounded-md hover:bg-gray-700 font-semibold">
+          <button className="px-6 py-2 bg-secondary text-white rounded-md hover:bg-[var(--secondaryHover)] font-semibold">
             Submit
           </button>
         </div>

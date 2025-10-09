@@ -41,10 +41,10 @@ const SubscriptionTab = () => {
           </span>
         </div>
         <div className="flex gap-2">
-          <button className="px-4 py-2 border-gray-300 border-1 text-gray-800 font-semibold rounded-md hover:bg-gray-300">
+          <button className="px-4 py-2 border-gray-300 border-1 text-gray-800 font-semibold rounded-md hover:bg-[#C06EF3] hover:text-white">
             Free
           </button>
-          <button className="px-4 py-2 border-gray-300 border-1 text-gray-800 font-semibold rounded-md hover:bg-gray-300">
+          <button className="px-4 py-2 border-gray-300 border-1 text-gray-800 font-semibold rounded-md hover:bg-[#C06EF3] hover:text-white">
             Upgrade
           </button>
           <button className="px-4 py-2 border border-red-500 text-red-500 font-semibold rounded-md hover:bg-red-50">

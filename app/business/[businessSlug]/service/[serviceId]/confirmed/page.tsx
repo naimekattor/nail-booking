@@ -145,7 +145,7 @@ export default function ConfirmationPage({
       </div>
 
       <Link
-        href={`/${params.businessSlug}`}
+        href={`/business/${params.businessSlug}/profile`}
         className="block w-full text-center mt-8 bg-gray-800 text-white font-semibold py-3 rounded-lg hover:bg-gray-700"
       >
         Back to Home

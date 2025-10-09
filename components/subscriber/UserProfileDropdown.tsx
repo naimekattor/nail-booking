@@ -1,5 +1,6 @@
 "use client";
 
+import { useClerk, useUser } from "@clerk/nextjs";
 import { LogOut } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
@@ -13,6 +14,13 @@ interface UserProfileDropdownProps {
 
 const UserProfileDropdown = ({ onOpenModal }: UserProfileDropdownProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  const { isSignedIn, user } = useUser();
+  console.log(user);
+  if (!isSignedIn) return null;
+  const imageUrl = user?.imageUrl;
+  const name =
+    user?.fullName || `${user?.firstName ?? ""} ${user?.lastName ?? ""}`;
+  const email = user?.primaryEmailAddress?.emailAddress;
 
   const handleSelect = (modal: ModalType) => {
     onOpenModal(modal);
@@ -26,11 +34,11 @@ const UserProfileDropdown = ({ onOpenModal }: UserProfileDropdownProps) => {
         className="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-100"
       >
         <div className="text-right">
-          <p className="font-semibold">Sajib ahmed</p>
-          <p className="text-xs text-gray-500">sajib@gmail.com</p>
+          <p className="font-semibold">{name}</p>
+          <p className="text-xs text-gray-500">{email}</p>
         </div>
         <Image
-          src={"/images/team_img2.jpg"}
+          src={imageUrl}
           alt="sajib"
           width={370}
           height={353}
@@ -81,6 +89,8 @@ const UserProfileDropdown = ({ onOpenModal }: UserProfileDropdownProps) => {
           </ul>
         </div>
       )}
+
+      {}
     </div>
   );
 };

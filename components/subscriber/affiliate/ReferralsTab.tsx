@@ -1,4 +1,6 @@
 import StatusPill from "@/components/ui/StatusPill";
+import debounce from "lodash.debounce";
+import { useEffect, useMemo, useState } from "react";
 import { FiSearch } from "react-icons/fi";
 
 const mockReferrals = [
@@ -45,6 +47,29 @@ const mockReferrals = [
 ];
 
 const ReferralsTab = () => {
+  const [filteredData, setFilteredData] = useState(mockReferrals);
+  const debouncedFilter = useMemo(
+    () =>
+      debounce((value: string) => {
+        const filterted = mockReferrals.filter((invoice) =>
+          invoice.user.toLowerCase().includes(value.toLowerCase())
+        );
+        setFilteredData(filterted);
+      }, 1000),
+    []
+  );
+
+  useEffect(() => {
+    return () => {
+      debouncedFilter.cancel();
+    };
+  }, [debouncedFilter]);
+
+  //console.log(e.target.value);
+  const handleFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    debouncedFilter(value);
+  };
   return (
     <div className="bg-white p-6 rounded-lg shadow-sm">
       <div className="flex justify-between items-center mb-4">
@@ -56,6 +81,7 @@ const ReferralsTab = () => {
           <input
             type="text"
             placeholder="Search by email or number"
+            onChange={handleFilter}
             className="w-full pl-10 pr-4 py-2 bg-gray-100 border-transparent rounded-lg focus:ring-2 focus:ring-indigo-500"
           />
         </div>
@@ -73,7 +99,7 @@ const ReferralsTab = () => {
             </tr>
           </thead>
           <tbody>
-            {mockReferrals.map((ref, i) => (
+            {filteredData.map((ref, i) => (
               <tr key={i} className="border-b hover:bg-gray-50">
                 <td className="p-3 font-medium text-gray-800">{ref.user}</td>
                 <td className="p-3">{ref.signupDate}</td>

@@ -67,7 +67,7 @@ export default function AffiliatePage() {
             onClick={() => setActiveTab(tab)}
             className={`capitalize px-4 py-2 text-sm font-semibold rounded-md transition-colors ${
               activeTab === tab
-                ? "bg-gray-800 text-white shadow"
+                ? "bg-[#F2319F] text-white shadow"
                 : "text-gray-600 hover:bg-gray-100"
             }`}
           >

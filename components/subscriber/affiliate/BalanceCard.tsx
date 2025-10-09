@@ -42,7 +42,7 @@ const BalanceCard = ({
       {actionText && onAction && (
         <button
           onClick={onAction}
-          className="w-full mt-4 bg-gray-800 text-white font-semibold py-2 rounded-lg hover:bg-gray-700"
+          className="w-full mt-4 bg-secondary text-white font-semibold py-2 rounded-lg hover:bg-[var(--secondaryHover)]"
         >
           {actionText}
         </button>

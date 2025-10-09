@@ -2,12 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import UserProfileDropdown from "./UserProfileDropdown";
-import { FiMenu } from "react-icons/fi"; // Import menu icon
-import { useState } from "react";
-import ProfileInfoModal from "./modals/ProfileInfoModal";
-import ChangePasswordModal from "./modals/ChangePasswordModal";
-import ChangeEmailModal from "./modals/ChangeEmailModal";
-import LogoutModal from "./modals/LogoutModal";
+import { FiMenu } from "react-icons/fi";
 
 const titleMap: { [key: string]: string } = {
   "/dashboard": "My Plan",
@@ -25,9 +20,6 @@ const DashboardHeader = ({
 }: DashboardHeaderProps) => {
   const pathname = usePathname();
   const title = titleMap[pathname] || "Dashboard";
-
-  // In a real-world app with complex modal interactions, you'd use a state manager
-  // (like Zustand or React Context) instead of passing this function down.
 
   return (
     <header className="bg-white/80 backdrop-blur-lg sticky top-0 z-20 p-4 sm:p-6 lg:p-8 border-b border-gray-200">

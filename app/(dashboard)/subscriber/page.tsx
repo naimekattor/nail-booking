@@ -34,7 +34,7 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="p-8">
+    <div className="">
       {/* <div className="mt-8">
         <h2 className="text-2xl font-bold text-gray-800">My Plan</h2>
         <p className="text-gray-500">Professional Member ⭐</p>

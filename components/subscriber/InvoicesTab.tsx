@@ -1,5 +1,7 @@
 import { FiInfo, FiSearch } from "react-icons/fi";
 import StatusBadge from "../ui/StatusBadge";
+import React, { useEffect, useMemo, useState } from "react";
+import debounce from "lodash.debounce";
 
 const mockInvoices = [
   {
@@ -29,6 +31,30 @@ const mockInvoices = [
 ];
 
 const InvoicesTab = () => {
+  const [filteredData, setFilteredData] = useState(mockInvoices);
+  const debouncedFilter = useMemo(
+    () =>
+      debounce((value: string) => {
+        const filterted = mockInvoices.filter((invoice) =>
+          invoice.id.toLowerCase().includes(value.toLowerCase())
+        );
+        setFilteredData(filterted);
+      }, 1000),
+    []
+  );
+
+  useEffect(() => {
+    return () => {
+      debouncedFilter.cancel();
+    };
+  }, [debouncedFilter]);
+
+  //console.log(e.target.value);
+  const handleFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    debouncedFilter(value);
+  };
+
   return (
     <div>
       <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg flex items-start gap-3 mb-6">
@@ -47,6 +73,7 @@ const InvoicesTab = () => {
           <input
             type="text"
             placeholder="Search by invoice number"
+            onChange={handleFilter}
             className="pl-10 pr-4 py-2 border rounded-lg focus:ring-purple-500 focus:border-purple-500"
           />
         </div>
@@ -65,7 +92,7 @@ const InvoicesTab = () => {
             </tr>
           </thead>
           <tbody>
-            {mockInvoices.map((invoice) => (
+            {filteredData.map((invoice) => (
               <tr
                 key={invoice.id}
                 className="bg-white border-b hover:bg-gray-50"
