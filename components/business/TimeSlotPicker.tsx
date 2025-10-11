@@ -29,7 +29,7 @@ const TimeSlotPicker = ({
           onClick={() => onTimeSelect(time)}
           className={`w-full p-3 border rounded-lg text-center font-semibold transition-colors ${
             selectedTime === time
-              ? "bg-gray-800 text-white border-gray-800"
+              ? "bg-[#F2319F] text-white border-[#F2319F]"
               : "bg-white border-gray-300 hover:border-gray-500"
           }`}
         >

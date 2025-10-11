@@ -20,13 +20,14 @@ const formatDate = (dateString: string) => {
   });
 };
 
-export default function ConfirmationPage({
+export default async function ConfirmationPage({
   params,
   searchParams,
 }: {
-  params: { businessSlug: string };
+  params: Promise<{ businessSlug: string }>;
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
+  const { businessSlug } = await params;
   // Extract all data from the URL
   const serviceName = searchParams.serviceName || "N/A";
   const date = searchParams.date
@@ -145,8 +146,8 @@ export default function ConfirmationPage({
       </div>
 
       <Link
-        href={`/business/${params.businessSlug}/profile`}
-        className="block w-full text-center mt-8 bg-gray-800 text-white font-semibold py-3 rounded-lg hover:bg-gray-700"
+        href={`/business/${businessSlug}/profile`}
+        className="block w-full text-center mt-8 bg-gradient-to-r from-[#F6339A] to-[#9810FA] text-white font-semibold py-3 rounded-lg hover:bg-gray-700"
       >
         Back to Home
       </Link>

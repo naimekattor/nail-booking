@@ -54,7 +54,7 @@ const ProfileSidebar = () => {
           const isActive =
             item.href === `/${businessSlug}`
               ? pathname === item.href
-              : pathname.startsWith(item.href);
+              : pathname === item.href;
 
           return (
             <Link

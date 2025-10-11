@@ -40,7 +40,7 @@ export default function BookingPage() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-md border">
+    <div className="max-w-2xl mx-auto  p-8 rounded-lg ">
       <Link
         href={pathname.replace("/book", "")}
         className="flex items-center gap-2 text-sm font-semibold text-gray-600 hover:text-gray-900 mb-6"
@@ -80,7 +80,7 @@ export default function BookingPage() {
       <div className="mt-8 border-t pt-6">
         <button
           onClick={handleConfirmTime}
-          className="w-full bg-gray-800 text-white font-semibold py-3 rounded-lg hover:bg-gray-700 transition-colors disabled:bg-gray-400"
+          className="w-full bg-gradient-to-r from-[#F6339A] to-[#9810FA] text-white font-semibold py-3 rounded-lg hover:bg-gray-700 transition-colors disabled:bg-gray-400"
           disabled={!selectedDate || !selectedTime}
         >
           Confirm Time

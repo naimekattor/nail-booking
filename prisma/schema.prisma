@@ -1,0 +1,7 @@
+model Customer {
+  id            String   @id @default(cuid())
+  lineId        String?  @unique
+  phoneNumber   String?  @unique
+  name          String?
+  createdAt     DateTime @default(now())
+}
