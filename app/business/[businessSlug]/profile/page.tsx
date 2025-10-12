@@ -4,6 +4,7 @@ import BalanceSection from "@/components/business/profile/BalanceSection";
 import BookingsSection from "@/components/business/profile/BookingsSection";
 import EditProfileModal from "@/components/business/profile/EditProfileModal";
 import UserInfoCard from "@/components/business/profile/UserInfoCard";
+import { useSession } from "next-auth/react";
 import { useState } from "react";
 
 import { FiCalendar, FiDollarSign } from "react-icons/fi";
@@ -21,6 +22,9 @@ const mockUser = {
 };
 
 export default function ProfilePage() {
+  const { data: session } = useSession();
+  console.log(session?.user?.name);
+
   const [activeTab, setActiveTab] = useState<"bookings" | "balance">(
     "bookings"
   );
@@ -28,7 +32,7 @@ export default function ProfilePage() {
 
   return (
     <div className="space-y-8">
-      <UserInfoCard user={mockUser} onEdit={() => setEditModalOpen(true)} />
+      <UserInfoCard user={session} onEdit={() => setEditModalOpen(true)} />
 
       {/* Main Tab Controls */}
       <div className="flex items-center p-1 bg-gray-100 rounded-lg max-w-max mx-auto sm:mx-0">

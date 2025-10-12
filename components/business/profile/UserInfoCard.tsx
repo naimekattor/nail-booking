@@ -44,22 +44,29 @@ const InfoItem = ({
 );
 
 const UserInfoCard = ({ user, onEdit }: UserInfoCardProps) => {
+  console.log(user?.user?.name);
+  // console.log(user.user);
+
   return (
     <div className="relative bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 p-6 sm:p-8 rounded-2xl shadow-sm border">
       <div className="flex flex-col sm:flex-row items-center gap-6">
         <Image
-          src={user.avatarUrl}
-          alt={user.name}
+          src={user?.user?.image}
+          alt={user?.user?.name}
           width={80}
           height={80}
           className="rounded-full border-4 border-white shadow-md"
         />
         <div className="text-center sm:text-left">
-          <h1 className="text-2xl font-bold text-gray-900">{user.name}</h1>
-          <p className="text-sm text-gray-500 font-medium">ID: {user.id}</p>
+          <h1 className="text-2xl font-bold text-gray-900">
+            {user?.user?.name}
+          </h1>
+          <p className="text-sm text-gray-500 font-medium">
+            ID: {user?.user?.id}
+          </p>
         </div>
       </div>
-      <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-6">
+      {/* <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-6">
         <InfoItem icon={FiPhone} label="Phone" value={user.phone} />
         <InfoItem icon={FiGift} label="Birthday" value={user.birthday} />
         <InfoItem icon={FiMail} label="Email" value={user.email} />
@@ -69,7 +76,7 @@ const UserInfoCard = ({ user, onEdit }: UserInfoCardProps) => {
           label="Member Since"
           value={user.memberSince}
         />
-      </div>
+      </div> */}
       <button
         onClick={onEdit}
         className="absolute top-4 right-4 flex items-center gap-2 text-sm font-semibold text-gray-600 hover:text-gray-900 bg-white px-3 py-1.5 rounded-lg border shadow-sm"

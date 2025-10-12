@@ -82,14 +82,14 @@ export default function ServiceDetailClient({
     [chosenAddOns]
   );
   const totalPrice = useMemo(
-    () => (service.basePrice || 0) + totalAddOnPrice,
-    [service.basePrice, totalAddOnPrice]
+    () => (service.price || 0) + totalAddOnPrice,
+    [service.price, totalAddOnPrice]
   );
   const totalAddOnDuration = useMemo(
     () => chosenAddOns.reduce((sum, a) => sum + (a.duration || 0), 0),
     [chosenAddOns]
   );
-  const totalDuration = (service.baseDuration || 0) + totalAddOnDuration;
+  const totalDuration = (service.duration || 0) + totalAddOnDuration;
 
   const images: string[] = service.images?.length
     ? service.images
@@ -145,14 +145,14 @@ export default function ServiceDetailClient({
                 <div>
                   <p className="text-xs text-gray-500">Base Duration:</p>
                   <p className="text-sm font-semibold text-gray-900">
-                    {service.baseDuration || 85} minutes
+                    {service.duration || 85} minutes
                   </p>
                 </div>
                 <div className="h-8 w-px bg-gray-200"></div>
                 <div>
                   <p className="text-xs text-gray-500">Base Price:</p>
                   <p className="text-sm font-semibold text-gray-900">
-                    ${service.basePrice || 42}
+                    ${service.price || 42}
                   </p>
                 </div>
               </div>

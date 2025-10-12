@@ -24,20 +24,20 @@ export default async function ConfirmationPage({
   params,
   searchParams,
 }: {
-  params: Promise<{ businessSlug: string }>;
-  searchParams: { [key: string]: string | string[] | undefined };
+  params: { businessSlug: string };
+  searchParams: Record<string, string>;
 }) {
-  const { businessSlug } = await params;
-  // Extract all data from the URL
-  const serviceName = searchParams.serviceName || "N/A";
-  const date = searchParams.date
-    ? formatDate(searchParams.date as string)
-    : "N/A";
-  const time = searchParams.time || "N/A";
-  const duration = searchParams.duration || "N/A";
-  const price = searchParams.price || "N/A";
+  const { businessSlug } = params;
+  const dataParam = searchParams.data;
+  const dateParam = searchParams.date;
+  const timeParam = searchParams.time;
+  const booking = dataParam ? JSON.parse(decodeURIComponent(dataParam)) : null;
 
-  // Mocked preferences for display. In a real app, these would also come from searchParams.
+  const serviceName = booking?.serviceName || "N/A";
+  const price = booking?.price || "N/A";
+  const duration = booking?.duration || "N/A";
+  const date = dateParam ? new Date(dateParam).toLocaleDateString() : "N/A";
+  const time = timeParam || "N/A";
   const preferences = [
     "Hands frequently exposed to water",
     "Frequently uses fingertips for work/activities",

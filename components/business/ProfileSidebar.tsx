@@ -4,9 +4,12 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { FiHome, FiUser, FiLogOut } from "react-icons/fi";
 import { useMemo } from "react";
+import { signOut, useSession } from "next-auth/react";
+import { LogIn } from "lucide-react";
 
 const ProfileSidebar = () => {
   const pathname = usePathname();
+  const { data: session } = useSession();
 
   // ✅ Extract the business slug dynamically
   const businessSlug = useMemo(() => pathname.split("/")[1] || "", [pathname]);
@@ -22,8 +25,7 @@ const ProfileSidebar = () => {
   ];
 
   const handleLogout = () => {
-    console.log("Logging out...");
-    // router.push('/login')
+    signOut({ callbackUrl: "/business/business" });
   };
 
   return (
@@ -98,14 +100,16 @@ const ProfileSidebar = () => {
         className={`
           md:flex flex-col items-center gap-1 transition-colors
           text-gray-500 hover:text-pink-500
-          sm:mt-auto hidden
+          sm:mt-auto hidden cursor-pointer
         `}
         aria-label="Logout"
       >
-        <div className="p-3 rounded-full">
-          <FiLogOut size={18} />
+        <div className=" rounded-full">
+          {session?.user ? <FiLogOut size={16} /> : ""}
         </div>
-        <span className="text-xs font-semibold">Logout</span>
+        <span className="text-xs font-semibold">
+          {session?.user ? "Logout" : ""}
+        </span>
       </button>
     </aside>
   );

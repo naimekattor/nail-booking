@@ -23,8 +23,12 @@ export default function CreateAccountPage() {
       <div className="flex w-full flex-col gap-3">
         {/* CORRECTED PATTERN: Button wraps Link */}
         <Button
-          onClick={() => signIn("line")}
-          className="flex h-12 w-full items-center justify-center gap-3 rounded-lg bg-gradient-to-r from-pink-500 to-purple-600 text-base font-semibold text-white transition-transform hover:scale-105"
+          onClick={() =>
+            signIn("line", {
+              callbackUrl: `${window.location.origin}/business/business/profile`,
+            })
+          }
+          className="flex h-12 w-full items-center justify-center gap-3 rounded-lg bg-gradient-to-r from-pink-500 to-purple-600 text-base font-semibold text-white transition-transform hover:scale-105 cursor-pointer"
         >
           <span className="p-1 bg-green-600 rounded-full">
             <BsLine className="text-white" />
@@ -36,7 +40,7 @@ export default function CreateAccountPage() {
         <Button
           asChild
           variant="outline"
-          className="flex h-12 w-full items-center justify-center gap-3 rounded-lg border-2 border-pink-400 bg-white text-base font-semibold text-pink-500 transition-transform hover:scale-105 hover:bg-pink-50 hover:text-pink-600"
+          className="flex h-12 w-full items-center justify-center gap-3 rounded-lg border-2 border-pink-400 bg-white text-base font-semibold text-pink-500 transition-transform hover:scale-105 hover:bg-pink-50 hover:text-pink-600 cursor-pointer"
         >
           <Link href="/account-info">
             <span className="p-1 bg-green-600 rounded-full">
@@ -56,6 +60,15 @@ export default function CreateAccountPage() {
           SignUp
         </Link>
       </p>
+      {/* <div className="mt-4 text-sm text-gray-700">
+        By continuing with LINE, you agree to let us collect your email address
+        to create or log in to your customer account. We use your email to:
+        <ul className="list-disc ml-5 mt-1">
+          <li>Identify your account securely</li>
+          <li>Send booking confirmations and updates</li>
+          <li>Provide customer support</li>
+        </ul>
+      </div> */}
     </div>
   );
 }

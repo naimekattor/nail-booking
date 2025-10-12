@@ -13,9 +13,14 @@ export default function BookingPage() {
   const pathname = usePathname();
 
   // Read service details from the URL. Fallback values are for safety.
-  const serviceName = searchParams.get("serviceName") || "Service";
-  const duration = searchParams.get("duration") || "N/A";
-  const price = searchParams.get("price") || "N/A";
+  // const serviceName = searchParams.get("serviceName") || "Service";
+  // const duration = searchParams.get("duration") || "N/A";
+  // const price = searchParams.get("price") || "N/A";
+  // console.log(serviceName, duration, price);
+  const dataParam = searchParams.get("data");
+  const booking = dataParam ? JSON.parse(decodeURIComponent(dataParam)) : null;
+
+  console.log(booking.serviceName, booking.price, booking.duration);
 
   // State for user selections on this page
   const [selectedDate, setSelectedDate] = useState<Date | null>(
@@ -51,11 +56,13 @@ export default function BookingPage() {
 
       {/* Service Details Summary */}
       <div className="bg-gray-50 p-4 rounded-lg mb-8 border">
-        <h1 className="text-xl font-bold text-gray-800">{serviceName}</h1>
+        <h1 className="text-xl font-bold text-gray-800">
+          {booking?.serviceName}
+        </h1>
         <div className="text-sm text-gray-500 mt-1">
-          <span>Duration: {duration} minutes</span>
+          <span>Duration: {booking?.duration} minutes</span>
           <span className="mx-2">|</span>
-          <span>Price: ${price}</span>
+          <span>Price: ${booking?.price}</span>
         </div>
       </div>
 
@@ -80,13 +87,13 @@ export default function BookingPage() {
       <div className="mt-8 border-t pt-6">
         <button
           onClick={handleConfirmTime}
-          className="w-full bg-gradient-to-r from-[#F6339A] to-[#9810FA] text-white font-semibold py-3 rounded-lg hover:bg-gray-700 transition-colors disabled:bg-gray-400"
+          className="w-full bg-gradient-to-r from-[#F6339A] to-[#9810FA] text-white font-semibold py-3 rounded-lg hover:bg-gray-700 transition-colors disabled:bg-gray-400 cursor-pointer"
           disabled={!selectedDate || !selectedTime}
         >
           Confirm Time
         </button>
         <p className="text-center text-xs text-gray-400 mt-4">
-          *Times shown fit your service duration ({duration} mins)
+          *Times shown fit your service duration ({booking?.duration} mins)
         </p>
       </div>
     </div>

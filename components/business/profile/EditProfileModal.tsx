@@ -2,7 +2,7 @@ import { FiX } from "react-icons/fi";
 
 const EditProfileModal = ({ onClose }: { onClose: () => void }) => {
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-50 p-4">
+    <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-4">
       <div className="bg-white rounded-lg shadow-xl w-full max-w-md">
         <div className="flex justify-between items-center p-4 border-b">
           <h2 className="text-lg font-semibold">Personal Details</h2>
@@ -64,7 +64,7 @@ const EditProfileModal = ({ onClose }: { onClose: () => void }) => {
             </button>
             <button
               type="submit"
-              className="px-6 py-2 bg-gray-800 text-white rounded-md hover:bg-gray-700 font-semibold"
+              className="px-6 py-2 bg-gradient-to-r from-[#F6339A] to-[#9810FA] text-white rounded-md hover:bg-gray-700 font-semibold"
             >
               Grant Access
             </button>

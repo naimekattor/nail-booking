@@ -1,5 +1,6 @@
 import ProfileHeader from "@/components/business/ProfileHeader";
 import ProfileSidebar from "@/components/business/ProfileSidebar";
+import BusinessProfileContent from "@/components/BusinessProfileContent";
 import { ReactNode } from "react";
 
 interface BusinessProfileLayoutProps {
@@ -25,36 +26,38 @@ export default async function BusinessProfileLayout({
   const business = await getBusinessData(businessSlug);
 
   return (
-    <div className="h-screen flex flex-col  font-sans">
-      {/* Sticky Header */}
-      <header
-        className="sticky top-0 z-20 bg-white shadow-sm"
-        role="banner"
-        aria-label="Business Profile Header"
-      >
-        <ProfileHeader businessName={business.name} />
-      </header>
+    <BusinessProfileContent>
+      <div className="h-screen flex flex-col  font-sans">
+        {/* Sticky Header */}
+        <header
+          className="sticky top-0 z-20 bg-white shadow-sm"
+          role="banner"
+          aria-label="Business Profile Header"
+        >
+          <ProfileHeader businessName={business.name} />
+        </header>
 
-      <div className="flex   font-sans overflow-hidden">
-        <aside className="">
-          <ProfileSidebar />
-        </aside>
+        <div className="flex   font-sans overflow-hidden">
+          <aside className="">
+            <ProfileSidebar />
+          </aside>
 
-        {/* Main Content */}
-        <main
-          className={`
+          {/* Main Content */}
+          <main
+            className={`
             flex-1 overflow-y-auto
             p-4 sm:p-6
             mb-16 lg:mb-0
             
             transition-all duration-300 h-full
           `}
-          role="main"
-          aria-label="Business Profile Content"
-        >
-          {children}
-        </main>
+            role="main"
+            aria-label="Business Profile Content"
+          >
+            {children}
+          </main>
+        </div>
       </div>
-    </div>
+    </BusinessProfileContent>
   );
 }
