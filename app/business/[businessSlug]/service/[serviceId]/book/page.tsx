@@ -45,7 +45,7 @@ export default function BookingPage() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto  p-8 rounded-lg ">
+    <div className="max-w-2xl mx-auto rounded-lg ">
       <Link
         href={pathname.replace("/book", "")}
         className="flex items-center gap-2 text-sm font-semibold text-gray-600 hover:text-gray-900 mb-6"

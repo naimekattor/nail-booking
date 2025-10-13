@@ -1,55 +1,102 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BookingCard from "./BookingCard";
+const ITEMS_PER_PAGE = 3;
 
-// MOCK BOOKINGS DATA
-const mockBookings = [
-  {
-    id: 1,
-    service: "Classic French Manicure",
-    date: "Dec 28, 2024 at 2:00 PM",
-    technician: "Sarah Chen",
-    duration: 75,
-    notes: "Please use gentle products as I have sensitive skin.",
-    addOns: ["Gel Removal (in-house)"],
-    requirements: ["Heat Sensitive", "Quiet Service"],
-    price: 35,
-    status: "Not arrived",
-  },
-  {
-    id: 2,
-    service: "Red Gel Polish",
-    date: "Dec 15, 2024 at 11:00 AM",
-    technician: "Emily Wong",
-    duration: 45,
-    notes: null,
-    addOns: [],
-    requirements: ["Heat Sensitive"],
-    price: 35,
-    status: "Completed",
-  },
-  {
-    id: 3,
-    service: "Floral Nail Art",
-    date: "Nov 22, 2024 at 4:30 PM",
-    technician: "Maria Rodriguez",
-    duration: 105,
-    notes: "Please use gentle products as I have sensitive skin.",
-    addOns: ["Gel Removal (Other salon)", "Extension (2 fingers)"],
-    requirements: ["Heat Sensitive", "Quiet Service", "Avoid 3D Designs"],
-    price: 80,
-    status: "Completed",
-  },
-];
+interface Booking {
+  id: string;
+  service: string;
+  date: string | null;
+  technician: string;
+  duration: number;
+  notes: string | null;
+  addOns: string[];
+  requirements: string[];
+  price: number;
+  status: string;
+}
+
+const parseBookingDate = (dateString: any) => {
+  if (typeof dateString !== "string") {
+    console.warn("⚠️ Invalid date value:", dateString);
+    return null;
+  }
+
+  const cleanString = dateString.replace(" at ", " ");
+  const parsed = new Date(cleanString);
+
+  if (isNaN(parsed.getTime())) {
+    console.warn("⚠️ Could not parse date:", cleanString);
+    return null;
+  }
+
+  return parsed;
+};
 
 const BookingsSection = () => {
   const [activeSubTab, setActiveSubTab] = useState<"current" | "previous">(
     "current"
   );
+  const [bookings, setBookings] = useState<Booking[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchBookings = async () => {
+      try {
+        setLoading(true);
+        const res = await fetch(
+          "https://68e76da910e3f82fbf3f179a.mockapi.io/allbookings"
+        );
+        if (!res.ok) throw new Error("Failed to fetch bookings");
+        const data: Booking[] = await res.json();
+
+        // sort safely
+        const sorted = data
+          .map((b) => ({
+            ...b,
+            parsedDate: parseBookingDate(b.date),
+          }))
+          .filter((b) => b.parsedDate !== null)
+          .sort((a, b) => b.parsedDate!.getTime() - a.parsedDate!.getTime());
+
+        setBookings(sorted);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchBookings();
+  }, []);
+
+  const now = new Date();
+  const filteredBookings = bookings.filter((b: any) =>
+    activeSubTab === "current" ? b.parsedDate >= now : b.parsedDate < now
+  );
+
+  const totalPages = Math.ceil(filteredBookings.length / ITEMS_PER_PAGE);
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const endIndex = startIndex + ITEMS_PER_PAGE;
+  const paginatedBookings = filteredBookings.slice(startIndex, endIndex);
+
+  const handleNext = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage((prev) => prev + 1);
+    }
+  };
+  const handlePrev = () => {
+    if (currentPage > 1) {
+      setCurrentPage((prev) => prev - 1);
+    }
+  };
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [activeSubTab]);
 
   return (
-    <div>
+    <div className="pb-26">
       <div className="flex items-center gap-2 border-b mb-6">
         <button
           onClick={() => setActiveSubTab("current")}
@@ -72,11 +119,46 @@ const BookingsSection = () => {
           Previous
         </button>
       </div>
+
+      {loading && <p className="text-gray-500">Loading bookings...</p>}
+
       <div className="space-y-6">
-        {mockBookings.map((booking) => (
-          <BookingCard key={booking.id} booking={booking} />
-        ))}
+        {!loading && paginatedBookings.length > 0
+          ? paginatedBookings.map((booking) => (
+              <BookingCard
+                key={booking.id}
+                setBookings={setBookings}
+                booking={booking}
+              />
+            ))
+          : !loading && (
+              <p className="text-gray-500 text-sm">No bookings found.</p>
+            )}
       </div>
+
+      {totalPages > 1 && (
+        <div className="flex justify-between mt-6">
+          <button
+            onClick={handlePrev}
+            disabled={currentPage === 1}
+            className="px-4 py-2 bg-gray-100 rounded disabled:opacity-50"
+          >
+            Previous
+          </button>
+
+          <span className="text-sm text-gray-600">
+            Page {currentPage} of {totalPages}
+          </span>
+
+          <button
+            onClick={handleNext}
+            disabled={currentPage === totalPages}
+            className="px-4 py-2 bg-gray-100 rounded disabled:opacity-50"
+          >
+            Next
+          </button>
+        </div>
+      )}
     </div>
   );
 };

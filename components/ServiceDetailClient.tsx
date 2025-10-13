@@ -130,13 +130,13 @@ export default function ServiceDetailClient({
       </div>
 
       {/* Main Content - 2 Column Grid Layout */}
-      <div className="mx-auto max-w-[1400px] px-4 py-6">
+      <div className="mx-auto max-w-[1400px] py-6">
         <CarouselCards storiesData={service.serviceDetails.images} />
 
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
           {/* LEFT COLUMN - Image Carousel (4 cols) */}
 
-          <div className="space-y-6 lg:col-span-6">
+          <div className="space-y-6 lg:col-span-6 shrink">
             <div className="mt-4 rounded-lg border bg-white p-4">
               <h1 className="text-xl font-bold text-gray-900">
                 {service.name || "Rose Gold Glam"}

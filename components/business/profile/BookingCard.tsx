@@ -14,14 +14,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useState } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+
 import RatingModal from "./RatingModal";
 
 const StatusPill = ({ status }: { status: string }) => {
@@ -50,12 +43,37 @@ const RequirementPill = ({ text }: { text: string }) => (
   </span>
 );
 
-const BookingCard = ({ booking }: { booking: any }) => {
+const BookingCard = ({ booking, setBookings }: { booking: any }) => {
   const [isRatingOpen, setIsRatingOpen] = useState(false);
+
+  const handleDelete = (id: string) => {
+    const deleteBooking = async () => {
+      try {
+        const res = await fetch(
+          `https://68e76da910e3f82fbf3f179a.mockapi.io/allbookings/${id}`,
+          {
+            method: "DELETE",
+          }
+        );
+
+        if (!res.ok) throw new Error("Failed to delete booking");
+
+        console.log(`✅ Booking ${id} deleted successfully`);
+
+        // Remove deleted booking from state to update UI immediately
+        setBookings((prev) => prev.filter((b) => b.id !== id));
+      } catch (error) {
+        console.error("❌ Delete failed:", error);
+      }
+    };
+
+    deleteBooking();
+  };
+
   return (
     <div className="bg-white p-4 rounded-lg border shadow-sm flex flex-col sm:flex-row gap-4">
-      <div>
-        <div className="flex md:flex-row flex-colgap-4">
+      <div className="space-y-2">
+        <div className="flex md:flex-row flex-col gap-4">
           {/* Image */}
           <Image
             src={
@@ -141,7 +159,9 @@ const BookingCard = ({ booking }: { booking: any }) => {
                 </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
-                <DropdownMenuItem>Delete</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => handleDelete(booking.id)}>
+                  Delete
+                </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setIsRatingOpen(true)}>
                   Rate Now
                 </DropdownMenuItem>

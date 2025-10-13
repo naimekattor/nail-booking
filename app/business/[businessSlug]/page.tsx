@@ -66,7 +66,7 @@ export default async function BusinessHomePage({
   const categories = business.categories || [];
 
   return (
-    <div className="space-y-8 mx-auto max-w-7xl">
+    <div className="space-y-8 pb-6 mx-auto max-w-7xl">
       <BusinessServicesClient
         categories={categories}
         businessSlug={businessSlug}

@@ -52,7 +52,7 @@ const BalanceSection = () => {
     activeBalanceTab === "transactions" ? mockTransactions : mockStoreWise;
 
   return (
-    <div>
+    <div className="h-full">
       <div className="bg-white p-4 rounded-lg border shadow-sm mb-6">
         <h3 className="text-sm text-gray-500">Total Credit</h3>
         <p className="text-3xl font-bold text-gray-800">$145</p>

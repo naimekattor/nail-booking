@@ -5,3 +5,62 @@ model Customer {
   name          String?
   createdAt     DateTime @default(now())
 }
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql" // or "mysql", "sqlite", etc.
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                String            @id @default(cuid())
+  email             String            @unique
+  name              String?
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+  automationRules   AutomationRule[]
+  
+  @@map("users")
+}
+
+model AutomationRule {
+  id          String      @id @default(cuid())
+  trigger     String      // e.g., "subscription_success", "payment_failed"
+  templateId  String      // Brevo template ID
+  isEnabled   Boolean     @default(true)
+  conditions  String?     // Optional conditions as JSON string
+  userId      String
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  emailLogs   EmailLog[]
+  
+  @@unique([trigger, userId]) // One rule per trigger per user
+  @@index([userId])
+  @@index([trigger])
+  @@map("automation_rules")
+}
+
+model EmailLog {
+  id                String          @id @default(cuid())
+  timestamp         DateTime        @default(now())
+  recipient         String
+  templateId        String
+  templateName      String?
+  status            String          // "success" or "failed"
+  errorMessage      String?
+  messageId         String?         // Brevo message ID
+  automationRuleId  String?
+  automationRule    AutomationRule? @relation(fields: [automationRuleId], references: [id], onDelete: SetNull)
+  metadata          Json?           // Additional data as JSON
+  
+  @@index([timestamp])
+  @@index([status])
+  @@index([recipient])
+  @@index([templateId])
+  @@index([automationRuleId])
+  @@map("email_logs")
+}

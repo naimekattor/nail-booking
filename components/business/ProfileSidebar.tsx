@@ -32,24 +32,24 @@ const ProfileSidebar = () => {
     <aside
       className={`
         bg-white border-t border-gray-200
-        sm:border-t-0 sm:border-r
-        flex
-        md:h-full
-        sm:flex-col sm:items-center sm:py-8
-        justify-around
-        sm:justify-between
-        w-full sm:w-20 lg:w-24
-        fixed bottom-0 sm:relative
-        z-30
-        md:py-0 py-2
+    sm:border-t-0 
+    fixed bottom-0 sm:relative
+    flex md:flex-col md:items-center w-full sm:w-20 lg:w-24
+    h-16 sm:h-auto
+    justify-between sm:justify-between
+    items-center sm:items-start
+    px-4 sm:px-0
+    z-30
       `}
     >
       {/* Navigation items */}
       <div
         className={`
-          flex sm:flex-col
-          sm:space-y-8
-          space-x-8 sm:space-x-0
+          flex w-full sm:flex-col
+      justify-between sm:justify-start
+      items-center sm:items-center
+      h-full
+      space-x-4 sm:space-x-0 sm:space-y-6
         `}
       >
         {navItems.map((item) => {

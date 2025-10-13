@@ -37,8 +37,8 @@ export default async function BusinessProfileLayout({
           <ProfileHeader businessName={business.name} />
         </header>
 
-        <div className="flex   font-sans overflow-hidden">
-          <aside className="">
+        <div className="flex flex-1   font-sans overflow-hidden">
+          <aside className="border-r-2">
             <ProfileSidebar />
           </aside>
 
@@ -47,7 +47,7 @@ export default async function BusinessProfileLayout({
             className={`
             flex-1 overflow-y-auto
             p-4 sm:p-6
-            mb-16 lg:mb-0
+            mb-16 lg:mb-0 pb-16
             
             transition-all duration-300 h-full
           `}

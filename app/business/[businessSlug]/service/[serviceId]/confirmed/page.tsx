@@ -44,7 +44,7 @@ export default async function ConfirmationPage({
   ];
 
   return (
-    <div className="max-w-xl mx-auto">
+    <div className="max-w-xl mx-auto pb-6">
       <div className="text-center mb-8">
         <FiCheckCircle className="mx-auto text-5xl text-green-500 mb-4" />
         <h1 className="text-3xl font-bold text-gray-800">Booking Confirmed!</h1>

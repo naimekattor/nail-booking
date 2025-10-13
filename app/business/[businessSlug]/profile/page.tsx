@@ -31,7 +31,7 @@ export default function ProfilePage() {
   const [isEditModalOpen, setEditModalOpen] = useState(false);
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 h-full">
       <UserInfoCard user={session} onEdit={() => setEditModalOpen(true)} />
 
       {/* Main Tab Controls */}
