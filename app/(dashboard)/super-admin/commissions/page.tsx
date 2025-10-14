@@ -416,7 +416,7 @@ export default function CommissionRules() {
             </Button>
             <Button
               onClick={handleUpdateRule}
-              className="bg-black text-white hover:bg-black/90"
+              className="bg-gradient-to-r from-[#F6339A] to-[#9810FA] text-white hover:bg-black/90"
             >
               Update
             </Button>

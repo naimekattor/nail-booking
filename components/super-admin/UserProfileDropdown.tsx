@@ -46,14 +46,6 @@ const UserProfileDropdown = ({ onOpenModal }: UserProfileDropdownProps) => {
           <ul className="py-1">
             <li>
               <button
-                onClick={() => handleSelect("profile")}
-                className="w-full text-left flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-              >
-                <CircleArrowUp /> Upgrade package
-              </button>
-            </li>
-            <li>
-              <button
                 onClick={() => handleSelect("password")}
                 className="w-full text-left flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
               >

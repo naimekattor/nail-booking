@@ -768,14 +768,18 @@ export default function EDMSettings() {
                         : "Automation is disabled"}
                     </p>
                   </div>
-                  <Switch checked={isEnabled} onCheckedChange={setIsEnabled} />
+                  <Switch
+                    checked={isEnabled}
+                    onCheckedChange={setIsEnabled}
+                    className="bg-[#F6339A]"
+                  />
                 </div>
 
                 {/* Save Button */}
                 <div className="pt-4">
                   <Button
                     onClick={handleSave}
-                    className="w-full"
+                    className="w-full bg-gradient-to-r from-[#F6339A] to-[#9810FA]"
                     disabled={!isApiKeySet}
                   >
                     Save Settings
@@ -833,7 +837,7 @@ export default function EDMSettings() {
                               ? "default"
                               : "secondary"
                           }
-                          className="mt-1"
+                          className="mt-1 bg-[#9810FA]"
                         >
                           {getSelectedTemplate()?.isActive
                             ? "Active"
@@ -993,6 +997,7 @@ export default function EDMSettings() {
                         </td>
                         <td className="py-3 px-2">
                           <Badge
+                            className="bg-[#9810FA]"
                             variant={
                               log.status === "success"
                                 ? "default"

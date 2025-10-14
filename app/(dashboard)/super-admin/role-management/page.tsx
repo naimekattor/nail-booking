@@ -314,10 +314,6 @@ const AdminPage: NextPage = () => {
 
   return (
     <>
-      <Head>
-        <title>Administrator Management</title>
-      </Head>
-
       {isModalOpen && (
         <CreateAdminModal onClose={() => setIsModalOpen(false)} />
       )}
@@ -326,12 +322,12 @@ const AdminPage: NextPage = () => {
         <div className="  mx-auto">
           {/* Header */}
           <div className="flex justify-between items-center mb-6">
-            <h1 className="text-2xl font-bold text-gray-900">
+            <h1 className="text-lg font-semibold text-gray-900">
               Administrator List
             </h1>
             <button
               onClick={() => setIsModalOpen(true)}
-              className="flex items-center gap-2 px-4 py-2 bg-[#C06EF3] text-white rounded-lg shadow hover:bg-gray-800 transition-colors"
+              className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-[#F6339A] to-[#9810FA] text-white rounded-lg shadow hover:bg-gray-800 transition-colors"
             >
               <FiPlus />
               Create New Administrator
@@ -414,9 +410,11 @@ const AdminPage: NextPage = () => {
                       <button className="text-gray-500 hover:text-indigo-600">
                         <FiEdit size={18} />
                       </button>
-                      <button className="text-gray-500 hover:text-red-600">
-                        <FaBan size={16} />
-                      </button>
+                      {admin.status === "Active" ? (
+                        <CircleCheckBig className="w-[18px] h-[18px] text-green-400" />
+                      ) : (
+                        <CircleX className="w-[18px] h-[18px] text-red-500" />
+                      )}
                     </div>
                   </div>
                 ))}
@@ -479,7 +477,7 @@ const AdminPage: NextPage = () => {
                   />
                 </div>
               </div>
-              <button className="w-full mt-6 px-6 py-3 bg-[#C06EF3] text-white font-semibold rounded-lg shadow hover:bg-[#a333e9] transition-colors focus:outline-none ">
+              <button className="w-full mt-6 px-6 py-3 bg-gradient-to-r from-[#F6339A] to-[#9810FA] text-white font-semibold rounded-lg shadow hover:bg-[#a333e9] transition-colors focus:outline-none ">
                 Save Permission Settings
               </button>
             </div>

@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import { FiMenu } from "react-icons/fi";
 import UserProfileDropdown from "./UserProfileDropdown";
 import { Menu } from "lucide-react";
+import { routeMeta } from "@/lib/routeMeta";
 
 const titleMap: { [key: string]: string } = {
   "/super-admin/": "Subscribers",
@@ -25,9 +26,7 @@ const DashboardHeader = ({
   onOpenModal,
 }: DashboardHeaderProps) => {
   const pathname = usePathname();
-  const title = titleMap[pathname] || "Dashboard";
-
-  // The local `activeModal` state is now REMOVED from this component.
+  const meta = routeMeta[pathname] || "Dashboard";
 
   return (
     <header className=" sticky top-0 z-30 p-4">
@@ -39,7 +38,10 @@ const DashboardHeader = ({
           >
             <Menu size={24} />
           </button>
-          <h1 className="text-xl font-bold text-gray-800">{title}</h1>
+          <div>
+            <h1 className="text-xl font-bold text-gray-800">{meta.title}</h1>
+            <p className="">{meta.subtitle}</p>
+          </div>
         </div>
 
         {/* Pass the onOpenModal function directly to the dropdown */}
