@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import {
   FiCheckCircle,
@@ -59,7 +60,9 @@ export default async function ConfirmationPage({
         <div>
           <h2 className="font-bold text-lg mb-4">Appointment Details</h2>
           <div className="flex items-center gap-4">
-            <img
+            <Image
+              width={64}
+              height={64}
               src="https://via.placeholder.com/64"
               alt="Service"
               className="w-16 h-16 rounded-md object-cover"

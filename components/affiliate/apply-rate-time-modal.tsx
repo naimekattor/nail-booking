@@ -60,7 +60,7 @@ export function ApplyRateTimeModal({
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="duration">Duration</Label>
+              <Label htmlFor="duration">Expiry Date</Label>
               <div className="relative">
                 <Input
                   id="duration"

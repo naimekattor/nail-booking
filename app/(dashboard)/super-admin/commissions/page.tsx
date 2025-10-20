@@ -80,7 +80,6 @@ export default function CommissionRules() {
       toast({
         title: "Error",
         description: "Please fill in all required fields",
-        variant: "destructive",
       });
       return;
     }

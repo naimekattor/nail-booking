@@ -12,24 +12,18 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import CarouselCards from "./ServiceCarousel";
 
-type Requirement = string;
-type AvailableAddOn = {
-  id: string;
-  name: string;
-  price: number;
-  duration: number;
-};
-type ChosenAddOn = AvailableAddOn & { quantity: number; customPrice: number };
-
+import {
+  Service,
+  ServiceDetailClientProps,
+  Requirement,
+  AvailableAddOn,
+  ChosenAddOn,
+} from "@/types/service";
 export default function ServiceDetailClient({
   service,
   businessSlug,
   serviceId,
-}: {
-  service: any;
-  businessSlug: string;
-  serviceId: string;
-}) {
+}: ServiceDetailClientProps) {
   const router = useRouter();
 
   const [selectedReqs, setSelectedReqs] = useState<Requirement[]>([]);
@@ -134,8 +128,6 @@ export default function ServiceDetailClient({
         <CarouselCards storiesData={service.serviceDetails.images} />
 
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
-          {/* LEFT COLUMN - Image Carousel (4 cols) */}
-
           <div className="space-y-6 lg:col-span-6 shrink">
             <div className="mt-4 rounded-lg border bg-white p-4">
               <h1 className="text-xl font-bold text-gray-900">

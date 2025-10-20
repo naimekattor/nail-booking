@@ -159,7 +159,8 @@ const CreateAdminModal: FC<{ onClose: () => void }> = ({ onClose }) => {
         </h2>
         <p className="text-gray-500 mt-4">
           Welcome to your SaaS Admin Platform. This page is only for first-time
-          system initialization. You will become the platform's Super Admin.
+          system initialization. You will become the platform&apos;s Super
+          Admin.
         </p>
 
         <div className="mt-8 space-y-6">

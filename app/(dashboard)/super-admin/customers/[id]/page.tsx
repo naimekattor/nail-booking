@@ -125,9 +125,9 @@ export default function CustomerInsights() {
               Total Customers
             </div>
             <p className="mt-2 text-3xl font-bold">1,108</p>
-            <p className="mt-1 text-xs text-muted-foreground">
+            {/* <p className="mt-1 text-xs text-muted-foreground">
               Showing 25 on this page
-            </p>
+            </p> */}
           </div>
 
           <div className="rounded-lg border border-border bg-card p-6">

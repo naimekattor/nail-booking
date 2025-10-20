@@ -12,6 +12,7 @@ const titleMap: { [key: string]: string } = {
 // Add the new prop to the interface
 interface DashboardHeaderProps {
   onMenuToggle: () => void;
+  handleOpenModal: (modal: string | null) => void;
 }
 
 const DashboardHeader = ({
@@ -36,19 +37,6 @@ const DashboardHeader = ({
         </div>
         <UserProfileDropdown onOpenModal={handleOpenModal} />
       </div>
-
-      {/* {activeModal === "profile" && (
-        <ProfileInfoModal onClose={() => setActiveModal(null)} />
-      )}
-      {activeModal === "password" && (
-        <ChangePasswordModal onClose={() => setActiveModal(null)} />
-      )}
-      {activeModal === "email" && (
-        <ChangeEmailModal onClose={() => setActiveModal(null)} />
-      )}
-      {activeModal === "logout" && (
-        <LogoutModal onClose={() => setActiveModal(null)} />
-      )} */}
     </header>
   );
 };

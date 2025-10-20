@@ -41,12 +41,12 @@ export default function RevenueDashboard() {
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           <div className="rounded-lg border border-border bg-card p-6">
             <div className="text-sm text-muted-foreground">
-              Total Businesses
+              Total Subscriber
             </div>
             <p className="mt-2 text-3xl font-bold">5,247</p>
-            <p className="mt-1 text-xs text-muted-foreground">
+            {/* <p className="mt-1 text-xs text-muted-foreground">
               25 on this page
-            </p>
+            </p> */}
           </div>
 
           <div className="rounded-lg border border-border bg-card p-6">

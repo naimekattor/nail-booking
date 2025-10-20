@@ -44,7 +44,7 @@ const menuItems = [
     icon: ChartColumnIncreasing,
   },
   {
-    label: "Customer Management",
+    label: "Subscriber Management",
     href: "/super-admin/customers",
     icon: Warehouse,
   },

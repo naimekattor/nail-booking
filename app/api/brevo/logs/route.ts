@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { Prisma } from "@prisma/client";
 
 /**
  * GET - Fetch email send logs with pagination and filtering
@@ -21,7 +22,7 @@ export async function GET(request: NextRequest) {
     const endDate = searchParams.get("endDate");
 
     // Build where clause
-    const where: any = {};
+    const where: Prisma.EmailLogWhereInput = {};
 
     if (status) where.status = status;
     if (recipient)

@@ -7,6 +7,7 @@ import {
   FiEdit,
 } from "react-icons/fi";
 import Image from "next/image";
+import { IconType } from "react-icons";
 
 // Define the type for the user prop for type safety
 interface User {
@@ -30,7 +31,7 @@ const InfoItem = ({
   label,
   value,
 }: {
-  icon: any;
+  icon: IconType;
   label: string;
   value: string;
 }) => (

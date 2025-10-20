@@ -1,4 +1,4 @@
-"use client"; // This must be a client component to manage state
+"use client";
 
 import DashboardHeader from "@/components/subscriber/DashboardHeader";
 import ChangeEmailModal from "@/components/subscriber/modals/ChangeEmailModal";
@@ -13,23 +13,15 @@ import { ReactNode } from "react";
 export default function DashboardLayout({ children }: { children: ReactNode }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [activeModal, setActiveModal] = useState<string | null>(null);
-  const handleOpenModal = (modal: string) => {
+  const handleOpenModal = (modal: string | null) => {
     setActiveModal(modal);
   };
 
   return (
     <div className="flex h-screen bg-gray-100 font-sans overflow-hidden">
-      {/* 
-        The Sidebar now receives state to control its visibility and a function to close it.
-        This is crucial for mobile responsiveness.
-      */}
       <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
 
       <div className="flex-1 flex flex-col overflow-hidden">
-        {/* 
-          The Header receives a function to toggle the sidebar, 
-          which will be used by the hamburger menu on small screens.
-        */}
         <DashboardHeader
           onMenuToggle={() => setIsSidebarOpen(!isSidebarOpen)}
           handleOpenModal={handleOpenModal}

@@ -106,9 +106,9 @@ export default function BusinessSelection() {
               Total Businesses
             </div>
             <p className="mt-2 text-3xl font-bold">5,247</p>
-            <p className="mt-1 text-xs text-muted-foreground">
+            {/* <p className="mt-1 text-xs text-muted-foreground">
               25 on this page
-            </p>
+            </p> */}
           </div>
 
           <div className="rounded-lg border border-border bg-card p-6">

@@ -32,7 +32,7 @@ import { AddAffiliateModal } from "@/components/affiliate/add-affiliate-modal";
 import { ApplyRateTimeModal } from "@/components/affiliate/apply-rate-time-modal";
 import { ApplyAffiliateRuleModal } from "@/components/affiliate/apply-affiliate-rule-modal";
 import { ShowReferralsModal } from "@/components/affiliate/show-referrals-modal";
-
+type StatusFilterOption = "All" | AffiliateStatus;
 type AffiliateStatus = "Active" | "Pending" | "Suspended";
 type AffiliateRule = "Standard" | "VIP partner" | "Common" | "Medium";
 
@@ -113,9 +113,7 @@ const initialAffiliates: Affiliate[] = [
 export default function AffiliatesDashboard() {
   const [affiliates, setAffiliates] = useState<Affiliate[]>(initialAffiliates);
   const [searchQuery, setSearchQuery] = useState("");
-  const [statusFilter, setStatusFilter] = useState<"All" | AffiliateStatus>(
-    "All"
-  );
+  const [statusFilter, setStatusFilter] = useState<StatusFilterOption>("All");
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isRateTimeModalOpen, setIsRateTimeModalOpen] = useState(false);
   const [isRuleModalOpen, setIsRuleModalOpen] = useState(false);
@@ -333,7 +331,14 @@ export default function AffiliatesDashboard() {
 
               {/* Radio group to manage single selection */}
               <DropdownMenuGroup>
-                {["All", "Active", "Pending", "Suspended"].map((status) => (
+                {(
+                  [
+                    "All",
+                    "Active",
+                    "Pending",
+                    "Suspended",
+                  ] as StatusFilterOption[]
+                ).map((status) => (
                   <DropdownMenuItem
                     key={status}
                     onClick={() => setStatusFilter(status)}

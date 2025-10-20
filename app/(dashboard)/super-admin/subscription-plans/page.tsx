@@ -18,12 +18,13 @@ import {
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import PackageModal from "@/components/super-admin/modals/package-modal";
+import { IconType } from "react-icons";
 
 type Feature = {
   id: string;
   name: string;
   category: string;
-  icon?: any;
+  icon?: IconType;
 };
 
 const features: Feature[] = [
@@ -83,7 +84,7 @@ type Plan = {
 };
 
 export default function PackageManagement() {
-  const { toast } = useToast();
+  const { addToast } = useToast();
   const [plans, setPlans] = useState<Plan[]>([
     {
       id: "free",
@@ -193,7 +194,7 @@ export default function PackageManagement() {
         ],
       },
     ]);
-    toast({
+    addToast({
       title: "Changes Reset",
       description: "All changes have been reset to default values.",
     });
@@ -201,11 +202,6 @@ export default function PackageManagement() {
 
   const saveChanges = () => {
     setIsPackageModalOpen(true);
-    // toast({
-    //   title: "Changes Saved Successfully",
-    //   description: "Package configurations have been updated.",
-    //   duration: 3000,
-    // });
   };
 
   const startEditingPlan = (plan: Plan) => {
@@ -230,7 +226,7 @@ export default function PackageManagement() {
         })
       );
       setEditingPlan(null);
-      toast({
+      addToast({
         title: "Plan Updated",
         description: "Plan details have been saved.",
       });

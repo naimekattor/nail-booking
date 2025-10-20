@@ -1,23 +1,8 @@
-// components/BusinessServicesClient.tsx
 "use client";
 
 import { useMemo, useState } from "react";
 import ServiceCard from "./ServiceCard";
-
-type Service = {
-  id: string;
-  name: string;
-  duration?: string;
-  image?: string;
-  price?: number;
-  // optional nested details...
-};
-
-type Category = {
-  id: string;
-  category: string;
-  services?: Service[];
-};
+import { Category } from "@/types/service";
 
 export default function BusinessServicesClient({
   categories,
@@ -26,10 +11,8 @@ export default function BusinessServicesClient({
   categories: Category[];
   businessSlug: string;
 }) {
-  // default to "all" (show all categories). You can change to categories[0]?.id if you want first one active.
   const [activeCategoryId, setActiveCategoryId] = useState<string>("all");
 
-  // computed list of categories to render (All or single selected)
   const displayedCategories = useMemo(() => {
     if (!activeCategoryId || activeCategoryId === "all") return categories;
     return categories.filter((c) => c.id === activeCategoryId);

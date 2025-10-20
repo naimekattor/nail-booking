@@ -10,8 +10,12 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { FiArrowLeft } from "react-icons/fi";
-
-const RatingModal = ({ open, onOpenChange, serviceName }: any) => {
+interface RatingModalProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  serviceName: string;
+}
+const RatingModal = ({ open, onOpenChange, serviceName }: RatingModalProps) => {
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
   const [comment, setComment] = useState("");

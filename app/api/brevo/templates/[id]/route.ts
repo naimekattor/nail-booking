@@ -1,11 +1,11 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
-  request: Request,
-  { params }: { params: { id: string } }
+  request: NextRequest,
+  context: { params: Promise<{ id: string }> }
 ) {
   const apiKey = request.headers.get("authorization")?.replace("Bearer ", "");
-  const { id } = params;
+  const { id } = await context.params;
 
   if (!apiKey) {
     return NextResponse.json({ error: "Missing API key" }, { status: 401 });

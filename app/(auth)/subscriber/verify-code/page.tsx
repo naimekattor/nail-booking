@@ -1,4 +1,5 @@
 "use client";
+import type { ClerkAPIResponseError } from "@clerk/types";
 
 import React, { useState } from "react";
 import Link from "next/link";
@@ -56,9 +57,11 @@ export default function VerifyCodePage() {
       } else {
         setError("Verification failed. Please try again.");
       }
-    } catch (err: any) {
+    } catch (err) {
+      const clerkError = err as ClerkAPIResponseError;
+
       console.error("Verification error:", err);
-      setError(err?.errors?.[0]?.message || "Invalid code");
+      setError(clerkError.errors?.[0]?.message || "Invalid code");
     } finally {
       setLoading(false);
     }

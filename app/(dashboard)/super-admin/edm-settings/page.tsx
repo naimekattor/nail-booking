@@ -365,7 +365,7 @@ export default function EDMSettings() {
   // Fetch Brevo templates from API
   const fetchBrevoTemplates = async () => {
     if (!isApiKeySet) {
-      toast.error("Please set your Brevo API key first");
+      addToast("Please set your Brevo API key first");
       return;
     }
 
@@ -384,12 +384,11 @@ export default function EDMSettings() {
       const data = await response.json();
       setBrevoTemplates(data.templates || []);
       addToast(
-        `Loaded ${data.templates?.length || 0} templates from Brevo`,
-        "success"
+        `Loaded ${data.templates?.length || 0} templates from Brevo success`
       );
     } catch (error) {
       console.error("Error fetching templates:", error);
-      addToast("Failed to fetch templates from Brevo", "error");
+      addToast("Failed to fetch templates from Brevo error");
 
       // Fallback to mock data for demo
       setBrevoTemplates([
@@ -491,7 +490,7 @@ export default function EDMSettings() {
   // Save automation rule
   const handleSave = async () => {
     if (!selectedTrigger || !selectedTemplate) {
-      toast.error("Please select both trigger event and EDM template");
+      addToast("Please select both trigger event and EDM template");
       return;
     }
 
@@ -521,19 +520,19 @@ export default function EDMSettings() {
       console.log("Automation rule saved:", data);
     } catch (error) {
       console.error("Error saving automation:", error);
-      toast.error("Failed to save automation settings");
+      addToast("Failed to save automation settings");
     }
   };
 
   // Send test email via Brevo
   const handleSendTestEmail = async () => {
     if (!testEmail || !selectedTemplate) {
-      toast.error("Please enter test email and select a template");
+      addToast("Please enter test email and select a template");
       return;
     }
 
     if (!isApiKeySet) {
-      toast.error("Please set your Brevo API key first");
+      addToast("Please set your Brevo API key first");
       return;
     }
 
@@ -578,7 +577,7 @@ export default function EDMSettings() {
     } catch (error) {
       console.error("Error sending test email:", error);
       setTestStatus("error");
-      toast.error("Failed to send test email");
+      addToast("Failed to send test email");
     }
 
     setTimeout(() => setTestStatus("idle"), 3000);
@@ -654,7 +653,7 @@ export default function EDMSettings() {
                           setIsApiKeySet(true);
                           addToast("API key set successfully");
                         } else {
-                          toast.error("Please enter a valid API key");
+                          addToast("Please enter a valid API key");
                         }
                       }}
                     >

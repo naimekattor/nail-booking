@@ -8,7 +8,7 @@ const handler = NextAuth({
       clientSecret: process.env.LINE_CLIENT_SECRET!,
       authorization: {
         params: {
-          scope: "openid profile",
+          scope: "openid profile email",
         },
       },
     }),
@@ -20,15 +20,19 @@ const handler = NextAuth({
       if (account && profile) {
         token.id = profile.sub; // LINE user ID
         token.name = profile.name;
-        token.image = profile.picture;
+        token.email = profile.email;
+        if ("picture" in profile) {
+          token.image = profile.picture;
+        }
       }
       return token;
     },
     async session({ session, token }) {
       // Add custom fields to the session object
-      session.user.id = token.id;
-      session.user.name = token.name;
-      session.user.image = token.image;
+      session.user.id = (token.id as string) || "";
+      session.user.name = (token.name as string) || null;
+      session.user.email = (token.email as string) || null;
+      session.user.image = typeof token.image === "string" ? token.image : null;
       return session;
     },
     // This handles where to redirect users after login

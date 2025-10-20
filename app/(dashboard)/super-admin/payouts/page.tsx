@@ -12,7 +12,8 @@ import {
   MoreHorizontal,
   Check,
   XCircle, // Icon for Reject
-  Trash2, // Icon for Delete
+  Trash2,
+  LucideIcon, // Icon for Delete
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -95,9 +96,21 @@ const initialWithdrawalsData: Withdrawal[] = [
     status: "Reject",
   },
 ];
-
+interface StatCardProps {
+  icon: LucideIcon;
+  title: string;
+  value: number;
+  color: string;
+  bgColor: string;
+}
 // --- 2. Helper Components & Functions (Unchanged) ---
-const StatCard = ({ icon: Icon, title, value, color, bgColor }) => (
+const StatCard = ({
+  icon: Icon,
+  title,
+  value,
+  color,
+  bgColor,
+}: StatCardProps) => (
   <div className="flex items-center gap-4 rounded-lg border bg-white p-4 shadow-sm">
     <div
       className={cn(
@@ -113,7 +126,7 @@ const StatCard = ({ icon: Icon, title, value, color, bgColor }) => (
     </div>
   </div>
 );
-const getStatusBadgeClasses = (status) => {
+const getStatusBadgeClasses = (status: string) => {
   switch (status.toLowerCase()) {
     case "pending":
       return "bg-yellow-100 text-yellow-800";

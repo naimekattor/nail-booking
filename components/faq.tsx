@@ -63,7 +63,7 @@ export function FAQ() {
             </AccordionTrigger>
             <AccordionContent className="text-gray-600">
               One-click connect in the app. Simply link your LINE Official
-              Account, and we'll automatically send booking confirmations,
+              Account, and we&apos;ll automatically send booking confirmations,
               reminders, and updates to both you and your clients.
             </AccordionContent>
           </AccordionItem>

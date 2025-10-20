@@ -1,23 +1,11 @@
 "use client";
-
-import { useEffect, useState } from "react";
+import { Booking, BookingWithParsedDate } from "@/types/booking";
+import { useEffect } from "react";
 import BookingCard from "./BookingCard";
 const ITEMS_PER_PAGE = 3;
+import { useState, Dispatch, SetStateAction } from "react";
 
-interface Booking {
-  id: string;
-  service: string;
-  date: string | null;
-  technician: string;
-  duration: number;
-  notes: string | null;
-  addOns: string[];
-  requirements: string[];
-  price: number;
-  status: string;
-}
-
-const parseBookingDate = (dateString: any) => {
+const parseBookingDate = (dateString: string | null): Date | null => {
   if (typeof dateString !== "string") {
     console.warn("⚠️ Invalid date value:", dateString);
     return null;
@@ -38,7 +26,7 @@ const BookingsSection = () => {
   const [activeSubTab, setActiveSubTab] = useState<"current" | "previous">(
     "current"
   );
-  const [bookings, setBookings] = useState<Booking[]>([]);
+  const [bookings, setBookings] = useState<BookingWithParsedDate[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
 
@@ -58,7 +46,10 @@ const BookingsSection = () => {
             ...b,
             parsedDate: parseBookingDate(b.date),
           }))
-          .filter((b) => b.parsedDate !== null)
+          .filter(
+            (b): b is BookingWithParsedDate & { parsedDate: Date } =>
+              b.parsedDate !== null
+          )
           .sort((a, b) => b.parsedDate!.getTime() - a.parsedDate!.getTime());
 
         setBookings(sorted);
@@ -72,8 +63,10 @@ const BookingsSection = () => {
   }, []);
 
   const now = new Date();
-  const filteredBookings = bookings.filter((b: any) =>
-    activeSubTab === "current" ? b.parsedDate >= now : b.parsedDate < now
+  const filteredBookings = bookings.filter((b) =>
+    activeSubTab === "current"
+      ? b.parsedDate && b.parsedDate >= now
+      : b.parsedDate && b.parsedDate < now
   );
 
   const totalPages = Math.ceil(filteredBookings.length / ITEMS_PER_PAGE);

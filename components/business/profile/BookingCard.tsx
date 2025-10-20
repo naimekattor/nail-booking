@@ -13,10 +13,15 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useState } from "react";
-
+import { useState, Dispatch, SetStateAction } from "react";
 import RatingModal from "./RatingModal";
+import { BookingWithParsedDate } from "@/types/booking";
+// Define proper types
 
+interface BookingCardProps {
+  booking: BookingWithParsedDate;
+  setBookings: Dispatch<SetStateAction<BookingWithParsedDate[]>>;
+}
 const StatusPill = ({ status }: { status: string }) => {
   const isCompleted = status === "Completed";
   return (
@@ -43,7 +48,7 @@ const RequirementPill = ({ text }: { text: string }) => (
   </span>
 );
 
-const BookingCard = ({ booking, setBookings }: { booking: any }) => {
+const BookingCard = ({ booking, setBookings }: BookingCardProps) => {
   const [isRatingOpen, setIsRatingOpen] = useState(false);
 
   const handleDelete = (id: string) => {
@@ -89,7 +94,7 @@ const BookingCard = ({ booking, setBookings }: { booking: any }) => {
           <div>
             <h3 className="font-bold text-gray-800">{booking.service}</h3>
             <div className="flex flex-col items-start gap-x-4 gap-y-1 text-xs text-gray-500 mt-1">
-              <span className="flex items-center gap-1.5">
+              <span className=" flex items-center gap-1.5 ">
                 <FiCalendar /> {booking.date}
               </span>
               <span className="flex items-center gap-1.5">
@@ -104,7 +109,7 @@ const BookingCard = ({ booking, setBookings }: { booking: any }) => {
         {booking.notes && (
           <div>
             <h4 className="text-xs font-bold text-gray-500">Customer Notes</h4>
-            <p className="text-sm text-gray-600 italic">"{booking.notes}"</p>
+            <p className="text-sm text-gray-600 italic">{booking.notes}</p>
           </div>
         )}
       </div>

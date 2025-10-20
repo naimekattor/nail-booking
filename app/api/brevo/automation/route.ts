@@ -1,13 +1,22 @@
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma"; // Adjust path to your Prisma client
+import { prisma } from "@/lib/prisma"; // adjust path to your Prisma client
+import type { Prisma } from "@prisma/client";
 
-// Type definitions
-interface AutomationRule {
+// ✅ Define a type for AutomationRule payload
+interface AutomationRulePayload {
   trigger: string;
   templateId: string;
   isEnabled: boolean;
   conditions?: string;
 }
+
+// ✅ Define a type for PATCH request
+interface AutomationRuleUpdatePayload extends Partial<AutomationRulePayload> {
+  id: string;
+}
+
+// ✅ Use Prisma types for filtering
+type AutomationRuleWhere = Prisma.AutomationRuleWhereInput;
 
 /**
  * GET - Fetch all automation rules
@@ -18,23 +27,17 @@ export async function GET(request: NextRequest) {
     const trigger = searchParams.get("trigger");
     const isEnabled = searchParams.get("isEnabled");
 
-    // Build where clause
-    const where: any = {};
+    // ✅ Strongly typed `where` clause
+    const where: AutomationRuleWhere = {};
     if (trigger) where.trigger = trigger;
     if (isEnabled !== null) where.isEnabled = isEnabled === "true";
 
     const automations = await prisma.automationRule.findMany({
       where,
-      orderBy: {
-        createdAt: "desc",
-      },
+      orderBy: { createdAt: "desc" },
       include: {
         user: {
-          select: {
-            id: true,
-            email: true,
-            name: true,
-          },
+          select: { id: true, email: true, name: true },
         },
       },
     });
@@ -62,9 +65,8 @@ export async function GET(request: NextRequest) {
  */
 export async function POST(request: NextRequest) {
   try {
-    const body: AutomationRule = await request.json();
+    const body: AutomationRulePayload = await request.json();
 
-    // Validation
     if (!body.trigger || !body.templateId) {
       return NextResponse.json(
         {
@@ -75,30 +77,18 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Get user from session/auth (adjust based on your auth system)
-    // Example with NextAuth:
-    // const session = await getServerSession(authOptions);
-    // if (!session?.user?.id) {
-    //   return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    // }
+    const userId = "user_placeholder_id";
 
-    // For demo purposes, using a placeholder userId
-    const userId = "user_placeholder_id"; // Replace with actual user ID from session
-
-    // Check if automation rule already exists for this trigger
     const existingRule = await prisma.automationRule.findFirst({
       where: {
         trigger: body.trigger,
-        userId: userId,
+        userId,
       },
     });
 
     if (existingRule) {
-      // Update existing rule
       const updatedRule = await prisma.automationRule.update({
-        where: {
-          id: existingRule.id,
-        },
+        where: { id: existingRule.id },
         data: {
           templateId: body.templateId,
           isEnabled: body.isEnabled,
@@ -114,14 +104,13 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    // Create new automation rule
     const newRule = await prisma.automationRule.create({
       data: {
         trigger: body.trigger,
         templateId: body.templateId,
         isEnabled: body.isEnabled,
         conditions: body.conditions,
-        userId: userId,
+        userId,
       },
     });
 
@@ -151,7 +140,7 @@ export async function POST(request: NextRequest) {
  */
 export async function PATCH(request: NextRequest) {
   try {
-    const body = await request.json();
+    const body: AutomationRuleUpdatePayload = await request.json();
     const { id, ...updateData } = body;
 
     if (!id) {

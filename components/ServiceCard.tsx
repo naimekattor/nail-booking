@@ -1,14 +1,22 @@
 "use client";
 
 import Link from "next/link";
+interface Service {
+  id: string;
+  name: string;
+  image?: string;
+  price?: number;
+  duration: string;
+}
 
+interface ServiceCardProps {
+  service: Service;
+  businessSlug: string;
+}
 export default function ServiceCard({
   service,
   businessSlug,
-}: {
-  service: any;
-  businessSlug: string;
-}) {
+}: ServiceCardProps) {
   return (
     <Link
       href={`/business/${businessSlug}/service/${service.id}`}

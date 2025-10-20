@@ -1,6 +1,17 @@
 import { FiArrowUp, FiArrowDown } from "react-icons/fi";
+interface Transaction {
+  id: string;
+  type: "credit" | "debit";
+  amount: number;
+  description: string;
+  date: string;
+  balance: number;
+}
 
-const TransactionItem = ({ transaction }: { transaction: any }) => {
+interface TransactionItemProps {
+  transaction: Transaction;
+}
+const TransactionItem = ({ transaction }: TransactionItemProps) => {
   const isCredit = transaction.type === "credit";
   return (
     <div className="flex items-center justify-between p-4 border-b">

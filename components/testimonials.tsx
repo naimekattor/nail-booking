@@ -72,7 +72,7 @@ export function Testimonials() {
                     />
                   ))}
                 </div>
-                <p className="text-gray-700 italic">"{testimonial.review}"</p>
+                <p className="text-gray-700 italic">{testimonial.review}</p>
               </CardContent>
             </Card>
           ))}

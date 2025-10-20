@@ -45,7 +45,7 @@ const EditProfileModal = ({ onClose }: { onClose: () => void }) => {
                 Choose file
               </label>
               <span className="border border-l-0 p-2 rounded-r-md bg-gray-100 text-gray-500 text-sm truncate w-full">
-                apdfpkp'adkf.jpeg
+                apdfpkp&apos;adkf.jpeg
               </span>
               <input id="file-upload" type="file" className="hidden" />
             </div>

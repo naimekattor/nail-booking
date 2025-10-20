@@ -4,9 +4,9 @@ import { ChevronRight } from "lucide-react";
 import { useState } from "react";
 
 export function CTASection() {
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [authTab, setAuthTab] = useState<"signup" | "login">("signup");
   const handleGetStarted = () => {
-    const [showAuthModal, setShowAuthModal] = useState(false);
-    const [authTab, setAuthTab] = useState<"signup" | "login">("signup");
     setAuthTab("signup");
     setShowAuthModal(true);
   };

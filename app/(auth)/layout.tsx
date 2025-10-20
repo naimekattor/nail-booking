@@ -12,7 +12,7 @@ export default function AuthLayout({
 
       {/* Right Section */}
       <div className="flex flex-1 items-center justify-center bg-white px-6">
-        <div className="w-full max-w-sm">{children}</div>
+        <div className="w-full">{children}</div>
       </div>
     </div>
   );

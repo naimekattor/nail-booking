@@ -9,7 +9,7 @@ const ProfileInfoModal = ({ onClose }: ModalProps) => {
     <div className="fixed inset-0 bg-black/50 flex justify-center items-start z-50 p-4 pt-20">
       <div className="bg-white rounded-lg shadow-2xl p-6 w-full max-w-lg">
         <h3 className="font-bold text-lg text-gray-800">
-          Basic profile information's
+          Basic profile information&apos;s
         </h3>
         <p className="text-sm text-gray-500 mt-1">
           Your payment information is protected with SSL encryption. We do not

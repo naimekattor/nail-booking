@@ -23,7 +23,7 @@ const mockUser = {
 
 export default function ProfilePage() {
   const { data: session } = useSession();
-  console.log(session?.user?.name);
+  console.log(session?.user);
 
   const [activeTab, setActiveTab] = useState<"bookings" | "balance">(
     "bookings"

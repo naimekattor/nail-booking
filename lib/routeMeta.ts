@@ -12,7 +12,7 @@ export const routeMeta: Record<string, { title: string; subtitle?: string }> = {
     subtitle: "Performance metrics and analytics for subscriber businesses",
   },
   "/super-admin/customers": {
-    title: "Customer Insights",
+    title: "Subscriber Insights",
     subtitle: "Select a business to view detailed customer data and analytics",
   },
   "/super-admin/affiliates": {
