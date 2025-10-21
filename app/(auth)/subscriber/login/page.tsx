@@ -35,7 +35,9 @@ export default function LoginPage() {
           },
         });
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <>

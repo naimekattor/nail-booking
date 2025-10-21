@@ -1,6 +1,5 @@
 "use client";
 import { NextPage } from "next";
-import Head from "next/head";
 import { useState, useMemo, FC } from "react";
 import {
   FiSearch,
@@ -9,8 +8,7 @@ import {
   FiChevronDown,
   FiChevronUp,
 } from "react-icons/fi";
-import { FaBan } from "react-icons/fa";
-import { HiDotsHorizontal } from "react-icons/hi";
+
 import { CircleCheckBig, CircleX } from "lucide-react";
 
 type AdminRole = "Super Admin" | "Platform Admin";

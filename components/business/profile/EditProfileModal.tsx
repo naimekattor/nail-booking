@@ -40,7 +40,7 @@ const EditProfileModal = ({ onClose }: { onClose: () => void }) => {
             <div className="flex items-center">
               <label
                 htmlFor="file-upload"
-                className="cursor-pointer bg-gray-200 text-gray-800 font-semibold px-4 py-2 rounded-l-md hover:bg-gray-300"
+                className="cursor-pointer bg-gray-200 text-gray-800 font-semibold px-4  rounded-l-md hover:bg-gray-300"
               >
                 Choose file
               </label>

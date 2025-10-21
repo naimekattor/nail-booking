@@ -8,7 +8,7 @@ const mockTransactions = [
   {
     id: 1,
     amount: -50,
-    type: "debit",
+    type: "debit" as const,
     description: "Store available credits 'company'",
     date: "Nov 22, 2024",
     balance: 145,
@@ -16,7 +16,7 @@ const mockTransactions = [
   {
     id: 2,
     amount: 50,
-    type: "credit",
+    type: "credit" as const,
     description: "Store available credits 'company'",
     date: "Nov 22, 2024",
     balance: 145,
@@ -24,7 +24,7 @@ const mockTransactions = [
   {
     id: 3,
     amount: 100,
-    type: "credit",
+    type: "credit" as const,
     description: "Account top-up from technician",
     date: "Nov 22, 2024",
     balance: 210,
@@ -35,7 +35,7 @@ const mockStoreWise = [
   {
     id: 1,
     amount: 50,
-    type: "credit",
+    type: "credit" as const,
     description: "Credit added from technician/ltd",
     date: "Dec 20, 2024",
     balance: 145,

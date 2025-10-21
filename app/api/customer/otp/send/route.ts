@@ -1,6 +1,4 @@
 import { NextResponse } from "next/server";
-import { auth } from "@/lib/firebase";
-import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 
 export async function POST(req: Request) {
   const { phone } = await req.json();

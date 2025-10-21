@@ -103,7 +103,7 @@ export default function BusinessSelection() {
           <div className="rounded-lg border border-border bg-card p-6">
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <span className="text-lg">🏢</span>
-              Total Businesses
+              Total Subscriber
             </div>
             <p className="mt-2 text-3xl font-bold">5,247</p>
             {/* <p className="mt-1 text-xs text-muted-foreground">
@@ -200,7 +200,7 @@ export default function BusinessSelection() {
         {/* Business Grid */}
         <div>
           <h3 className="mb-4 text-lg font-semibold">
-            Select Business to View their customers
+            Select Subscriber to View their customers
           </h3>
           <p className="mb-4 text-sm text-muted-foreground">
             Choose a business to access detailed customer insights and analytics

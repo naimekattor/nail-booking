@@ -1,6 +1,6 @@
 "use client";
 
-import { TrendingUp, RefreshCw, Target } from "lucide-react";
+import { TrendingUp, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import TargetModal from "@/components/super-admin/modals/TargetModal";
@@ -15,12 +15,12 @@ export default function RevenueDashboard() {
       <div className="mx-auto  space-y-6">
         {/* Header */}
         <div className="flex items-center justify-between">
-          <div>
+          {/* <div>
             <h1 className="text-2xl font-semibold">Revenue Dashboard</h1>
             <p className="text-sm text-muted-foreground">
               Track your business performance and growth
             </p>
-          </div>
+          </div> */}
           <div className="flex gap-2">
             <Button
               variant="outline"

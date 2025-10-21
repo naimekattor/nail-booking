@@ -6,10 +6,8 @@ import {
   Download,
   RefreshCw,
   Search,
-  MoreVertical,
   Star,
   Users,
-  Delete,
   Trash,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -22,7 +20,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Router } from "next/router";
 import { useRouter } from "next/navigation";
 import BusinessInfoModal from "@/components/super-admin/modals/BusinessInfoModal";
 

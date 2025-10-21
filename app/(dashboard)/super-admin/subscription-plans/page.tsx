@@ -204,11 +204,11 @@ export default function PackageManagement() {
     setIsPackageModalOpen(true);
   };
 
-  const startEditingPlan = (plan: Plan) => {
-    setEditingPlan(plan.id);
-    setEditName(plan.name);
-    setEditPrice(plan.price);
-  };
+  // const startEditingPlan = (plan: Plan) => {
+  //   setEditingPlan(plan.id);
+  //   setEditName(plan.name);
+  //   setEditPrice(plan.price);
+  // };
 
   const savePlanDetails = () => {
     setIsPackageModalOpen(true);

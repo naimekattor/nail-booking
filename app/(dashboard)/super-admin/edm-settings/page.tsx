@@ -341,9 +341,6 @@ export default function EDMSettings() {
   >("idle");
   const [conditions, setConditions] = useState("");
 
-  // initialize project toast helper (replaces sonner)
-  const { toast } = useToast();
-
   // Brevo integration state
   const [brevoTemplates, setBrevoTemplates] = useState<BrevoTemplate[]>([]);
   const [sendLogs, setSendLogs] = useState<SendLog[]>([]);
@@ -620,13 +617,13 @@ export default function EDMSettings() {
       <ToastContainer />
       <div className="">
         <div className="">
-          <div className="mb-6">
+          {/* <div className="mb-6">
             <h2 className="text-2xl font-bold">EDM Auto-Send Settings</h2>
             <p className="text-muted-foreground">
               Configure automated email campaigns integrated with Brevo EDM
               platform
             </p>
-          </div>
+          </div> */}
 
           {/* API Key Configuration */}
           {!isApiKeySet && (
@@ -996,7 +993,7 @@ export default function EDMSettings() {
                         </td>
                         <td className="py-3 px-2">
                           <Badge
-                            className="bg-[#9810FA]"
+                            className="bg-[#C06EF3]"
                             variant={
                               log.status === "success"
                                 ? "default"

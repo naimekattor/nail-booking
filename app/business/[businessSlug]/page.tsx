@@ -1,12 +1,7 @@
 import BusinessServicesClient from "@/components/BusinessServicesClient";
-import { Category } from "@/types/service";
+import { Business, Category } from "@/types/service";
 
-type Business = {
-  id: string;
-  username: string;
-  name: string;
-  categories?: Category[];
-};
+
 
 async function getBusinessData(
   businessSlug: string

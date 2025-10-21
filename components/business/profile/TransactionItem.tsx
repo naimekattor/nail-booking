@@ -1,6 +1,6 @@
 import { FiArrowUp, FiArrowDown } from "react-icons/fi";
 interface Transaction {
-  id: string;
+  id: number;
   type: "credit" | "debit";
   amount: number;
   description: string;

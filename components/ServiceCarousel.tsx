@@ -11,11 +11,11 @@ interface Story {
 const StoryCard = ({ story }: { story: Story }) => {
   return (
     <motion.div
-      className="relative w-full h-96 flex-shrink-0 rounded-lg overflow-hidden shadow-xl group"
+      className="relative w-[85%] sm:w-[45%] md:w-[30%] h-96 flex-shrink-0 rounded-lg overflow-hidden shadow-xl group"
       whileHover={{ y: -8, transition: { type: "spring", stiffness: 300 } }}
     >
       <img
-        src={story}
+        src={story.imageUrl}
         alt={story.title}
         className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 pointer-events-none"
       />
@@ -27,7 +27,7 @@ const StoryCard = ({ story }: { story: Story }) => {
   );
 };
 
-export default function CarouselCards({ storiesData }) {
+export default function CarouselCards({ storiesData }: { storiesData: Story[] }) {
   const trackRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [dragConstraint, setDragConstraint] = useState(0);

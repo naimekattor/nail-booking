@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export default function AuthLayout({
   children,
 }: {
@@ -7,7 +9,13 @@ export default function AuthLayout({
     <div className="flex min-h-screen">
       {/* Left Section */}
       <div className="hidden md:flex flex-1 items-center justify-center bg-gradient-to-t from-purple-100 to-white">
-        <img src="/images/auth.png" alt="Nail Studio" className="max-w-md" />
+        <Image
+          width={1645}
+          height={1334}
+          src="/images/auth.png"
+          alt="Nail Studio"
+          className="max-w-md"
+        />
       </div>
 
       {/* Right Section */}

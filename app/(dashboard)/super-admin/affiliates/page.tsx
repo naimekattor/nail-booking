@@ -23,8 +23,6 @@ import {
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
@@ -180,9 +178,9 @@ export default function AffiliatesDashboard() {
   const getRuleColor = (rule: AffiliateRule) => {
     switch (rule) {
       case "Standard":
-        return "bg-success/10 text-success border-success/20";
+        return "bg-warning/10 text-warning border-success/20";
       case "VIP partner":
-        return "bg-primary/10 text-primary border-primary/20";
+        return " bg-warning/10 text-warning border-primary/20";
       case "Common":
         return "bg-warning/10 text-warning border-warning/20";
       case "Medium":
@@ -197,7 +195,7 @@ export default function AffiliatesDashboard() {
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           <div className="rounded-lg border border-border bg-card p-6">
             <div className="flex items-center gap-3">
-              <div className="rounded-lg bg-primary/10 p-3">
+              <div className="rounded-lg  p-3">
                 <Users className="h-5 w-5 text-primary" />
               </div>
               <div>
@@ -243,7 +241,7 @@ export default function AffiliatesDashboard() {
 
           <div className="rounded-lg border border-border bg-card p-6">
             <div className="flex items-center gap-3">
-              <div className="rounded-lg bg-primary/10 p-3">
+              <div className="rounded-lg  p-3">
                 <Receipt className="h-5 w-5 text-primary" />
               </div>
               <div>
@@ -257,7 +255,7 @@ export default function AffiliatesDashboard() {
 
           <div className="rounded-lg border border-border bg-card p-6">
             <div className="flex items-center gap-3">
-              <div className="rounded-lg bg-primary/10 p-3">
+              <div className="rounded-lg  p-3">
                 <TrendingUp className="h-5 w-5 text-primary" />
               </div>
               <div>
@@ -271,7 +269,7 @@ export default function AffiliatesDashboard() {
 
           <div className="rounded-lg border border-border bg-card p-6">
             <div className="flex items-center gap-3">
-              <div className="rounded-lg bg-primary/10 p-3">
+              <div className="rounded-lg  p-3">
                 <Percent className="h-5 w-5 text-primary" />
               </div>
               <div>
@@ -411,7 +409,7 @@ export default function AffiliatesDashboard() {
                         </span>
                       </div>
                     </td>
-                    <td className="px-4 py-4">
+                    <td className="px-4 py-4 ">
                       <Badge className={getRuleColor(affiliate.affiliateRule)}>
                         {affiliate.affiliateRule}
                       </Badge>

@@ -19,6 +19,7 @@ interface User {
   email: string;
   gender: string;
   memberSince: string;
+  image: string;
 }
 
 interface UserInfoCardProps {
@@ -45,26 +46,22 @@ const InfoItem = ({
 );
 
 const UserInfoCard = ({ user, onEdit }: UserInfoCardProps) => {
-  console.log(user?.user?.name);
+  //console.log(user?.user?.name);
   // console.log(user.user);
 
   return (
     <div className="relative bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 p-6 sm:p-8 rounded-2xl shadow-sm border">
       <div className="flex flex-col sm:flex-row items-center gap-6">
         <Image
-          src={user?.user?.image}
-          alt={user?.user?.name}
+          src={user?.image}
+          alt={user?.name}
           width={80}
           height={80}
           className="rounded-full border-4 border-white shadow-md"
         />
         <div className="text-center sm:text-left">
-          <h1 className="text-2xl font-bold text-gray-900">
-            {user?.user?.name}
-          </h1>
-          <p className="text-sm text-gray-500 font-medium">
-            ID: {user?.user?.id}
-          </p>
+          <h1 className="text-2xl font-bold text-gray-900">{user?.name}</h1>
+          <p className="text-sm text-gray-500 font-medium">ID: {user?.id}</p>
         </div>
       </div>
       {/* <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-6">

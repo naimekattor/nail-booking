@@ -31,8 +31,7 @@ type ModalType = "profile" | "password" | "email" | "number" | null;
 
 // The menu items array remains the same
 const menuItems = [
-  // ... your existing menuItems array
-  { label: "Subscribers", href: "/super-admin/", icon: Users },
+  { label: "Subscribers", href: "/super-admin", icon: Users },
   {
     label: "Subscription Plans",
     href: "/super-admin/subscription-plans",
@@ -101,7 +100,6 @@ export default function SuperAdminLayout({
   return (
     <>
       {" "}
-      {/* Use a Fragment to render modals at the root level */}
       <div className="flex h-screen overflow-hidden ">
         {/* Mobile Sidebar Overlay */}
         <div
@@ -129,7 +127,6 @@ export default function SuperAdminLayout({
           <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
             {menuItems.map((item) =>
               item.children ? (
-                // ... your existing dropdown menu logic (unchanged)
                 <div key={item.label}>
                   <p className="text-xs font-semibold text-gray-400 uppercase mt-4 flex items-center gap-1">
                     <span className="w-[14px] h-[14px] flex-shrink-0">
@@ -144,7 +141,7 @@ export default function SuperAdminLayout({
                         href={child.href}
                         className={cn(
                           "flex items-center gap-2 px-3 py-2 rounded-md text-sm",
-                          pathname === child.href
+                          pathname == child.href
                             ? "bg-[#C06EF3] text-white font-medium"
                             : "text-gray-700 hover:bg-gray-100"
                         )}

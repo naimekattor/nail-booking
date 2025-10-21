@@ -98,9 +98,9 @@ export function ShowReferralsModal({
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       {/* 3. Increased modal width for the table layout */}
-      <DialogContent className="max-w-5xl bg-background p-0">
+      <DialogContent className="min-w-fit bg-background p-2">
         <div className="p-6">
-          <Button
+          {/* <Button
             variant="ghost"
             size="sm"
             onClick={onClose}
@@ -108,7 +108,7 @@ export function ShowReferralsModal({
           >
             <ArrowLeft className="h-4 w-4" />
             Back
-          </Button>
+          </Button> */}
 
           {/* 4. Responsive Header: Title on the left, Search on the right */}
           <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">

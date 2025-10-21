@@ -9,11 +9,12 @@ import {
   Search,
   Filter,
   Upload,
-  MoreHorizontal,
   Check,
-  XCircle, // Icon for Reject
+  XCircle,
   Trash2,
-  LucideIcon, // Icon for Delete
+  LucideIcon,
+  MoreVertical,
+  CircleCheckBig,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -36,7 +37,6 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 
-// --- 1. Data Structure & Initial Data ---
 type WithdrawalStatus = "Pending" | "Approved" | "Paid" | "Reject";
 type Withdrawal = {
   id: string;
@@ -122,7 +122,7 @@ const StatCard = ({
     </div>
     <div>
       <p className="text-sm text-gray-500">{title}</p>
-      <p className="text-xl font-semibold text-gray-800">{`NT$ ${value.toLocaleString()}`}</p>
+      <p className="text-2xl font-bold">{`NT$ ${value.toLocaleString()}`}</p>
     </div>
   </div>
 );
@@ -206,29 +206,29 @@ export default function WithdrawalsDashboard() {
             icon={DollarSign}
             title="Total Commissions"
             value={5319}
-            color="text-blue-600"
-            bgColor="bg-blue-100"
+            color="text-primary"
+            bgColor=""
           />
           <StatCard
             icon={Clock}
             title="Pending"
             value={925}
-            color="text-yellow-600"
-            bgColor="bg-yellow-100"
+            color="text-primary"
+            bgColor=""
           />
           <StatCard
             icon={CheckCircle}
             title="Approved"
             value={2081}
-            color="text-sky-600"
-            bgColor="bg-sky-100"
+            color="text-primary"
+            bgColor=""
           />
           <StatCard
             icon={TrendingUp}
             title="Paid"
             value={2313}
-            color="text-green-600"
-            bgColor="bg-green-100"
+            color="text-primary"
+            bgColor=""
           />
         </div>
 
@@ -372,7 +372,7 @@ export default function WithdrawalsDashboard() {
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                           <Button variant="ghost" className="h-8 w-8 p-0">
-                            <MoreHorizontal className="h-4 w-4" />
+                            <MoreVertical className="h-4 w-4" />
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
@@ -382,6 +382,7 @@ export default function WithdrawalsDashboard() {
                                 handleAction([item.id], "Approve")
                               }
                             >
+                              <CircleCheckBig />
                               Approve
                             </DropdownMenuItem>
                           )}

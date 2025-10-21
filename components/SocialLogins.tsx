@@ -15,6 +15,7 @@ export default function SocialLogins() {
   ];
 
   const handleSocialLogin = (provider: "google" | "facebook" | "apple") => {
+    if (!signIn) return;
     return signIn.authenticateWithRedirect({
       strategy: `oauth_${provider}`,
       redirectUrl: "/subscriber",

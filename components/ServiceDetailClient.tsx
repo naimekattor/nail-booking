@@ -2,7 +2,6 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, ChevronLeft, ChevronRight, X } from "lucide-react";
@@ -11,14 +10,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import CarouselCards from "./ServiceCarousel";
+import { ServiceDetailClientProps } from "../types/service";
 
-import {
-  Service,
-  ServiceDetailClientProps,
-  Requirement,
-  AvailableAddOn,
-  ChosenAddOn,
-} from "@/types/service";
+import { Requirement, AvailableAddOn, ChosenAddOn } from "@/types/service";
 export default function ServiceDetailClient({
   service,
   businessSlug,
@@ -123,9 +117,12 @@ export default function ServiceDetailClient({
         </Link>
       </div>
 
-      {/* Main Content - 2 Column Grid Layout */}
       <div className="mx-auto max-w-[1400px] py-6">
-        <CarouselCards storiesData={service.serviceDetails.images} />
+        <CarouselCards storiesData={service.serviceDetails.images.map((image, index) => ({
+          id: index + 1,
+          imageUrl: image,
+          title: `Image ${index + 1}`
+        }))} />
 
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
           <div className="space-y-6 lg:col-span-6 shrink">

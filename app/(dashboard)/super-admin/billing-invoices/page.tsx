@@ -2,9 +2,7 @@
 import { useState } from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
-import Link from "next/link"; // Import Link for navigation
-
-// Icons from 'react-icons'
+import Link from "next/link";
 import {
   FiSearch,
   FiFilter,
@@ -14,7 +12,6 @@ import {
   FiChevronRight,
 } from "react-icons/fi";
 
-// --- Reusable Delete Modal Component ---
 const DeleteModal: React.FC<{
   onConfirm: () => void;
   onCancel: () => void;
@@ -110,7 +107,7 @@ const initialInvoices: Invoice[] = [
 const StatusBadge: React.FC<{
   status: "Reissued" | "Created" | "Failed";
   carrier?: string;
-}> = ({ status, carrier }) => {
+}> = ({ status }) => {
   const baseClasses = "px-3 py-1 text-sm rounded-full inline-flex items-center";
   if (status === "Reissued")
     return (

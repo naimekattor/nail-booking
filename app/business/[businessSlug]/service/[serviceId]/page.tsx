@@ -1,13 +1,7 @@
 // app/[businessSlug]/service/[serviceId]/page.tsx
 import ServiceDetailClient from "@/components/ServiceDetailClient";
+import { Service, NestedService, ServiceDetails } from "@/types/service";
 import { notFound } from "next/navigation";
-type Service = {
-  id: string;
-  name: string;
-  description?: string;
-  price?: number;
-  duration?: number;
-};
 
 type Category = {
   id: string;
@@ -47,7 +41,19 @@ export default async function ServiceDetailPage({
   const allServices: Service[] = (business.categories || []).flatMap(
     (c) => c.services || []
   );
-  const service = allServices.find((s) => String(s.id) === String(serviceId));
+  const service: Service | undefined = allServices
+  .map((s: Service) => ({
+    ...s,
+    serviceDetails: s.serviceDetails || { images: s.images ?? [] },
+    service: s.service || {
+      id: "",
+      name: "",
+      duration: 0,
+      price: 0,
+      // Add other required NestedService fields with safe defaults
+    } as NestedService,
+  }))
+  .find((s) => s.id === serviceId);
 
   if (!service) return notFound();
 

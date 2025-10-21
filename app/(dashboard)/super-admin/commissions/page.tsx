@@ -27,6 +27,8 @@ import {
   Plus,
   Search,
   Filter,
+  Edit,
+  Trash,
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -134,8 +136,8 @@ export default function CommissionRules() {
           <Card className="border-border bg-card">
             <CardContent className="p-6">
               <div className="flex items-center gap-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-blue-500/10">
-                  <DollarSign className="h-6 w-6 text-blue-500" />
+                <div className="flex h-12 w-12 items-center justify-center rounded-lg ">
+                  <DollarSign className="h-6 w-6 text-primary" />
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">
@@ -150,8 +152,8 @@ export default function CommissionRules() {
           <Card className="border-border bg-card">
             <CardContent className="p-6">
               <div className="flex items-center gap-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-yellow-500/10">
-                  <Clock className="h-6 w-6 text-yellow-500" />
+                <div className="flex h-12 w-12 items-center justify-center rounded-lg ">
+                  <Clock className="h-6 w-6 text-primary" />
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">Pending</p>
@@ -164,8 +166,8 @@ export default function CommissionRules() {
           <Card className="border-border bg-card">
             <CardContent className="p-6">
               <div className="flex items-center gap-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-blue-500/10">
-                  <CheckCircle className="h-6 w-6 text-blue-500" />
+                <div className="flex h-12 w-12 items-center justify-center rounded-lg ">
+                  <CheckCircle className="h-6 w-6 text-primary" />
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">Approved</p>
@@ -178,8 +180,8 @@ export default function CommissionRules() {
           <Card className="border-border bg-card">
             <CardContent className="p-6">
               <div className="flex items-center gap-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-green-500/10">
-                  <TrendingUp className="h-6 w-6 text-green-500" />
+                <div className="flex h-12 w-12 items-center justify-center rounded-lg ">
+                  <TrendingUp className="h-6 w-6 text-primary" />
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">Paid</p>
@@ -270,12 +272,14 @@ export default function CommissionRules() {
                             <DropdownMenuItem
                               onClick={() => handleEditRule(rule)}
                             >
+                              <Edit />
                               Edit
                             </DropdownMenuItem>
                             <DropdownMenuItem
                               onClick={() => handleDeleteRule(rule.id)}
                               className="text-red-500"
                             >
+                              <Trash />
                               Delete
                             </DropdownMenuItem>
                           </DropdownMenuContent>

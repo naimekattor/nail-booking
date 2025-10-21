@@ -24,6 +24,19 @@ const mockUser = {
 export default function ProfilePage() {
   const { data: session } = useSession();
   console.log(session?.user);
+  const user = session?.user
+    ? {
+        id: session.user.id,
+        name: session.user.name || "Unknown",
+        image: session.user.image || "",
+        avatarUrl: session.user.image || "",
+        email: session.user.email || "",
+        phone: "",
+        birthday: "",
+        gender: "",
+        memberSince: "",
+      }
+    : null;
 
   const [activeTab, setActiveTab] = useState<"bookings" | "balance">(
     "bookings"
@@ -32,7 +45,9 @@ export default function ProfilePage() {
 
   return (
     <div className="space-y-8 h-full">
-      <UserInfoCard user={session} onEdit={() => setEditModalOpen(true)} />
+      {user && (
+        <UserInfoCard user={user} onEdit={() => setEditModalOpen(true)} />
+      )}
 
       {/* Main Tab Controls */}
       <div className="flex items-center p-1 bg-gray-100 rounded-lg max-w-max mx-auto sm:mx-0">

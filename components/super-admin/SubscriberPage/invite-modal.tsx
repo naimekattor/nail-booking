@@ -38,16 +38,16 @@ export function InviteModal({ isOpen, onClose }: InviteModalProps) {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="max-w-md">
         <DialogHeader>
-          <div className="flex items-center gap-2">
+          <div className="">
             <Button
               variant="ghost"
               size="icon"
               className="h-8 w-8"
               onClick={onClose}
             >
-              <ArrowLeft className="h-4 w-4" />
+              {/* <ArrowLeft className="h-4 w-4" /> */}
             </Button>
             <DialogTitle>Invite to your platform</DialogTitle>
           </div>
@@ -69,12 +69,12 @@ export function InviteModal({ isOpen, onClose }: InviteModalProps) {
             />
           </div>
 
-          <Button
+          <button
             type="submit"
-            className="w-full bg-gradient-to-r from-[#F6339A] to-[#9810FA] text-primary-foreground hover:opacity-90"
+            className="w-full py-3 bg-gradient-to-r from-[#F6339A] to-[#9810FA] text-primary-foreground hover:opacity-90 rounded-md"
           >
             Submit
-          </Button>
+          </button>
         </form>
       </DialogContent>
     </Dialog>

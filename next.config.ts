@@ -8,6 +8,7 @@ const nextConfig: NextConfig = {
       "via.placeholder.com",
       "img.clerk.com",
       "i.ibb.co",
+      "profile.line-scdn.net",
     ],
   },
 };

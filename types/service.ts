@@ -17,7 +17,14 @@ export interface ChosenAddOn extends AvailableAddOn {
 export interface ServiceDetails {
   images: string[];
 }
-
+export interface NestedService {
+  id: string;
+  name: string;
+  duration: number;
+  price: number;
+  description?: string;
+  requirements?: string[];
+}
 export interface Service {
   id: string;
   name: string;
@@ -29,6 +36,7 @@ export interface Service {
   image?: string;
   images?: string[];
   serviceDetails: ServiceDetails;
+  service: NestedService;
 }
 
 export interface ServiceDetailClientProps {
@@ -41,6 +49,7 @@ export interface Category {
   id: string;
   name: string;
   services?: Service[];
+  category: string;
 }
 
 export interface Business {

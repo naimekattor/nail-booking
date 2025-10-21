@@ -38,7 +38,7 @@ export function ApplyAffiliateRuleModal({
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-md bg-background p-0">
         <div className="p-6">
-          <Button
+          {/* <Button
             variant="ghost"
             size="sm"
             onClick={onClose}
@@ -46,7 +46,7 @@ export function ApplyAffiliateRuleModal({
           >
             <ArrowLeft className="h-4 w-4" />
             Back
-          </Button>
+          </Button> */}
 
           <h2 className="mb-6 text-center text-xl font-semibold">
             Apply affiliate rule
@@ -68,12 +68,12 @@ export function ApplyAffiliateRuleModal({
               </Select>
             </div>
 
-            <Button
+            <button
               type="submit"
-              className="w-full bg-gradient-to-r from-[#F6339A] to-[#9810FA] text-primary-foreground hover:opacity-90"
+              className="w-full py-3 bg-gradient-to-r from-[#F6339A] to-[#9810FA] text-primary-foreground hover:opacity-90 rounded-md"
             >
               Confirm
-            </Button>
+            </button>
           </form>
         </div>
       </DialogContent>
