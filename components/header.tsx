@@ -4,7 +4,6 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import Image from "next/image";
 import Link from "next/link";
 import { Calendar } from "lucide-react";
 
@@ -81,7 +80,7 @@ const Header = () => {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.5, delay: 0.6 }}
                 >
-                  <Link href="/auth/login">
+                  <Link href="/subscriber/login">
                     <div className="p-[1px] rounded-md bg-gradient-to-r from-[#F6339A]  to-[#9810FA]">
                       <Button
                         variant="default"
@@ -103,7 +102,7 @@ const Header = () => {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.5, delay: 0.6 }}
                 >
-                  <Link href="/auth/login">
+                  <Link href="/account-info">
                     <Button
                       variant="default"
                       size="sm"

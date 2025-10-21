@@ -110,7 +110,7 @@ export default function ServiceDetailClient({
       {/* Header */}
       <div className="border-b bg-white px-4 py-3">
         <Link
-          href={`/${businessSlug}`}
+          href={`/${businessSlug}/business`}
           className="inline-flex items-center gap-2 text-sm font-medium text-gray-700 hover:text-gray-900"
         >
           <ArrowLeft className="h-4 w-4" /> All Services
@@ -118,11 +118,13 @@ export default function ServiceDetailClient({
       </div>
 
       <div className="mx-auto max-w-[1400px] py-6">
-        <CarouselCards storiesData={service.serviceDetails.images.map((image, index) => ({
-          id: index + 1,
-          imageUrl: image,
-          title: `Image ${index + 1}`
-        }))} />
+        <CarouselCards
+          storiesData={service.serviceDetails.images.map((image, index) => ({
+            id: index + 1,
+            imageUrl: image,
+            title: `Image ${index + 1}`,
+          }))}
+        />
 
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
           <div className="space-y-6 lg:col-span-6 shrink">

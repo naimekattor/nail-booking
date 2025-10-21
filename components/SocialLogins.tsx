@@ -2,11 +2,13 @@
 
 import { Button } from "@/components/ui/button";
 import { useSignIn } from "@clerk/nextjs";
+import { usePathname } from "next/navigation";
 import { FaApple, FaFacebook } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 
 export default function SocialLogins() {
   const { signIn } = useSignIn();
+  const pathName = usePathname();
 
   const socialButtons = [
     { name: "Google", icon: <FcGoogle size={22} />, provider: "google" },
@@ -30,7 +32,11 @@ export default function SocialLogins() {
           <span className="w-full border-t border-dashed" />
         </div>
         <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-white px-2 text-gray-400">OR Sign Up with</span>
+          <span className="bg-white px-2 text-gray-400">
+            {pathName === "/subscriber/login"
+              ? "OR Login  with"
+              : "OR Sign Up with"}
+          </span>
         </div>
       </div>
 

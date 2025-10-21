@@ -40,7 +40,7 @@ export default function LoginPage() {
     }
   };
   return (
-    <>
+    <div className="max-w-md mx-auto">
       <h1 className="md:text-4xl sm:text-3xl font-semibold text-gray-800 text-center">
         Login Account
       </h1>
@@ -101,6 +101,6 @@ export default function LoginPage() {
         </Link>
       </p>
       <SocialLogins />
-    </>
+    </div>
   );
 }

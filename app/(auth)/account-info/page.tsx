@@ -17,7 +17,7 @@ export default function AccountInfoPage() {
     setSelected(value);
   };
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center max-w-md mx-auto">
       <h1 className="md:text-4xl sm:text-3xl font-semibold text-gray-800">
         Create Account
       </h1>
@@ -62,7 +62,7 @@ export default function AccountInfoPage() {
         asChild
         className="mt-8 h-12 w-full rounded-lg bg-gradient-to-r from-pink-500 to-purple-600 text-base font-semibold text-white transition-transform hover:scale-105"
       >
-        <Link href="/line/success">Continue</Link>
+        <Link href="/subscriber/signup">Continue</Link>
       </Button>
     </div>
   );

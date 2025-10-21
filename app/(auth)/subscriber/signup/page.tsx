@@ -51,11 +51,13 @@ export default function SignUpPage() {
   };
 
   return (
-    <>
-      <h1 className="md:text-4xl sm:text-3xl font-semibold text-gray-800">
+    <div className="max-w-md mx-auto">
+      <h1 className="md:text-4xl text-center sm:text-3xl font-semibold text-gray-800">
         Create Account
       </h1>
-      <p className="mt-2 text-base text-[#636363]">Empowering hotels and</p>
+      <p className="mt-2 text-base text-center text-[#636363]">
+        Empowering hotels and
+      </p>
 
       <div className="my-10 flex flex-col items-center gap-2">
         <Image src="/images/authIcon.png" alt="icon" width={56} height={56} />
@@ -64,22 +66,42 @@ export default function SignUpPage() {
       </div>
 
       <form className="mt-8 w-full space-y-4" onSubmit={handleSubmit}>
-        <Input
-          type="email"
-          name="email"
-          value={emailAddress}
-          placeholder="user@mail.com"
-          onChange={(e) => setEmailAddress(e.target.value)}
-          required
-        />
-        <Input
-          type="password"
-          name="password"
-          value={password}
-          placeholder="Password"
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
+        <div>
+          <label htmlFor="email">Email</label>
+          <Input
+            type="email"
+            name="email"
+            value={emailAddress}
+            placeholder="user@mail.com"
+            onChange={(e) => setEmailAddress(e.target.value)}
+            required
+          />
+        </div>
+
+        <div>
+          <label htmlFor="password">Password</label>
+          <Input
+            type="password"
+            name="password"
+            value={password}
+            placeholder="Password"
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
+
+        <div>
+          <label htmlFor="password">Confirm Password</label>
+          <Input
+            type="password"
+            name="password"
+            value={password}
+            placeholder="Confirm Password"
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
+
         <Button
           type="submit"
           disabled={loading}
@@ -102,6 +124,6 @@ export default function SignUpPage() {
 
       <SocialLogins />
       <div id="clerk-captcha" style={{ display: "none" }}></div>
-    </>
+    </div>
   );
 }
