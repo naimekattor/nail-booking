@@ -10,15 +10,18 @@ import type { ClerkAPIResponseError } from "@clerk/types";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import SocialLogins from "@/components/SocialLogins";
+import { setAuthFromResponse, signup } from "@/lib/auth";
+import { useToast } from "@/hooks/use-toast";
 
 export default function SignUpPage() {
   const { isLoaded, signUp } = useSignUp();
   const router = useRouter();
 
-  const [emailAddress, setEmailAddress] = React.useState<string>("");
+  const [email, setEmail] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
   const [loading, setLoading] = React.useState<boolean>(false);
   const [error, setError] = React.useState<string | null>(null);
+  const {addToast}=useToast();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -28,27 +31,19 @@ export default function SignUpPage() {
     setError(null);
 
     try {
-      await signUp.create({
-        emailAddress,
-        password,
-        unsafeMetadata: {
-          role: "subscriber",
-        },
-      });
-
-      await signUp.prepareEmailAddressVerification({
-        strategy: "email_code",
-      });
+     const res= await signup({ email, password });
+     setAuthFromResponse(res);
+     addToast("Account created successfully! Please verify your email.");
 
       router.push("/subscriber/verify-code");
     } catch (err) {
-      const clerkError = err as ClerkAPIResponseError;
-      console.error("Sign up error:", clerkError);
-      setError(clerkError.errors?.[0]?.message || "Something went wrong");
+      console.log(err);
+      
     } finally {
       setLoading(false);
     }
   };
+  
 
   return (
     <div className="max-w-md mx-auto">
@@ -71,9 +66,9 @@ export default function SignUpPage() {
           <Input
             type="email"
             name="email"
-            value={emailAddress}
+            value={email}
             placeholder="user@mail.com"
-            onChange={(e) => setEmailAddress(e.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
             required
           />
         </div>
@@ -95,7 +90,7 @@ export default function SignUpPage() {
           <Input
             type="password"
             name="password"
-            value={password}
+            
             placeholder="Confirm Password"
             onChange={(e) => setPassword(e.target.value)}
             required
