@@ -1,14 +1,15 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { useSignIn } from "@clerk/nextjs";
-import { usePathname } from "next/navigation";
-import { FaApple, FaFacebook } from "react-icons/fa";
+import { authLogin } from "@/lib/auth";
+import { usePathname, useRouter } from "next/navigation";
+import { useState } from "react";
+import { FaApple, FaFacebook, FaSpinner } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 
 export default function SocialLogins() {
-  const { signIn } = useSignIn();
   const pathName = usePathname();
+  const [loadingProvider, setLoadingProvider] = useState<string | null>(null);
 
   const socialButtons = [
     { name: "Google", icon: <FcGoogle size={22} />, provider: "google" },
@@ -16,15 +17,32 @@ export default function SocialLogins() {
     { name: "Apple", icon: <FaApple size={20} />, provider: "apple" },
   ];
 
-  const handleSocialLogin = (provider: "google" | "facebook" | "apple") => {
-    if (!signIn) return;
-    return signIn.authenticateWithRedirect({
-      strategy: `oauth_${provider}`,
-      redirectUrl: "/subscriber",
-      redirectUrlComplete: "/subscriber",
-    });
-  };
+  const handleSocialLogin = async (provider: "google" | "facebook" | "apple") => {
+    setLoadingProvider(provider);
 
+    try {
+      const res = await authLogin({
+        method: provider,
+        // Dynamic URLs – work everywhere
+        success_url: `${window.location.origin}/subscriber/`,
+        cancel_url:  `${window.location.origin}/subscriber/login`,
+      });
+
+      if (!res?.link) {
+        throw new Error("No redirect URL returned from server");
+      }
+
+      // External OAuth → full page navigation
+      window.location.href = res.link;
+      
+    } catch (err: any) {
+      console.error(`[${provider}] login error:`, err);
+      // Optional: toast / alert
+      alert(err.message ?? "Login failed – please try again.");
+    } finally {
+      setLoadingProvider(null);
+    }
+  };
   return (
     <div className="w-full">
       <div className="relative my-6">
@@ -41,18 +59,32 @@ export default function SocialLogins() {
       </div>
 
       <div className="flex w-full flex-col gap-3">
-        {socialButtons.map(({ name, icon, provider }) => (
-          <Button
-            key={name}
-            variant="outline"
-            onClick={() =>
-              handleSocialLogin(provider as "google" | "facebook" | "apple")
-            }
-            className="h-12 w-full justify-center gap-3 rounded-lg border-gray-300 text-base font-medium text-[#364056] transition-colors hover:bg-gradient-to-r from-pink-500 to-purple-600 hover:text-white cursor-pointer"
-          >
-            {icon} {name}
-          </Button>
-        ))}
+        {socialButtons.map(({ name, icon, provider }) => {
+          const isLoading = loadingProvider === provider;
+
+          return (
+            <Button
+              key={name}
+              variant="outline"
+              disabled={isLoading}
+              onClick={() => handleSocialLogin(provider as any)}
+              className={`
+                h-12 w-full justify-center gap-3 rounded-lg border-gray-300
+                text-base font-medium text-[#364056]
+                transition-colors hover:bg-gradient-to-r hover:from-pink-500 hover:to-purple-600
+                hover:text-white cursor-pointer
+                ${isLoading ? "opacity-70 cursor-not-allowed" : ""}
+              `}
+            >
+              {isLoading ? (
+                <FaSpinner className="animate-spin" />
+              ) : (
+                icon
+              )}{" "}
+              {isLoading ? `Connecting…` : name}
+            </Button>
+          );
+        })}
       </div>
     </div>
   );

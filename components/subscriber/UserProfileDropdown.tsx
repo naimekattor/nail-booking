@@ -1,12 +1,20 @@
 "use client";
 
-import { useClerk, useUser } from "@clerk/nextjs";
+import { apiClient } from "@/lib/apiClient";
+import { useAuthStore } from "@/stores/useAuthStore";
 import { LogOut } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FiChevronDown, FiUser, FiLock, FiMail, FiPhone } from "react-icons/fi";
-
 type ModalType = "profile" | "password" | "email" | "logout" | null;
+
+// Shape of the profile endpoint response
+interface ProfileData {
+  full_name?: string;
+  profile_image_url?: string;
+  email?: string;
+  // add any other fields you need
+}
 
 interface UserProfileDropdownProps {
   onOpenModal: (modal: ModalType) => void;
@@ -14,13 +22,38 @@ interface UserProfileDropdownProps {
 
 const UserProfileDropdown = ({ onOpenModal }: UserProfileDropdownProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const { isSignedIn, user } = useUser();
-  console.log(user);
-  if (!isSignedIn) return null;
-  const imageUrl = user?.imageUrl;
+  const [userData,setUserData]=useState<ProfileData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const {setUser}=useAuthStore();
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const res = await apiClient<ProfileData>("accounts/profile/", {
+          method: "GET",
+          auth: true, // uses access_token from localStorage
+        });
+        setUserData(res);
+        setUser(res);
+
+      } catch (err: any) {
+        console.error("Failed to load profile:", err);
+        setError(err.message || "Failed to load profile");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProfile();
+  }, []);
+  
+  const imageUrl = userData?.profile_image_url || "/images/avatar.jpg";
   const name =
-    user?.fullName || `${user?.firstName ?? ""} ${user?.lastName ?? ""}`;
-  const email = user?.primaryEmailAddress?.emailAddress;
+    userData?.full_name || "Name Not Set";
+  
 
   const handleSelect = (modal: ModalType) => {
     onOpenModal(modal);
@@ -35,7 +68,7 @@ const UserProfileDropdown = ({ onOpenModal }: UserProfileDropdownProps) => {
       >
         <div className="text-right">
           <p className="font-semibold">{name}</p>
-          <p className="text-xs text-gray-500">{email}</p>
+          {/* <p className="text-xs text-gray-500">{email}</p> */}
         </div>
         <Image
           src={imageUrl}
@@ -44,6 +77,9 @@ const UserProfileDropdown = ({ onOpenModal }: UserProfileDropdownProps) => {
           height={353}
           className="w-9 h-9 border-1 rounded-full"
         />
+        {loading && (
+            <div className="absolute inset-0 rounded-full border-2 border-gray-200 border-t-transparent animate-spin" />
+          )}
 
         <FiChevronDown
           className={`transition-transform ${isOpen ? "rotate-180" : ""}`}

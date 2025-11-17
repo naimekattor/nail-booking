@@ -4,36 +4,28 @@ import { Mail, Lock } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import SocialLogins from "@/components/SocialLogins";
-import { useSignIn } from "@clerk/nextjs";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import * as React from "react";
+import { login } from "@/lib/auth";
 
 export default function LoginPage() {
-  const { isLoaded, signIn, setActive } = useSignIn();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!isLoaded) return;
     try {
-      const signInAttempt = await signIn.create({
-        identifier: email,
+      const signInAttempt = await login({
+     email,
         password,
       });
-      if (signInAttempt.status === "complete") {
-        await setActive({
-          session: signInAttempt.createdSessionId,
-          navigate: async ({ session }) => {
-            if (session?.currentTask) {
-              console.log(session?.currentTask);
-              return;
-            }
+      if (signInAttempt.access_token ) {
+        
             router.push("/subscriber");
-          },
-        });
+          
+       
       }
     } catch (error) {
       console.log(error);

@@ -35,7 +35,7 @@ export default function SignUpPage() {
      setAuthFromResponse(res);
      addToast("Account created successfully! Please verify your email.");
 
-      router.push("/subscriber/verify-code");
+      router.push(`/subscriber/verify-code?email=${email}`);
     } catch (err) {
       console.log(err);
       
@@ -110,7 +110,7 @@ export default function SignUpPage() {
       <p className="mt-6 text-sm text-gray-500">
         Already have an account?{" "}
         <Link
-          href="/login"
+          href="/subscriber/login"
           className="font-semibold text-pink-500 ring-offset-2 ring-pink-500 focus:outline-none focus:ring-2"
         >
           Sign In

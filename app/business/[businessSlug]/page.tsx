@@ -1,13 +1,21 @@
 import BusinessServicesClient from "@/components/BusinessServicesClient";
 import { Business, Category } from "@/types/service";
 
+function mapCategoriesObj(categoriesObj: Record<string, any[]>) {
+  return Object.entries(categoriesObj).map(([key, services]) => ({
+    id: key,
+    category: key,         // or a formatted name
+    services,
+  }));
+}
+
 
 
 async function getBusinessData(
   businessSlug: string
-): Promise<Business | undefined> {
+) {
   const res = await fetch(
-    "https://68e76da910e3f82fbf3f179a.mockapi.io/business",
+    `https://poodle-flexible-carefully.ngrok-free.app/customer_management/${businessSlug}/list-services/`,
     { cache: "no-store" }
   );
 
@@ -15,16 +23,19 @@ async function getBusinessData(
     throw new Error("Failed to fetch business data");
   }
 
-  const data: Business[] = await res.json();
-  return data.find((biz) => biz.username === "nail-studio");
+  const data= await res.json();
+  console.log("Fetched data:", data);
+
+  return mapCategoriesObj(data);
+
 }
 
 export default async function BusinessHomePage({
-  params,
+  params: { businessSlug },
 }: {
   params: { businessSlug: string };
 }) {
-  const { businessSlug } = params;
+  
   const business = await getBusinessData(businessSlug);
 
   if (!business) {

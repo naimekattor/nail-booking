@@ -1,23 +1,27 @@
 "use client";
 import type { ClerkAPIResponseError } from "@clerk/types";
 
-import React, { useState } from "react";
-import Link from "next/link";
+import React, { useRef, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { IoMdStar } from "react-icons/io";
-import { useSignUp } from "@clerk/nextjs";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { verifyCode } from "@/lib/auth";
 
 export default function VerifyCodePage() {
-  const { isLoaded, signUp, setActive } = useSignUp();
   const router = useRouter();
-  const [otp, setOtp] = useState(Array(6).fill(""));
+  const [otp, setOtp] = useState(Array(4).fill(""));
   const [error, setError] = React.useState<string | null>(null);
   const [loading, setLoading] = React.useState(false);
+  const searchParams = useSearchParams();
+  const email=searchParams.get("email")?? "";
+  const [resendLoading, setResendLoading] = useState(false);
+  const [resendMessage, setResendMessage] = useState<string | null>(null);
+  const firstInputRef = useRef<HTMLInputElement>(null);
+  
 
   const handleChange = (value: string, index: number) => {
-    if (!/^[0-9a-zA-Z]?$/.test(value)) return; // allow only 1 character
+    if (!/^[0-9a-zA-Z]?$/.test(value)) return; 
     const newOtp = [...otp];
     newOtp[index] = value;
     setOtp(newOtp);
@@ -41,19 +45,16 @@ export default function VerifyCodePage() {
 
   const handleVerify = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!isLoaded) return;
     setLoading(true);
     setError(null);
 
     try {
       const code = otp.join("");
-      const completeSignUp = await signUp.attemptEmailAddressVerification({
-        code,
-      });
-      if (completeSignUp.status === "complete") {
-        await setActive({ session: completeSignUp.createdSessionId });
+      const completeSignUp = await verifyCode({email,otp:code});
+      if (completeSignUp.success == true) {
+         
 
-        await router.push("/subscriber");
+         router.push("/subscriber");
       } else {
         setError("Verification failed. Please try again.");
       }
@@ -67,6 +68,49 @@ export default function VerifyCodePage() {
     }
   };
 
+  const handleResendOtp = async () => {
+    if (!email) {
+      setError("No email address to resend the code.");
+      return;
+    }
+
+    setResendLoading(true);
+    setResendMessage(null);
+    setError(null);
+
+    try {
+      const res = await fetch(
+        `https://poodle-flexible-carefully.ngrok-free.app/accounts/bussiness/${encodeURIComponent(
+          email
+        )}/request-otp/`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email }),
+        }
+      );
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.detail ?? `Server responded ${res.status}`);
+      }
+
+      // Success – show friendly message
+      setResendMessage("A new code has been sent to your email.");
+      // Clear any previous OTP so the user starts fresh
+      setOtp(Array(4).fill(""));
+      // Auto-focus first box
+      setTimeout(() => firstInputRef.current?.focus(), 100);
+    } catch (err: any) {
+      console.error("Resend OTP error:", err);
+      setError(err.message ?? "Failed to resend code. Try again later.");
+    } finally {
+      setResendLoading(false);
+    }
+  };
+
   return (
     <>
       <h1 className="md:text-4xl sm:text-3xl font-semibold text-[#1F2023] mb-12 text-center">
@@ -77,17 +121,17 @@ export default function VerifyCodePage() {
         <h2 className="text-xl font-semibold text-[#1F2023]">
           We have sent you an activation code.
         </h2>
-        <p className="mt-2 text-sm text-[#636363]">
+        {/* <p className="mt-2 text-sm text-[#636363]">
           An email has been sent to your email address containing a code to
           reset your password.
-        </p>
+        </p> */}
       </div>
 
       <form
         onSubmit={handleVerify}
-        className="mt-8 w-full space-y-4 text-center"
+        className="mt-4 w-full space-y-4 text-center"
       >
-        <label className="text-sm font-medium text-[#1F2023] pb-6">
+        <label className="text-sm font-medium text-[#1F2023] ">
           Enter verification code
         </label>
         <div className="flex justify-center gap-2 sm:gap-4">
@@ -112,14 +156,19 @@ export default function VerifyCodePage() {
           ))}
         </div>
         <p className="mt-6 text-sm text-gray-500">
-          If you didn’t receive a code!{" "}
-          <Link
-            href="#"
-            className="font-semibold text-pink-500 hover:underline"
+          Didn’t receive a code?{" "}
+          <button
+            type="button"
+            disabled={resendLoading || !email}
+            onClick={handleResendOtp}
+            className="font-semibold text-pink-500 hover:underline disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            click here..
-          </Link>
+            {resendLoading ? "Sending…" : "Resend"}
+          </button>
         </p>
+        {resendMessage && (
+          <p className="mt-2 text-sm text-green-600">{resendMessage}</p>
+        )}
 
         <Button
           type="submit"

@@ -26,7 +26,7 @@ export async function signup(payload: {
   password: string;
   signup_method?: string;
 }): Promise<AuthResponse> {
-  const res = await apiClient<AuthResponse>("accounts/bussiness-register/email/", {
+  const res = await apiClient<AuthResponse>("accounts/business-register/email/", {
     method: "POST",
     body: JSON.stringify(payload),
   });
@@ -41,11 +41,27 @@ export async function login(payload: {
   email: string;
   password: string;
 }): Promise<AuthResponse> {
-  const res = await apiClient<AuthResponse>("user_service/login/", {
+  const res = await apiClient<AuthResponse>("accounts/business-login/email/", {
     method: "POST",
     body: JSON.stringify(payload),
   });
   setAuthFromResponse(res);
+  return res;
+}
+/**
+ * Login
+ */
+export async function authLogin(payload: {
+  method: string;
+  success_url: string;
+  cancel_url: string;
+}): Promise<AuthResponse> {
+  const res = await apiClient<AuthResponse>("accounts/business-login/", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+
+
   return res;
 }
 
@@ -81,6 +97,29 @@ export async function verifyEmail(payload: { token: string }) {
     body: JSON.stringify(payload),
   });
 }
+/** 
+ * Verify Code
+ */
+export async function verifyCode(payload: { 
+  email: string;
+  otp: string ;
+}) {
+  return apiClient("accounts/bussiness/activate-account/", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+}
+/** 
+ * Verify Code
+ */
+export async function resendCode(payload: { 
+  email: string;
+}) {
+  return apiClient("/accounts/bussiness/difiwow889%40canvect.com/request-otp/", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+}
 
 /**
  * Handle login/signup response
@@ -88,14 +127,14 @@ export async function verifyEmail(payload: { token: string }) {
 export function setAuthFromResponse(res: AuthResponse) {
   const store = useAuthStore.getState();
 
-  if (res?.data?.access_token) {
-    store.setToken(res.data.access_token);
-    localStorage.setItem("access_token", res.data.access_token);
+  if (res?.access_token) {
+    store.setToken(res.access_token);
+    localStorage.setItem("access_token", res.access_token);
   }
 
-  if (res?.data?.refresh_token) {
-    store.setRefreshToken(res.data.refresh_token);
-    localStorage.setItem("refresh_token", res.data.refresh_token);
+  if (res?.refresh_token) {
+    store.setRefreshToken(res.refresh_token);
+    localStorage.setItem("refresh_token", res.refresh_token);
   }
 
   if (res?.data?.user) {

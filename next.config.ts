@@ -9,6 +9,7 @@ const nextConfig: NextConfig = {
       "img.clerk.com",
       "i.ibb.co",
       "profile.line-scdn.net",
+      "womantech-booking-system-storage.s3.amazonaws.com"
     ],
   },
 };

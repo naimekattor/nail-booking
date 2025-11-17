@@ -18,6 +18,9 @@ export default function BusinessServicesClient({
     return categories.filter((c) => c.id === activeCategoryId);
   }, [activeCategoryId, categories]);
 
+  console.log(categories);
+  
+
   return (
     <div className="w-full">
       {/* Filter buttons */}
