@@ -9,6 +9,8 @@ interface ServiceCardProps {
 }
 
 export default function ServiceCard({ service, businessSlug }: ServiceCardProps) {
+  console.log(service);
+  
   return (
     <Link
       href={`/business/${businessSlug}/service/${service.id}`}
@@ -16,7 +18,7 @@ export default function ServiceCard({ service, businessSlug }: ServiceCardProps)
     >
       <div className="relative rounded-lg overflow-hidden aspect-[4/3]">
         <img
-          src={service.thumbnail_url || "https://via.placeholder.com/600x450"}
+          src={service?.thumbnail_url || "https://via.placeholder.com/600x450"}
           alt={service.name}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
         />

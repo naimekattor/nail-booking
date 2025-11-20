@@ -24,8 +24,7 @@ export default function ServiceDetailClient({
   const [customerNotes, setCustomerNotes] = useState("");
   const [carouselIndex, setCarouselIndex] = useState(0);
 
-  const availableAddOns: AvailableAddOn[] = service.addOns || [];
-  const [chosenAddOns, setChosenAddOns] = useState<ChosenAddOn[]>([]);
+const availableAddOns: AvailableAddOn[] = service.adon_options || [];  const [chosenAddOns, setChosenAddOns] = useState<ChosenAddOn[]>([]);
   const [newAddOnName, setNewAddOnName] = useState("");
 
   const addNewAddOn = () => {
@@ -103,14 +102,31 @@ export default function ServiceDetailClient({
       `/business/${businessSlug}/service/${serviceId}/book?data=${query}`
     );
   };
-  console.log(service.serviceDetails.images);
+  // console.log(service.serviceDetails.images);
+const selectAddOn = (addon: AvailableAddOn) => {
+  if (chosenAddOns.some(a => a.id === addon.id)) return;
+
+  setChosenAddOns(prev => [
+    ...prev,
+    {
+      id: addon.id,
+      name: addon.name,
+      price: Number(addon.price),
+      duration: addon.time || 0,
+      quantity: addon.allow_quantity ? 1 : 1, 
+      customPrice: Number(addon.price),
+    }
+  ]);
+
+  setNewAddOnName("");
+};
 
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
       <div className="border-b bg-white px-4 py-3">
         <Link
-          href={`/${businessSlug}/business`}
+          href={`/business/${businessSlug}/`}
           className="inline-flex items-center gap-2 text-sm font-medium text-gray-700 hover:text-gray-900"
         >
           <ArrowLeft className="h-4 w-4" /> All Services
@@ -119,7 +135,7 @@ export default function ServiceDetailClient({
 
       <div className="mx-auto max-w-[1400px] py-6">
         <CarouselCards
-          storiesData={service.serviceDetails.images.map((image, index) => ({
+          storiesData={service.detail_images_url.map((image, index) => ({
             id: index + 1,
             imageUrl: image,
             title: `Image ${index + 1}`,
@@ -136,14 +152,14 @@ export default function ServiceDetailClient({
                 <div>
                   <p className="text-xs text-gray-500">Base Duration:</p>
                   <p className="text-sm font-semibold text-gray-900">
-                    {service.duration || 85} minutes
+                    {service.duration || 0} minutes
                   </p>
                 </div>
                 <div className="h-8 w-px bg-gray-200"></div>
                 <div>
                   <p className="text-xs text-gray-500">Base Price:</p>
                   <p className="text-sm font-semibold text-gray-900">
-                    ${service.price || 42}
+                    ${service.price || 0}
                   </p>
                 </div>
               </div>
@@ -158,7 +174,7 @@ export default function ServiceDetailClient({
               </p>
               <div className="mt-4 flex flex-wrap gap-2">
                 {(
-                  service.requirements || [
+                  service.requirement_options || [
                     "Sensitive to heat",
                     "Frequently uses fingertips for work/activities",
                     "Hands frequently exposed to water",
@@ -191,115 +207,116 @@ export default function ServiceDetailClient({
             </div>
 
             {/* Add-ons */}
-            <div className="rounded-lg border bg-white p-5">
-              <div className="flex items-center gap-2">
-                <svg
-                  className="h-5 w-5 text-gray-600"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"
-                  />
+<div className="rounded-lg border bg-white p-5">
+  <div className="flex items-center gap-2">
+    <svg className="h-5 w-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+        d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
+    </svg>
+    <h3 className="text-base font-semibold text-gray-900">Add ons</h3>
+  </div>
+  <p className="mt-1 text-xs text-gray-500">Any additional Service</p>
+
+  {/* Native <select> dropdown */}
+  <div className="mt-4">
+    <select
+      className="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-pink-500"
+      value=""  // always reset to placeholder after selection
+      onChange={(e) => {
+        const addonId = e.target.value;
+        if (!addonId) return;
+
+        const addon = availableAddOns.find(a => a.id.toString() === addonId);
+        if (addon) {
+          selectAddOn(addon);
+        }
+        // Reset select back to placeholder
+        e.target.value = "";
+      }}
+    >
+      <option value="" disabled>
+        Choose add ons
+      </option>
+
+      {availableAddOns.map((addon) => (
+        <option key={addon.id} value={addon.id}>
+          {addon.name} — ${addon.price} {addon.time > 0 && `• +${addon.time} min`}
+        </option>
+      ))}
+    </select>
+  </div>
+
+  {/* Selected Add-ons (same beautiful dual layout as before) */}
+  <div className="mt-6 space-y-4">
+    {chosenAddOns.map((chosen) => {
+      const original = availableAddOns.find(a => a.id === chosen.id);
+      const allowQuantity = original?.allow_quantity === true;
+      const unitPrice = Number(chosen.customPrice || chosen.price);
+      const quantity = chosen.quantity || 1;
+      const totalForThis = unitPrice * quantity;
+      const timePerUnit = original?.time || 0;
+
+      return (
+        <div key={chosen.id} className="relative border rounded-xl bg-gray-50 p-4 pl-5">
+          <button
+            onClick={() => removeChosenAddOn(chosen.id)}
+            className="absolute top-3 right-3 text-gray-400 hover:text-gray-600"
+          >
+            <X className="h-5 w-5" />
+          </button>
+
+          <div className="font-medium text-gray-900 pr-8">{chosen.name}</div>
+
+          {!allowQuantity ? (
+            /* Fixed add-on (left style) */
+            <div className="mt-3 flex items-center justify-between">
+              <div className="flex items-center gap-6 text-sm">
+                <div>
+                  <span className="text-gray-500">Additional Price</span>
+                  <p className="font-semibold text-gray-900">{unitPrice.toFixed(2)}NT$</p>
+                </div>
+                <div>
+                  <span className="text-gray-500">Additional Time</span>
+                  <p className="font-semibold text-gray-900">{timePerUnit} min</p>
+                </div>
+              </div>
+              <div className="w-6 h-6 rounded border-2 border-green-600 bg-green-600 flex items-center justify-center">
+                <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                 </svg>
-                <h3 className="text-base font-semibold text-gray-900">
-                  Add ons
-                </h3>
-              </div>
-              <p className="mt-1 text-xs text-gray-500">
-                Any additional Service
-              </p>
-
-              <div className="mt-4 flex gap-2">
-                <Input
-                  value={newAddOnName}
-                  onChange={(e) => setNewAddOnName(e.target.value)}
-                  placeholder="Choose add ons"
-                  className="flex-1 text-sm"
-                  onKeyPress={(e) => e.key === "Enter" && addNewAddOn()}
-                />
-                <Button
-                  onClick={addNewAddOn}
-                  size="sm"
-                  variant="outline"
-                  className="px-3"
-                >
-                  Add
-                </Button>
-              </div>
-
-              <div className="mt-4 space-y-3">
-                {chosenAddOns.map((addOn) => (
-                  <div
-                    key={addOn.id}
-                    className="relative rounded-lg border bg-gray-50 p-4"
-                  >
-                    <button
-                      onClick={() => removeChosenAddOn(addOn.id)}
-                      className="absolute right-2 top-2 flex h-5 w-5 items-center justify-center rounded-full hover:bg-gray-200"
-                    >
-                      <X className="h-3.5 w-3.5 text-gray-600" />
-                    </button>
-                    <p className="pr-6 text-sm font-semibold text-gray-900">
-                      {addOn.name}
-                    </p>
-                    <div className="mt-3 flex items-center gap-4">
-                      <div className="flex-1">
-                        <p className="text-xs text-gray-500">
-                          Additional Price
-                        </p>
-                        <p className="text-sm font-medium text-gray-900">
-                          {addOn.customPrice || addOn.price}NT$
-                        </p>
-                      </div>
-                      <div className="flex-1">
-                        <p className="text-xs text-gray-500">Additional Time</p>
-                        <p className="text-sm font-medium text-gray-900">
-                          {addOn.duration} min
-                        </p>
-                      </div>
-                    </div>
-                    <div className="mt-3 space-y-2 rounded-md border border-gray-200 bg-white p-3">
-                      <div className="flex items-center justify-between">
-                        <span className="text-xs text-gray-600">Quantity:</span>
-                        <Input
-                          type="number"
-                          min="1"
-                          value={addOn.quantity}
-                          onChange={(e) =>
-                            updateAddOnQuantity(
-                              addOn.id,
-                              parseInt(e.target.value) || 1
-                            )
-                          }
-                          className="h-7 w-16 text-xs"
-                        />
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <span className="text-xs text-gray-600">Price:</span>
-                        <Input
-                          type="number"
-                          min="0"
-                          step="0.01"
-                          value={addOn.customPrice || addOn.price}
-                          onChange={(e) =>
-                            updateAddOnPrice(
-                              addOn.id,
-                              parseFloat(e.target.value) || 0
-                            )
-                          }
-                          className="h-7 w-20 text-xs"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                ))}
               </div>
             </div>
+          ) : (
+            /* Quantity allowed (right style) */
+            <div className="mt-3 flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <div className="flex items-center gap-3">
+                  <span className="text-sm text-gray-600">Quantity</span>
+                  <Input
+                    type="number"
+                    min="0"
+                    value={quantity}
+                    onChange={(e) => updateAddOnQuantity(chosen.id, parseInt(e.target.value) || 0)}
+                    className="w-20 h-9 text-center text-sm"
+                  />
+                </div>
+                <div className="text-right">
+                  <span className="text-sm text-gray-600 block">Price</span>
+                  <p className="font-semibold text-gray-900">{totalForThis.toFixed(2)}NT$</p>
+                </div>
+              </div>
+              {timePerUnit > 0 && (
+                <p className="text-xs text-gray-500 italic">
+                  *Additional Time ({timePerUnit}min each)
+                </p>
+              )}
+            </div>
+          )}
+        </div>
+      );
+    })}
+  </div>
+</div>
           </div>
 
           {/* RIGHT COLUMN - Description, Selected Reqs, Notes, Summary (4 cols) */}
